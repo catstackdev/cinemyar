@@ -35,6 +35,7 @@ function App() {
     <>
       <AppProviders>
         <ThemeToggle />
+        <h3>add testing for auto deploy setup</h3>
       </AppProviders>
     </>
   );
