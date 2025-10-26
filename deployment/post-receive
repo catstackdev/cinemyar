@@ -4,19 +4,20 @@ set -e
 echo "🚀 Starting deployment..."
 
 # Configuration
+GIT_DIR=/home/admin/apps/cinemyar
 GIT_WORK_TREE=/var/www/cinemyar
 NGINX_ROOT=/var/www/html
 
 # Checkout latest code
 echo "📦 Checking out code..."
-GIT_WORK_TREE=$GIT_WORK_TREE git checkout -f
+GIT_DIR=$GIT_DIR GIT_WORK_TREE=$GIT_WORK_TREE git checkout -f main
 
 # Navigate to work tree
 cd $GIT_WORK_TREE
 
 # Install dependencies
 echo "📥 Installing dependencies..."
-pnpm install --prod --frozen-lockfile
+pnpm install --frozen-lockfile
 
 # Build application
 echo "🔨 Building application..."
