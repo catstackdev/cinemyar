@@ -1,0 +1,35 @@
+#!/bin/bash
+set -e
+
+echo "🚀 Starting deployment..."
+
+# Configuration
+GIT_WORK_TREE=/var/www/cinemyar
+NGINX_ROOT=/var/www/html
+
+# Checkout latest code
+echo "📦 Checking out code..."
+GIT_WORK_TREE=$GIT_WORK_TREE git checkout -f
+
+# Navigate to work tree
+cd $GIT_WORK_TREE
+
+# Install dependencies
+echo "📥 Installing dependencies..."
+pnpm install --prod --frozen-lockfile
+
+# Build application
+echo "🔨 Building application..."
+pnpm run build
+
+# Deploy to nginx
+echo "🚀 Deploying to nginx..."
+sudo rm -rf $NGINX_ROOT/*
+sudo cp -r dist/* $NGINX_ROOT/
+
+# Restart nginx
+echo "🔄 Restarting nginx..."
+sudo systemctl restart nginx
+
+echo "✅ Deployment complete!"
+echo "🌐 App is now live!"
