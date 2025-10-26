@@ -1,0 +1,6 @@
+#!/bin/bash
+GIT_WORK_TREE=~/apps/cinemyar git checkout -f
+cd ~/apps/cinemyar 
+pnpm install
+pnpm run build
+pm2 restart cinemyar || pm2 start serve --name cinemyar -- -s build -l 3000
