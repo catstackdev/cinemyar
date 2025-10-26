@@ -4,11 +4,9 @@ import { AppProviders } from "./contexts/AppProviders";
 import SplashScreen from "./components/ui/SplashScreen";
 
 function App() {
-  const [open, setOpen] = useState(false);
   const [showSplash, setShowSplash] = useState(() => {
     return !sessionStorage.getItem("cinemyarSplashShown");
   });
-  // const [showSplash, setShowSplash] = useState(true);
   const [isAppReady, setIsAppReady] = useState(false);
 
   // Simulate app loading - replace with real loading logic
