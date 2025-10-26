@@ -1,0 +1,19 @@
+WEBVTT
+
+00:00:00.000 --> 00:00:05.000
+¡Bienvenido a la demostración del reproductor de vídeo!
+
+00:00:05.000 --> 00:00:10.000
+Esta es una pista de subtítulos de muestra en español.
+
+00:00:10.000 --> 00:00:15.000
+Video.js admite el formato de subtítulos WebVTT.
+
+00:00:15.000 --> 00:00:20.000
+Puede agregar pistas en varios idiomas.
+
+00:00:20.000 --> 00:00:25.000
+Los subtítulos ayudan a que su contenido sea accesible.
+
+00:00:25.000 --> 00:00:30.000
+Esta es una demostración de soporte de subtítulos.
