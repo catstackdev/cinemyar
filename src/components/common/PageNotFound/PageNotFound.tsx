@@ -1,10 +1,10 @@
 import React from "react";
 import { cn } from "@/utils/helpers/classNames";
-import type { NotFoundPageProps } from "./404Page.types";
+import type { PageNotFoundProps } from "./PageNotFound.types";
 import { Link } from "react-router-dom";
 import { SearchX, Home, ArrowLeft } from "lucide-react";
 
-const NotFoundPage: React.FC<NotFoundPageProps> = ({
+const PageNotFound: React.FC<PageNotFoundProps> = ({
   children,
   className,
   message = "The page you're looking for doesn't exist or has been moved.",
@@ -109,4 +109,4 @@ const NotFoundPage: React.FC<NotFoundPageProps> = ({
   );
 };
 
-export default NotFoundPage;
+export default PageNotFound;

@@ -1,4 +1,4 @@
-export interface NotFoundPageProps
+export interface PageNotFoundProps
   extends React.ComponentPropsWithoutRef<"div"> {
   children?: React.ReactNode;
   className?: string;
