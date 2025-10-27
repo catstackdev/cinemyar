@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import type { AppHeaderProps } from "./AppHeader.types";
 import { useSidebar } from "@/contexts/SidebarContext";
-import type { Link } from "lucide-react";
+import { Link } from "react-router-dom";
 import { cn } from "@/utils/helpers";
 import { ThemeToggle } from "@/components/common";
 

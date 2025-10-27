@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { ThemeToggle } from "./components/common/ThemeToggle/ThemeToggle";
 import { AppProviders } from "./contexts/AppProviders";
 import SplashScreen from "./components/ui/SplashScreen";
+import { AppRoute } from "./routes/appRoute";
 
 function App() {
   const [showSplash, setShowSplash] = useState(() => {
@@ -32,12 +32,9 @@ function App() {
   }
 
   return (
-    <>
-      <AppProviders>
-        <ThemeToggle />
-        <h3>add testing for auto deploy setup</h3>
-      </AppProviders>
-    </>
+    <AppProviders>
+      <AppRoute />
+    </AppProviders>
   );
 }
 

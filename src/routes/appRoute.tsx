@@ -1,13 +1,17 @@
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import { lazy, Suspense } from "react";
+import {
+  createBrowserRouter,
+  Navigate,
+  RouterProvider,
+} from "react-router-dom";
+import { createElement, lazy, Suspense } from "react";
 
 import PageRouteError from "@/components/common/PageRouteError";
 import { AppLayout } from "@/layouts";
 import { LoadingScreen } from "@/components/common";
+import { MoviesRoutesConfig } from "@/features/authenticated/Movies/routes/routeConfig";
+import PageNotFound from "@/components/common/PageNotFound";
 
 const DashboardPage = lazy(() => import("@/features/authenticated/Dashboard"));
-
-const MoviesPage = lazy(() => import("@/features/authenticated/Movies"));
 
 const router = createBrowserRouter([
   {
@@ -15,7 +19,8 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     errorElement: <PageRouteError />,
     HydrateFallback: LoadingScreen,
-    redirectTo: "/dashboard",
+    Component: () =>
+      createElement(Navigate, { to: "dashboard", replace: true }),
     children: [
       {
         index: true,
@@ -26,14 +31,19 @@ const router = createBrowserRouter([
 
       {
         path: "/movies",
-        element: <MoviesPage />,
+        // element: <MoviesPage />,
         HydrateFallback: LoadingScreen,
+        children: MoviesRoutesConfig,
+      },
+      {
+        path: "*",
+        Component: PageNotFound,
       },
     ],
   },
 ]);
 
-export const AppRoute2 = () => (
+export const AppRoute = () => (
   <Suspense fallback={<LoadingScreen />}>
     <RouterProvider router={router} />
   </Suspense>
