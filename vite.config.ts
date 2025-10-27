@@ -20,16 +20,58 @@ export default defineConfig({
   build: {
     rollupOptions: {
       output: {
-        manualChunks: {
-          // Core vendor chunks
-          "vendor-react": ["react", "react-dom"],
-          "vendor-redux": ["@reduxjs/toolkit", "react-redux"],
-          // Lazy reducer chunks (will be dynamically loaded)
-          ...generateLazyReducerChunks()
+        manualChunks(id) {
+          if (id.includes('node_modules')) {
+            if (id.includes('react-router-dom')) {
+              return 'vendor-router';
+            }
+            if (id.includes('react-error-boundary') || id.includes('react-helmet-async')) {
+              return 'vendor-react-utils';
+            }
+            if (id.includes('@reduxjs/toolkit') || id.includes('redux')) {
+              return 'vendor-redux';
+            }
+            if (id.includes('react-redux')) {
+              return 'vendor-react-redux';
+            }
+            if (id.includes('@tanstack/react-query')) {
+              return 'vendor-query';
+            }
+            if (id.includes('lucide-react')) {
+              return 'vendor-lucide';
+            }
+            if (id.includes('react-icons')) {
+              return 'vendor-react-icons';
+            }
+            if (id.includes('@radix-ui')) {
+              return 'vendor-radix';
+            }
+            if (id.includes('video.js')) {
+              return 'vendor-video';
+            }
+            if (id.includes('leaflet') || id.includes('react-leaflet')) {
+              return 'vendor-maps';
+            }
+            if (id.includes('react-dom')) {
+              return 'vendor-react-dom';
+            }
+            if (id.includes('react') || id.includes('scheduler')) {
+              return 'vendor-react';
+            }
+            return 'vendor-misc';
+          }
+          if (id.includes('/src/components/ui/')) {
+            if (id.includes('Modal') || id.includes('Dropdown') || id.includes('Table')) {
+              return 'ui-complex';
+            }
+            if (id.includes('DatePicker') || id.includes('Combobox') || id.includes('Select')) {
+              return 'ui-forms';
+            }
+            return 'ui-components';
+          }
         }
       }
     },
-    // Enable code splitting
     chunkSizeWarningLimit: 1000
   },
   optimizeDeps: {
@@ -39,8 +81,6 @@ export default defineConfig({
     projects: [{
       extends: true,
       plugins: [
-      // The plugin will run tests for the stories defined in your Storybook config
-      // See options at: https://storybook.js.org/docs/next/writing-tests/integrations/vitest-addon#storybooktest
       storybookTest({
         configDir: path.join(dirname, '.storybook')
       })],
@@ -59,13 +99,3 @@ export default defineConfig({
     }]
   }
 });
-
-// Helper function to generate lazy reducer chunks
-function generateLazyReducerChunks() {
-  // This will be populated dynamically as reducers are added
-  // For now, we'll set up the pattern for future lazy reducers
-  return {
-    // Example: 'reducer-users': ['src/state/users'],
-    // Example: 'reducer-products': ['src/state/products'],
-  };
-}
