@@ -26,6 +26,7 @@ dist-ssr
 *storybook.log
 storybook-static
 
-# Exclude all markdown files except AGENTS.md
+# Exclude all markdown files except AGENTS.md and DEPLOYMENT.md
 *.md
 !AGENTS.md
+!DEPLOYMENT.md
