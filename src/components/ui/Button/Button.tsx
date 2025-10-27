@@ -1,17 +1,18 @@
-import { forwardRef } from "react";
-import type { ButtonProps } from "./Button.types";
+import { forwardRef, type ElementType } from "react";
+import type { ButtonProps, PolymorphicRef } from "./Button.types";
 import { cn } from "@/utils/helpers/classNames";
 import { buttonSizes, buttonVariants, loadingSize } from "./constants";
 import Loading from "../Loading";
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
-  (
+const Button = forwardRef(
+  <C extends ElementType = "button">(
     {
+      as,
       variant = "default",
       color = "primary",
       size = "md",
       isLoading = false,
-      isDisabled = false,
+      disabled,
       leftIcon,
       rightIcon,
       children,
@@ -19,11 +20,11 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       fullWidth = false,
       loadingText,
       ...props
-    },
-    ref,
+    }: ButtonProps<C>,
+    ref?: PolymorphicRef<C>,
   ) => {
-    console.log(props);
-    const isButtonDisabled = isDisabled || isLoading;
+    const Component = as || "button";
+    const isButtonDisabled = disabled || isLoading;
 
     const variantClasses =
       buttonVariants[variant]?.[color] ?? buttonVariants.default.primary;
@@ -40,25 +41,23 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       : undefined;
 
     return (
-      <button
+      <Component
         ref={ref}
         {...props}
         className={cn(
           "inline-flex items-center justify-center gap-2 rounded font-medium transition-colors",
           "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2",
           "disabled:opacity-50",
-
           hoverCursorClass,
           variantClasses,
           buttonSizes[size],
           fullWidth && "w-full",
           className,
         )}
-        disabled={isButtonDisabled}
+        disabled={Component === "button" ? isButtonDisabled : undefined}
         aria-disabled={isButtonDisabled}
         aria-busy={isLoading}
         aria-label={ariaLabel}
-        data-title={props.title}
       >
         {isLoading && (
           <Loading type="dots" size={loadingSize[size]} inline inheritColor />
@@ -76,7 +75,7 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
             {rightIcon}
           </span>
         )}
-      </button>
+      </Component>
     );
   },
 );

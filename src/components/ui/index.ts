@@ -24,6 +24,7 @@ export { default as Grid } from "./Grid";
 export { default as Icon } from "./Icon";
 export { default as Image } from "./Image";
 export { Input } from "./Input";
+export { default as JumpingDots } from "./JumpingDots";
 export { default as Label } from "./Label";
 export { default as Loading } from "./Loading";
 export { default as LoadingOverlay } from "./LoadingOverlay";
@@ -85,6 +86,7 @@ export type {
   InputLabelProps,
   InputErrorProps,
 } from "./Input/Input.types";
+export type { JumpingDotsProps } from "./JumpingDots/JumpingDots.types";
 export type { LabelProps } from "./Label/Label.types";
 export type { LoadingProps } from "./Loading/Loading.types";
 export type { LoadingOverlayProps } from "./LoadingOverlay/LoadingOverlay.types";

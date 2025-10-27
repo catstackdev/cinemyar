@@ -3,46 +3,34 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import { createElement, lazy, Suspense } from "react";
 
-import PageRouteError from "@/components/common/PageRouteError";
-import { AppLayout } from "@/layouts";
 import { LoadingScreen } from "@/components/common";
-import { MoviesRoutesConfig } from "@/features/authenticated/Movies/routes/routeConfig";
 import PageNotFound from "@/components/common/PageNotFound";
-
-const DashboardPage = lazy(() => import("@/features/authenticated/Dashboard"));
+import PageRouteError from "@/components/common/PageRouteError";
+import { AuthenticatedRoutesConfig } from "@/features/authenticated/routes";
+import { AppLayout } from "@/layouts";
+import { createElement, Suspense } from "react";
+import { AuthRoutesConfig } from "@/features/auth/routes";
 
 const router = createBrowserRouter([
   {
+    index: true,
     path: "/",
+    Component: () => createElement(Navigate, { to: "auth", replace: true }),
+  },
+  {
+    path: "/auth",
+    errorElement: <PageRouteError />,
+    HydrateFallback: LoadingScreen,
+    children: AuthRoutesConfig,
+  },
+  {
+    path: "/authenticated",
     element: <AppLayout />,
     errorElement: <PageRouteError />,
     HydrateFallback: LoadingScreen,
-    // Component: () =>
-    //   createElement(Navigate, { to: "dashboard", replace: true }),
-    children: [
-      {
-        index: true,
-        path: "/",
-        Component: () =>
-          createElement(Navigate, { to: "dashboard", replace: true }),
-      },
-      {
-        path: "/dashboard",
-        element: <DashboardPage />,
-        HydrateFallback: LoadingScreen,
-      },
-
-      {
-        path: "/movies",
-        // element: <MoviesPage />,
-        HydrateFallback: LoadingScreen,
-        children: MoviesRoutesConfig,
-      },
-    ],
+    children: AuthenticatedRoutesConfig,
   },
-
   {
     path: "*",
     Component: PageNotFound,

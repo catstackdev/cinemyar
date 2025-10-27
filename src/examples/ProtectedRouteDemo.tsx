@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { createBrowserRouter, RouterProvider, Link, Outlet } from "react-router-dom";
 import { AuthProvider, useAuth } from "@/contexts/AuthContext";
-import { ProtectedRoute, ConfirmDialog } from "@/components/common";
+import { ConfirmDialog } from "@/components/common";
 import Button from "@/components/ui/Button";
 import { Input } from "@/components/ui";
 import { LogIn, LogOut, Home, Lock, User } from "lucide-react";
@@ -244,27 +244,15 @@ const router = createBrowserRouter([
       },
       {
         path: "login",
-        element: (
-          <ProtectedRoute requireAuth={false} redirectTo="/">
-            <LoginPage />
-          </ProtectedRoute>
-        ),
+        element: <LoginPage />,
       },
       {
         path: "dashboard",
-        element: (
-          <ProtectedRoute>
-            <DashboardPage />
-          </ProtectedRoute>
-        ),
+        element: <DashboardPage />,
       },
       {
         path: "profile",
-        element: (
-          <ProtectedRoute>
-            <ProfilePage />
-          </ProtectedRoute>
-        ),
+        element: <ProfilePage />,
       },
     ],
   },

@@ -1,29 +1,29 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useEffect } from "react";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "@/store/hooks";
+import { checkAuth } from "@/store/slices/authSlice";
 import { LoadingScreen } from "@/components/common/LoadingScreen";
-import type { ProtectedRouteProps } from "./ProtectedRoute.types";
 
-const ProtectedRoute = ({
-  children,
-  redirectTo = "/login",
-  fallback,
-  requireAuth = true,
-}: ProtectedRouteProps) => {
-  const { isAuthenticated, isLoading } = useAuth();
+const ProtectedRoute = () => {
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      dispatch(checkAuth());
+    }
+  }, [dispatch, isAuthenticated]);
 
   if (isLoading) {
-    return fallback || <LoadingScreen message="Checking authentication..." />;
+    return <LoadingScreen message="Checking authentication..." />;
   }
 
-  if (requireAuth && !isAuthenticated) {
-    return <Navigate to={redirectTo} replace />;
+  if (!isAuthenticated) {
+    return <Navigate to="/login" state={{ from: location }} replace />;
   }
 
-  if (!requireAuth && isAuthenticated) {
-    return <Navigate to="/" replace />;
-  }
-
-  return <>{children}</>;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

@@ -21,21 +21,13 @@ export const FormFieldLabel = ({
       <label
         htmlFor={id}
         className={cn(
-          // Base floating label styles
-          "absolute left-3 top-4 origin-[0_0] transition-all duration-200 pointer-events-none",
-          "text-muted-foreground bg-background px-1 z-10",
-
-          // Animation classes for floating behavior
-          "peer-focus:-translate-y-6 peer-focus:scale-75 peer-focus:text-primary",
-          "peer-[&:not(:placeholder-shown)]:-translate-y-6 peer-[&:not(:placeholder-shown)]:scale-75",
-          "peer-[&:not(:placeholder-shown)]:text-foreground",
-
-          // Error state
-          "peer-aria-[invalid=true]:text-danger",
-
-          // Disabled state
+          "absolute left-3 top-4 origin-[0] transition-all duration-200 pointer-events-none text-md z-10 rounded",
+          "text-muted-foreground bg-background mx-1",
+          "peer-placeholder-shown:top-4 peer-placeholder-shown:scale-100",
+          "peer-focus:top-0 peer-focus:-translate-y-3 peer-focus:scale-75 peer-focus:text-primary",
+          "peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-3 peer-[:not(:placeholder-shown)]:scale-75",
+          "peer-[:not(:placeholder-shown)]:text-foreground",
           disabled && "opacity-60",
-
           className,
         )}
         {...rest}

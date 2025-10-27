@@ -9,7 +9,7 @@ export const buttonVariants: Record<
     primary:
       "bg-primary text-primary-foreground hover:bg-primary/90 active:bg-primary/80 focus-visible:ring-[hsl(var(--ring))]",
     secondary:
-      "bg-secondary text-secondary-foreground hover:bg-secondary/90 active:bg-secondary/80 focus-visible:ring-[hsl(var(--ring))]",
+      "bg-secondary text-secondary-foreground hover:bg-secondary-foreground/10 active:bg-secondary/80 focus-visible:ring-[hsl(var(--ring))]",
     danger:
       "bg-danger text-danger-foreground hover:bg-danger/90 active:bg-danger/80 focus-visible:ring-[hsl(var(--ring))]",
     success:
@@ -22,7 +22,7 @@ export const buttonVariants: Record<
     primary:
       "border-2 border-primary text-primary bg-transparent hover:bg-primary/10 active:bg-primary/20 focus-visible:ring-[hsl(var(--ring))]",
     secondary:
-      "border-2 border-secondary-foreground text-secondary-foreground bg-transparent hover:bg-secondary/10 active:bg-secondary/20 focus-visible:ring-[hsl(var(--ring))]",
+      "border-2 border-secondary-foreground text-secondary-foreground bg-transparent hover:bg-secondary/90 active:bg-secondary/20 focus-visible:ring-[hsl(var(--ring))]",
     danger:
       "border-2 border-danger text-danger bg-transparent hover:bg-danger/10 active:bg-danger/20 focus-visible:ring-[hsl(var(--ring))]",
     success:
@@ -45,12 +45,17 @@ export const buttonVariants: Record<
       "text-warning bg-transparent hover:bg-warning/10 active:bg-warning/20 focus-visible:ring-[hsl(var(--ring))]",
   },
   link: {
-    primary: "text-primary bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
-    secondary: "text-secondary bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
-    danger: "text-danger bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
-    success: "text-success bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
+    primary:
+      "text-primary bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
+    secondary:
+      "text-secondary bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
+    danger:
+      "text-danger bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
+    success:
+      "text-success bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
     info: "text-info bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
-    warning: "text-warning bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
+    warning:
+      "text-warning bg-transparent hover:underline focus-visible:ring-[hsl(var(--ring))] px-0",
   },
 };
 export const buttonSizes: Record<ButtonSize, string> = {

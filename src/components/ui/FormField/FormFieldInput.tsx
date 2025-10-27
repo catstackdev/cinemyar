@@ -4,11 +4,19 @@ import { useFormField } from "./FormFieldContext";
 import { cn } from "@/utils/helpers/classNames";
 
 export const FormFieldInput = forwardRef<HTMLInputElement, FormFieldInputProps>(
-  ({ className, type = "text", ...props }, ref) => {
+  ({ className, type = "text", touched, dirty, ...props }, ref) => {
     const { id, name, error, disabled, layout } = useFormField();
 
     const isFloating = layout === "floating";
     const isHorizontal = layout === "horizontal";
+
+    const isValidate = (touched || dirty) && !error;
+
+    const inputStateClass = error
+      ? "border-danger focus:border-danger focus:ring-danger/20"
+      : isValidate
+        ? "border-success-500 focus:border-success-500 focus:ring-success-500/20"
+        : "border-input focus:border-primary focus:ring-primary/20";
 
     return (
       <input
@@ -20,30 +28,17 @@ export const FormFieldInput = forwardRef<HTMLInputElement, FormFieldInputProps>(
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : undefined}
         className={cn(
-          // Base styles
-          "w-full border rounded-md transition-colors peer",
-          "bg-background text-foreground placeholder:text-muted-foreground",
-
-          // Layout-specific padding
-          isFloating ? "px-3 pt-6 pb-2" : "px-3 py-2",
-
-          // Focus styles
+          "w-full border rounded-md transition-colors peer placeholder-shown:border-input",
+          "bg-background text-foreground",
+          isFloating
+            ? "px-3 pt-3 pb-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+            : "px-3 py-2 placeholder:text-muted-foreground",
           "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background",
-
-          // State-dependent styles
-          error
-            ? "border-danger focus:border-danger focus:ring-danger/20"
-            : "border-input focus:border-primary focus:ring-primary/20",
-
-          // Disabled styles
+          inputStateClass,
           disabled && "bg-muted cursor-not-allowed opacity-60",
-
-          // Horizontal layout specific
           isHorizontal && "flex-1",
-
           className,
         )}
-        // For floating labels, use space as placeholder to trigger :not(:placeholder-shown)
         placeholder={isFloating ? " " : props.placeholder}
         {...props}
       />

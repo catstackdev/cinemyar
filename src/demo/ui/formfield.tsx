@@ -28,8 +28,8 @@ export const FormFieldDemo = () => {
 
             {/* Floating Input */}
             <FormField.Root name="new-floating" layout="floating">
-              <FormField.Label>Name (Floating)</FormField.Label>
               <FormField.Input type="text" />
+              <FormField.Label>Name (Floating)</FormField.Label>
             </FormField.Root>
 
             {/* Horizontal Input */}
@@ -51,8 +51,8 @@ export const FormFieldDemo = () => {
               layout="floating"
               error="Invalid email format"
             >
-              <FormField.Label required>Email</FormField.Label>
               <FormField.Input type="email" />
+              <FormField.Label required>Email</FormField.Label>
               <FormField.Error icon />
             </FormField.Root>
 

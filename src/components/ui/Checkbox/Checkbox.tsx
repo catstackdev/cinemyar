@@ -22,7 +22,8 @@ const Checkbox = ({
   }, [indeterminate]);
 
   const sizeClass = sizeClasses[size];
-  const checkboxId = id || `checkbox-${Math.random().toString(36).slice(2, 11)}`;
+  const checkboxId =
+    id || `checkbox-${Math.random().toString(36).slice(2, 11)}`;
 
   return (
     <div className={cn("flex items-start", className)}>
@@ -33,14 +34,15 @@ const Checkbox = ({
           id={checkboxId}
           disabled={disabled}
           className={cn(
-            "rounded border-input text-primary focus:ring-2 focus:ring-primary focus:ring-offset-2",
-            "focus:ring-offset-background",
+            "rounded border-input text-primary ",
             "disabled:cursor-not-allowed disabled:opacity-50",
             error && "border-danger focus:ring-danger",
             sizeClass,
           )}
           {...rest}
         />
+
+        {/* "focus:ring-offset-background focus:ring-2 focus:ring-primary focus:ring-offset-2", */}
       </div>
       {label && (
         <div className="ml-3">

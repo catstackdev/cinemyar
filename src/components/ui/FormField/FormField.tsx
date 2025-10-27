@@ -26,7 +26,7 @@ export const FormField = ({
 
   const containerClasses = cn(
     layout === "stacked" && "space-y-1.5",
-    layout === "floating" && "relative",
+    layout === "floating" && "relative space-y-1.5",
     layout === "horizontal" && "flex items-start gap-4",
     className,
   );

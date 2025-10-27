@@ -7,6 +7,7 @@ import type { NavItem } from "./nav";
 import { getNavForRole } from "./utils/navRoleHelper";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import Logo from "@/components/ui/Logo";
+import { cn } from "@/utils/helpers";
 
 const AppSidebar: React.FC<AppSidebarProps> = () => {
   const { main, others } = getNavForRole("admin");
@@ -98,11 +99,12 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
               }`}
             >
               <span
-                className={`menu-item-icon-size ${
+                className={cn(
+                  "menu-item-icon-size",
                   openSubmenu?.type === menuType && openSubmenu?.index === index
                     ? "menu-item-icon-active"
-                    : "menu-item-icon-inactive"
-                }`}
+                    : "menu-item-icon-inactive",
+                )}
               >
                 {nav.icon}
               </span>
