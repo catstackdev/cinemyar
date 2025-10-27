@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import styles from "./SplashScreen.module.css";
 import type { SplashScreenProps } from "./SplashScreen.types";
 import { cn } from "@/utils/helpers";
+import Logo from "@/components/ui/Logo";
 
 const SplashScreen: React.FC<SplashScreenProps> = ({
   onComplete,
@@ -41,7 +42,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
       data-testid="splashScreen"
       className={cn(
         styles.root,
-        "fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900",
+        "fixed inset-0 z-50 flex items-center justify-center bg-gradient-to-br from-background via-muted to-background",
         shouldExit && "animate-splash-exit",
         className,
       )}
@@ -49,60 +50,23 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
     >
       {/* Animated Background Gradient - 0.3s fade in */}
       <div 
-        className="absolute inset-0 animate-bg-fade-in" 
+        className="absolute inset-0 animate-bg-fade-in bg-primary/5" 
         style={{ 
-          background: 'radial-gradient(circle, rgba(127, 29, 29, 0.2) 0%, transparent 70%)',
+          background: 'radial-gradient(circle at center, hsl(var(--primary) / 0.1) 0%, transparent 70%)',
           opacity: 0
         }}
       />
 
       {/* Logo Container */}
       <div className="relative z-10 flex flex-col items-center gap-4">
-        {/* Film Icon - 0.5s delay, 1.5s animation */}
-        <div 
-          className="relative animate-icon-entrance"
-          style={{ 
-            opacity: 0,
-            animationDelay: '0.5s'
-          }}
-        >
-          <svg className="w-24 h-24" viewBox="0 0 24 24" fill="none">
-            <path
-              d="M19.82 2H4.18C2.97 2 2 2.97 2 4.18v15.64C2 21.03 2.97 22 4.18 22h15.64c1.21 0 2.18-.97 2.18-2.18V4.18C22 2.97 21.03 2 19.82 2z"
-              fill="#DC2626"
-            />
-            <path
-              d="M7 2l-2 5M12 2l-2 5M17 2l-2 5"
-              stroke="#F59E0B"
-              strokeWidth="2"
-            />
-            <rect x="4" y="8" width="16" height="2" fill="#F59E0B" />
-          </svg>
-        </div>
-
-        {/* Text Container */}
-        <div className="text-center">
-          {/* CINEMYAR text - 1.5s delay */}
-          <h1 
-            className="text-5xl font-bold text-white tracking-wider animate-text-fade-in"
-            style={{ 
-              opacity: 0,
-              animationDelay: '1.5s'
-            }}
-          >
-            CINEMYAR
-          </h1>
-          {/* Movie subtitle - 2.0s delay */}
-          <p 
-            className="text-amber-500 text-sm mt-2 tracking-wide animate-subtitle-fade-in"
-            style={{ 
-              opacity: 0,
-              animationDelay: '2.0s'
-            }}
-          >
-            Movie
-          </p>
-        </div>
+        <Logo 
+          variant="full" 
+          size="xl" 
+          animated={true}
+          iconDelay="0.5s"
+          textDelay="1.5s"
+          subtitleDelay="2.0s"
+        />
 
         {/* Logo settle bounce - 2.5s delay */}
         <div 
@@ -121,18 +85,18 @@ const SplashScreen: React.FC<SplashScreenProps> = ({
           animation: 'fade-in 0.3s ease-out 2.5s forwards'
         }}
       >
-        <p className="text-sm text-gray-300 font-medium tracking-wide">Loading...</p>
+        <p className="text-sm text-muted-foreground font-medium tracking-wide">Loading...</p>
         <div className="flex gap-2">
           <div 
-            className="h-2.5 w-2.5 rounded-full bg-red-500 animate-bounce" 
+            className="h-2.5 w-2.5 rounded-full bg-primary animate-bounce" 
             style={{ animationDelay: '0ms' }}
           />
           <div 
-            className="h-2.5 w-2.5 rounded-full bg-red-500 animate-bounce" 
+            className="h-2.5 w-2.5 rounded-full bg-primary animate-bounce" 
             style={{ animationDelay: '150ms' }}
           />
           <div 
-            className="h-2.5 w-2.5 rounded-full bg-red-500 animate-bounce" 
+            className="h-2.5 w-2.5 rounded-full bg-primary animate-bounce" 
             style={{ animationDelay: '300ms' }}
           />
         </div>

@@ -15,13 +15,13 @@ const PageNotFound: React.FC<PageNotFoundProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-center min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900",
+        "flex items-center justify-center min-h-screen bg-background",
         className,
       )}
       {...rest}
     >
       <div className="max-w-2xl w-full mx-4">
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-theme-xl p-8 md:p-12 text-center border border-gray-200 dark:border-gray-800">
+        <div className=" rounded-2xl shadow-theme-xl p-8 md:p-12 text-center border border-gray-200 bg-background">
           {/* Icon */}
           <div className="mb-8">
             <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-brand-50 dark:bg-brand-950 mb-6 animate-pulse-slow">

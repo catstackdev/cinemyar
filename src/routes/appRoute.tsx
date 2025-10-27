@@ -19,11 +19,16 @@ const router = createBrowserRouter([
     element: <AppLayout />,
     errorElement: <PageRouteError />,
     HydrateFallback: LoadingScreen,
-    Component: () =>
-      createElement(Navigate, { to: "dashboard", replace: true }),
+    // Component: () =>
+    //   createElement(Navigate, { to: "dashboard", replace: true }),
     children: [
       {
         index: true,
+        path: "/",
+        Component: () =>
+          createElement(Navigate, { to: "dashboard", replace: true }),
+      },
+      {
         path: "/dashboard",
         element: <DashboardPage />,
         HydrateFallback: LoadingScreen,
@@ -35,11 +40,12 @@ const router = createBrowserRouter([
         HydrateFallback: LoadingScreen,
         children: MoviesRoutesConfig,
       },
-      {
-        path: "*",
-        Component: PageNotFound,
-      },
     ],
+  },
+
+  {
+    path: "*",
+    Component: PageNotFound,
   },
 ]);
 

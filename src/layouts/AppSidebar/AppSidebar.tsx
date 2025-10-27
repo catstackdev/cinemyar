@@ -1,13 +1,14 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import type { AppSidebarProps } from "./AppSidebar.types";
 import { useSidebar } from "@/contexts/SidebarContext";
-import { ChevronDownIcon, Link } from "lucide-react";
-import { useLocation } from "react-router-dom";
+import { ChevronDownIcon } from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 import type { NavItem } from "./nav";
 import { getNavForRole } from "./utils/navRoleHelper";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
+import Logo from "@/components/ui/Logo";
 
-const AppSidebar: React.FC<AppSidebarProps> = ({ children, className }) => {
+const AppSidebar: React.FC<AppSidebarProps> = () => {
   const { main, others } = getNavForRole("admin");
   const navItems = main;
   const othersItems = others;
@@ -86,7 +87,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ children, className }) => {
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`menu-item group ${
+              className={`menu-item group w-full ${
                 openSubmenu?.type === menuType && openSubmenu?.index === index
                   ? "menu-item-active"
                   : "menu-item-inactive"
@@ -113,7 +114,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ children, className }) => {
                   className={`ml-auto w-5 h-5 transition-transform duration-200 ${
                     openSubmenu?.type === menuType &&
                     openSubmenu?.index === index
-                      ? "rotate-180 text-brand-500"
+                      ? "rotate-180 text-primary"
                       : ""
                   }`}
                 />
@@ -204,7 +205,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ children, className }) => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-white dark:bg-gray-900 dark:border-gray-800 text-gray-900 h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-card text-card-foreground h-screen transition-all duration-300 ease-in-out z-50 border-r border-border
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -224,29 +225,9 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ children, className }) => {
       >
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
-            <>
-              <img
-                className="dark:hidden"
-                src="/images/logo/logo.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-              <img
-                className="hidden dark:block"
-                src="/images/logo/logo-dark.svg"
-                alt="Logo"
-                width={150}
-                height={40}
-              />
-            </>
+            <Logo variant="full" size="sm" />
           ) : (
-            <img
-              src="/images/logo/logo-icon.svg"
-              alt="Logo"
-              width={32}
-              height={32}
-            />
+            <Logo variant="icon" size="md" />
           )}
         </Link>
       </div>
@@ -255,7 +236,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ children, className }) => {
           <div className="flex flex-col gap-4">
             <div>
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-muted-foreground ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
@@ -271,7 +252,7 @@ const AppSidebar: React.FC<AppSidebarProps> = ({ children, className }) => {
             </div>
             <div className="">
               <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
+                className={`mb-4 text-xs uppercase flex leading-[20px] text-muted-foreground ${
                   !isExpanded && !isHovered
                     ? "lg:justify-center"
                     : "justify-start"
