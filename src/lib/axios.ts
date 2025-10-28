@@ -1,6 +1,6 @@
 import axios, { type AxiosError, type AxiosResponse } from "axios";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000/api";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 export const apiClient = axios.create({
   baseURL: API_URL,
@@ -11,10 +11,11 @@ export const apiClient = axios.create({
   withCredentials: true,
 });
 
-let showToastFn: ((message: string, type: "error" | "success") => void) | null = null;
+let showToastFn: ((message: string, type: "error" | "success") => void) | null =
+  null;
 
 export const setupAxiosInterceptors = (
-  showToast: (message: string, type: "error" | "success") => void
+  showToast: (message: string, type: "error" | "success") => void,
 ) => {
   showToastFn = showToast;
 };
@@ -37,9 +38,7 @@ apiClient.interceptors.response.use(
     }
 
     const errorMessage =
-      error.response?.data?.message ||
-      error.message ||
-      "Something went wrong";
+      error.response?.data?.message || error.message || "Something went wrong";
 
     if (showToastFn) {
       showToastFn(errorMessage, "error");

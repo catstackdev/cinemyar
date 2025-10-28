@@ -7,6 +7,7 @@ echo "🚀 Starting deployment..."
 GIT_DIR=/home/admin/apps/cinemyar
 GIT_WORK_TREE=/var/www/cinemyar
 NGINX_ROOT=/var/www/html
+DEPLOY_ENV=${DEPLOY_ENV:-prod}
 
 # Checkout latest code
 echo "📦 Checking out code..."
@@ -14,6 +15,10 @@ GIT_DIR=$GIT_DIR GIT_WORK_TREE=$GIT_WORK_TREE git checkout -f main
 
 # Navigate to work tree
 cd $GIT_WORK_TREE
+
+# Generate environment files
+echo "🔧 Generating .env for environment: $DEPLOY_ENV..."
+bash scripts/deploy-env.sh $DEPLOY_ENV
 
 # Install dependencies
 echo "📥 Installing dependencies..."
@@ -34,3 +39,4 @@ sudo systemctl restart nginx
 
 echo "✅ Deployment complete!"
 echo "🌐 App is now live!"
+echo "📝 Environment: $DEPLOY_ENV"

@@ -23,7 +23,7 @@ const Login: React.FC = () => {
   const [rememberMe, setRememberMe] = useState(() => {
     return localStorage.getItem("rememberMe") === "true";
   });
-  
+
   const {
     register,
     handleSubmit,
@@ -46,7 +46,7 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     if (isAuthenticated) {
-      navigate("/dashboard");
+      navigate("/authenticated");
     }
   }, [isAuthenticated, navigate]);
 
@@ -126,7 +126,8 @@ const Login: React.FC = () => {
             >
               {isLoading ? (
                 <span>
-                  Signing in<JumpingDots />
+                  Signing in
+                  <JumpingDots />
                 </span>
               ) : (
                 "Sign in"

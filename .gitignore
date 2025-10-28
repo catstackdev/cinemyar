@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # Dependencies
 node_modules
+.pnpm-store
 
 # Build outputs
 dist
@@ -16,6 +17,7 @@ dist-ssr
 build
 .vite
 .cache
+*.tsbuildinfo
 
 # Environment variables
 .env
@@ -29,10 +31,13 @@ build
 coverage
 *.lcov
 .nyc_output
+test-results
+playwright-report
 
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
+!.vscode/settings.json
 .idea
 .DS_Store
 *.suo
@@ -41,6 +46,8 @@ coverage
 *.sln
 *.sw?
 *~
+*.swp
+*.swo
 
 # Storybook
 *storybook.log
@@ -49,8 +56,19 @@ storybook-static
 # OS
 .DS_Store
 Thumbs.db
+desktop.ini
 
-# Exclude all markdown files except AGENTS.md and DEPLOYMENT.md
+# Temporary files
+tmp/
+temp/
+*.tmp
+
+# Debug
+.vscode-test
+
+# Exclude all markdown files except AGENTS.md, DEPLOYMENT.md, and deployment docs
 *.md
 !AGENTS.md
 !DEPLOYMENT.md
+!README.md
+!deployment/*.md

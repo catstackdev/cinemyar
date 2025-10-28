@@ -27,7 +27,9 @@
     "build-storybook": "storybook build",
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist node_modules/.vite",
-    "generate:env": "tsx scripts/generate-env.ts"
+    "generate:env": "tsx scripts/generate-env.ts",
+    "deploy:env:dev": "bash scripts/deploy-env.sh dev",
+    "deploy:env:prod": "bash scripts/deploy-env.sh prod"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

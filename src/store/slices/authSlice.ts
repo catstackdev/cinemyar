@@ -35,7 +35,10 @@ export const login = createAsyncThunk(
       localStorage.removeItem("email");
     }
     
-    return response.data;
+    return {
+      user: response.data.user,
+      access_token: response.data.access_token,
+    };
   }
 );
 
@@ -62,7 +65,7 @@ const authSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(login.fulfilled, (state, action: PayloadAction<{ user: User }>) => {
+      .addCase(login.fulfilled, (state, action: PayloadAction<{ user: User; access_token: string }>) => {
         state.isLoading = false;
         state.isAuthenticated = true;
         state.user = action.payload.user;
