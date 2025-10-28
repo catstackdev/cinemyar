@@ -63,11 +63,11 @@ const PageNotFound: React.FC<PageNotFoundProps> = ({
             {showHomeButton && (
               <Button
                 color="primary"
-                as="Link"
+                as={Link}
                 to="/"
                 rightIcon={<Home className="w-5 h-5" />}
               >
-                Go Back
+                Go Home
               </Button>
             )}
           </div>
@@ -86,24 +86,27 @@ const PageNotFound: React.FC<PageNotFoundProps> = ({
             Here are some helpful links instead:
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link
-              to="/"
-              className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 text-theme-sm font-medium underline"
-            >
+            <Button variant="link" size="sm" color="primary" as={Link} to="/">
               Home
-            </Link>
-            <Link
+            </Button>
+            <Button
+              variant="link"
+              size="sm"
+              color="primary"
+              as={Link}
               to="/about"
-              className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 text-theme-sm font-medium underline"
             >
               About
-            </Link>
-            <Link
+            </Button>
+            <Button
+              color="primary"
+              as={Link}
               to="/contact"
-              className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 text-theme-sm font-medium underline"
+              variant="link"
+              size="sm"
             >
               Contact
-            </Link>
+            </Button>
           </div>
         </div>
       </div>

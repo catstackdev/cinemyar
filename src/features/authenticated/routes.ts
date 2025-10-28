@@ -6,6 +6,10 @@ import { AuthenticatedMoviesRoutesConfig } from "./Movies/routes";
 const AuthenticatedDashboardPage = lazy(
   () => import("@/features/authenticated/Dashboard"),
 );
+
+const AuthenticatedMoviesLayout = lazy(
+  () => import("@/features/authenticated/Movies/layouts/MovieLayout"),
+);
 export const AuthenticatedRoutesConfig: RouteObject[] = [
   {
     index: true,
@@ -18,6 +22,7 @@ export const AuthenticatedRoutesConfig: RouteObject[] = [
   },
   {
     path: "movies",
+    Component: AuthenticatedMoviesLayout,
     children: AuthenticatedMoviesRoutesConfig,
   },
   {

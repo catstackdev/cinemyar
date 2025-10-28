@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { AppProviders } from "./contexts/AppProviders";
 import SplashScreen from "./components/ui/SplashScreen";
 import { AppRoute } from "./routes/appRoute";
+// import { NotificationCenter } from "./components/common";
 
 function App() {
   const [showSplash, setShowSplash] = useState(() => {

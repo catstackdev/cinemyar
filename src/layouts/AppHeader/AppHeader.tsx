@@ -6,19 +6,6 @@ import { cn } from "@/utils/helpers";
 import { ThemeToggle } from "@/components/common";
 import Logo from "@/components/ui/Logo";
 
-// const AppHeader: React.FC<AppHeaderProps> = ({
-//   children, className, ...rest
-// }) => {
-//
-//   return (
-//     <div
-//       className={clsx(styles.root, className)}
-//       {...rest}
-//     >
-//       {children}
-//     </div>
-//   );
-// };
 const AppHeader: React.FC<AppHeaderProps> = ({
   children,
   className,
@@ -60,7 +47,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
   return (
     <header
       className={cn(
-        "sticky top-0 flex w-full bg-card z-99999 border-border lg:border-b",
+        "sticky top-0 flex w-full bg-card z-100 border-border lg:border-b",
         className,
       )}
       {...rest}
@@ -68,7 +55,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
       <div className="flex flex-col items-center justify-between grow lg:flex-row lg:px-6">
         <div className="flex items-center justify-between w-full gap-2 px-3 py-3 border-b border-border sm:gap-4 lg:justify-normal lg:border-b-0 lg:px-0 lg:py-4">
           <button
-            className="items-center justify-center w-10 h-10 text-muted-foreground border-border rounded-lg z-99999 lg:flex lg:h-11 lg:w-11 lg:border hover:bg-muted"
+            className="items-center justify-center w-10 h-10 text-muted-foreground border-border rounded-lg z-100 lg:flex lg:h-11 lg:w-11 lg:border hover:bg-muted"
             onClick={handleToggle}
             aria-label="Toggle Sidebar"
           >
@@ -112,7 +99,7 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 
           <button
             onClick={toggleApplicationMenu}
-            className="flex items-center justify-center w-10 h-10 text-foreground rounded-lg z-99999 hover:bg-muted lg:hidden"
+            className="flex items-center justify-center w-10 h-10 text-foreground rounded-lg z-100 hover:bg-muted lg:hidden"
           >
             <svg
               width="24"

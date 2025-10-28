@@ -11,7 +11,7 @@ const NotificationItem = ({ notification, onClose }: NotificationItemProps) => {
     if (notification.duration && notification.duration > 0) {
       const timer = setTimeout(() => {
         setIsExiting(true);
-        setTimeout(() => onClose(notification.id), 300);
+        setTimeout(() => onClose(notification.id), 3000);
       }, notification.duration);
 
       return () => clearTimeout(timer);

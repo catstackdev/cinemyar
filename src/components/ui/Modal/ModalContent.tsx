@@ -61,7 +61,7 @@ export const ModalContent = ({
   overlayClassName,
   contentClassName,
   showCloseButton = true,
-  zIndex = 50,
+  zIndex = 9999,
   backdropBlur = "sm",
   backdropOpacity = 50,
   initialFocus,

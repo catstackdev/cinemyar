@@ -17,7 +17,7 @@ const NotificationCenter = ({
   return (
     <div
       className={cn(
-        "fixed z-50 flex flex-col gap-3",
+        "fixed z-999999 flex flex-col gap-3",
         NotificationPositionClasses[position],
       )}
     >

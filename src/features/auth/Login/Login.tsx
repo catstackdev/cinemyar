@@ -14,7 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { type LoginFormData, loginSchema } from "./schemas/auth.schema";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { login as loginAction } from "@/store/slices/authSlice";
+import { login as loginAction } from "@/state/auth";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -33,6 +33,10 @@ const Login: React.FC = () => {
     resolver: zodResolver(loginSchema),
     mode: "onBlur",
     reValidateMode: "onChange",
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   useEffect(() => {
@@ -45,6 +49,7 @@ const Login: React.FC = () => {
   }, [rememberMe, setValue]);
 
   useEffect(() => {
+    console.log("isAuthenticated", isAuthenticated);
     if (isAuthenticated) {
       navigate("/authenticated");
     }
@@ -53,6 +58,17 @@ const Login: React.FC = () => {
   const onSubmit = async (data: LoginFormData) => {
     dispatch(loginAction({ ...data, rememberMe }));
   };
+
+  // const onSubmit = async (data: LoginFormData) => {
+  //   const resultAction = await dispatch(loginAction({ ...data, rememberMe }));
+  //
+  //   if (loginAction.fulfilled.match(resultAction)) {
+  //     reset({
+  //       email: rememberMe ? data.email : "",
+  //       password: "",
+  //     });
+  //   }
+  // };
 
   return (
     <Container className="min-h-screen flex items-center justify-center bg-muted/30">

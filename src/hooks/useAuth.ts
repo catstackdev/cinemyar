@@ -25,7 +25,7 @@ export const useAuth = () => {
       setUser(response.user);
 
       // Redirect to dashboard
-      navigate("/dashboard");
+      navigate("/authenticated");
 
       return response;
     } catch (err: any) {
@@ -41,13 +41,13 @@ export const useAuth = () => {
     try {
       await authAPI.logout();
       setUser(null);
-      navigate("/login");
+      navigate("/auth/login");
     } catch (err) {
       console.error("Logout error:", err);
       // Force logout even if API fails
       localStorage.clear();
       setUser(null);
-      navigate("/login");
+      navigate("/auth/login");
     }
   };
 

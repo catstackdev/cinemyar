@@ -153,7 +153,7 @@ const Modal = ({
           aria-labelledby={titleId}
           aria-describedby={descriptionId}
           className={cn(
-            "relative z-10 bg-background text-foreground rounded-lg shadow-xl border border-border",
+            "relative z-999999 bg-background text-foreground rounded-lg shadow-xl border border-border",
             "flex flex-col",
             animationClasses,
             ModalSizeClasses[size],

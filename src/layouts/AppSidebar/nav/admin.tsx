@@ -10,7 +10,10 @@ export const adminNav: NavItem[] = [
   {
     icon: <VideoIcon />,
     name: "Movies",
-    path: "/movies",
+    subItems: [
+      { name: "List", path: "/authenticated/movies/list", pro: false },
+      { name: "Encoding", path: "/applications", pro: false },
+    ],
   },
 ];
 

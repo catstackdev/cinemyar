@@ -1,12 +1,12 @@
 import { useEffect } from "react";
-import { Navigate, Outlet, useLocation } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { checkAuth } from "@/store/slices/authSlice";
+import { checkAuth } from "@/state/auth";
 import { LoadingScreen } from "@/components/common/LoadingScreen";
+import type { ProtectedRouteProps } from "./ProtectedRoute.types";
+import { Navigate } from "react-router-dom";
 
-const ProtectedRoute = () => {
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
   const dispatch = useAppDispatch();
-  const location = useLocation();
   const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
 
   useEffect(() => {
@@ -20,10 +20,12 @@ const ProtectedRoute = () => {
   }
 
   if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    // return <Navigate to="auth/login" state={{ from: location }} replace />;
+    return <Navigate to="/auth" replace />;
   }
+  return children;
 
-  return <Outlet />;
+  // return <Outlet />;
 };
 
 export default ProtectedRoute;
