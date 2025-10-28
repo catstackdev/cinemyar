@@ -17,8 +17,8 @@ GIT_DIR=$GIT_DIR GIT_WORK_TREE=$GIT_WORK_TREE git checkout -f main
 cd $GIT_WORK_TREE
 
 # Generate environment files
-echo "🔧 Generating .env for environment: $DEPLOY_ENV..."
-bash scripts/deploy-env.sh $DEPLOY_ENV
+# echo "🔧 Generating .env for environment: $DEPLOY_ENV..."
+# bash scripts/deploy-env.sh $DEPLOY_ENV
 
 # Install dependencies
 echo "📥 Installing dependencies..."
