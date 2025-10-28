@@ -28,7 +28,7 @@ const makeEnvFileContent = (env: "dev" | "prod" | "default"): string => {
   return `// Auto-generated file. Do not edit manually.
 export const environment = {
   production: ${env === "prod"},
-  apiUrl: '${apiUrl || "http://localhost:3001"}',
+  apiUrl: '${apiUrl || "http://localhost:3000"}',
 
 } as const;
 `;
