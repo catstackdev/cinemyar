@@ -17,8 +17,8 @@ GIT_DIR=$GIT_DIR GIT_WORK_TREE=$GIT_WORK_TREE git checkout -f main
 cd $GIT_WORK_TREE
 
 # Generate environment files
-echo "🔧 Generating environment files..."
-pnpm tsx scripts/generate-env.ts
+# echo "🔧 Generating environment files..."
+# pnpm tsx scripts/generate-env.ts
 
 # Install dependencies
 echo "📥 Installing dependencies..."
