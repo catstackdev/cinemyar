@@ -14,7 +14,6 @@
   ],
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
     "preview": "vite preview",
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
@@ -28,6 +27,7 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist node_modules/.vite",
     "generate:env": "tsx scripts/generate-env.ts",
+    "build": "pnpm run generate:env && tsc -b && vite build",
     "deploy:env:dev": "bash scripts/deploy-env.sh dev",
     "deploy:env:prod": "bash scripts/deploy-env.sh prod"
   },
