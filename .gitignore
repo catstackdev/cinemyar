@@ -68,7 +68,3 @@ temp/
 
 # Exclude all markdown files except AGENTS.md, DEPLOYMENT.md, and deployment docs
 *.md
-!AGENTS.md
-!DEPLOYMENT.md
-!README.md
-!deployment/*.md
