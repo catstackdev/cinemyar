@@ -6,8 +6,7 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
-import Movies from './Movies';
-import Dashboard from './Dashboard';
+import Dashboard from "./Dashboard";
 
 // Type exports
 /* PLOP_INJECT_TYPE_EXPORT */
@@ -15,8 +14,7 @@ import Dashboard from './Dashboard';
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
-	Movies,
-	Dashboard,
+  Dashboard,
 };
 
 // Default exports (if any)
