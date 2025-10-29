@@ -9,14 +9,10 @@ import {
   ModalClose,
 } from "@/components/ui/Modal";
 import type { AddNewMovieModalProps } from "./AddNewMovieModal.types";
-import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { formFields } from "./formfields.model";
 import { useAddMovie } from "../../hooks/useAddMovie";
-import {
-  AddNewMovieSchema,
-  type AddNewMovieFormData,
-} from "./schemas/AddNewMovie.schema";
+import type { AddNewMovieFormData } from "./schemas/AddNewMovie.schema";
 
 const AddNewMovieModal: React.FC<AddNewMovieModalProps> = ({
   children,

@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 import styles from "./MovieList.module.css";
 import type { MovieListProps } from "./MovieList.types";
@@ -18,10 +17,9 @@ import {
 import { useMovies } from "../../hooks/useMovies";
 
 const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
-  const [page, setPage] = useState(1);
   const [search, setSearch] = useState("");
 
-  const { data, isLoading, error } = useMovies({ page, search });
+  const { data, isLoading, error } = useMovies({ page: 1, search });
 
   if (isLoading) {
     return (
