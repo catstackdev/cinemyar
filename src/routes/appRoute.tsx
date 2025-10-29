@@ -25,7 +25,6 @@ const router = createBrowserRouter([
   },
   {
     path: "/authenticated",
-    // element: <AppLayout />,
     element: (
       <ProtectedRoute>
         <AppLayout />
@@ -33,6 +32,9 @@ const router = createBrowserRouter([
     ),
     errorElement: <PageRouteError />,
     HydrateFallback: LoadingScreen,
+    handle: {
+      breadcrumb: { label: "Home", icon: "🏠" },
+    },
     children: AuthenticatedRoutesConfig,
   },
   // {

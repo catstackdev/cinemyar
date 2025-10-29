@@ -19,10 +19,16 @@ export const AuthenticatedRoutesConfig: RouteObject[] = [
   {
     path: "dashboard",
     Component: AuthenticatedDashboardPage,
+    handle: {
+      breadcrumb: { label: "Dashboard", icon: "📊" },
+    },
   },
   {
     path: "movies",
     Component: AuthenticatedMoviesLayout,
+    handle: {
+      breadcrumb: { label: "Movies", icon: "🎬" },
+    },
     children: AuthenticatedMoviesRoutesConfig,
   },
   {

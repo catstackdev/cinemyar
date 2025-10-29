@@ -6,3 +6,4 @@ export { useMediaQuery, useBreakpoint } from "./useMediaQuery";
 export { useClickOutside } from "./useClickOutside";
 export { useToggle } from "./useToggle";
 export { useCopyToClipboard } from "./useCopyToClipboard";
+export { useBreadcrumbs } from "./useBreadcrumbs";

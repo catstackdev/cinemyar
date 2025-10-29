@@ -13,6 +13,8 @@ import {
   Loading,
   Card,
   EmptyState,
+  Image,
+  Tooltip,
 } from "@/components/ui";
 import { useMovies } from "../../hooks/useMovies";
 
@@ -53,6 +55,35 @@ const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
           />
         </div>
       </div>
+      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => (
+        <Card key={index}>
+          <Tooltip
+            delay={100}
+            content={
+              <div className="h-auto w-88">
+                <Image
+                  src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800"
+                  alt="Cover fit"
+                  fit="cover"
+                  className="h-full w-full"
+                />
+                <h3> Movie name {item} </h3>
+                <p>Description</p>
+              </div>
+            }
+          >
+            <Card className="h-64 w-48 rounded-lg overflow-hidden hover:shadow-md hover:cursor-pointer">
+              <Image
+                src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800"
+                alt="Cover fit"
+                fit="cover"
+                className="h-full w-full"
+              />
+            </Card>
+          </Tooltip>
+        </Card>
+      ))}
+
       <Card>
         <Table>
           <TableHeader>
@@ -123,4 +154,3 @@ const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
 };
 
 export default MovieList;
-

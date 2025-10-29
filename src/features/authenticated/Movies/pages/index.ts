@@ -6,6 +6,11 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
+import MovieSettings from './MovieSettings';
+import MovieArchive from './MovieArchive';
+import MovieMetadata from './MovieMetadata';
+import MovieAnalytics from './MovieAnalytics';
+import MovieEncoding from './MovieEncoding';
 import MovieList from './MovieList';
 
 // Type exports
@@ -14,6 +19,11 @@ import MovieList from './MovieList';
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
+	MovieSettings,
+	MovieArchive,
+	MovieMetadata,
+	MovieAnalytics,
+	MovieEncoding,
 	MovieList,
 };
 

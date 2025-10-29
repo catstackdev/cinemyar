@@ -1,3 +1,5 @@
+import type { ReactNode } from "react";
+
 export interface MovieLayoutProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
 }

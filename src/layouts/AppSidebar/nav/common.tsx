@@ -1,26 +1,57 @@
-import { DashboardIcon, GearIcon, VideoIcon } from "@radix-ui/react-icons";
+import {
+  BarChartIcon,
+  CodeIcon,
+  DashboardIcon,
+  GearIcon,
+  VideoIcon,
+} from "@radix-ui/react-icons";
 import type { NavItem } from "./nav.types";
 
 export const commonNav: NavItem[] = [
   {
+    id: "dashboard",
     icon: <DashboardIcon />,
     name: "Dashboard",
-    subItems: [{ name: "Overview", path: "/", pro: false }],
+    subItems: [
+      {
+        id: "dashboard-overview",
+        name: "Overview",
+        path: "/",
+        icon: <DashboardIcon className="w-4 h-4" />,
+      },
+    ],
   },
   {
+    id: "movies",
     icon: <VideoIcon />,
     name: "Movies",
-    path: "/movies",
+    subItems: [
+      {
+        id: "movies-list",
+        name: "Movies List",
+        path: "/authenticated/movies/list",
+        icon: <VideoIcon className="w-4 h-4" />,
+      },
+      {
+        id: "movies-encoding",
+        name: "Encoding Queue",
+        path: "/authenticated/movies/encoding",
+        icon: <CodeIcon className="w-4 h-4" />,
+      },
+      {
+        id: "movies-analytics",
+        name: "Analytics",
+        path: "/authenticated/movies/analytics",
+        icon: <BarChartIcon className="w-4 h-4" />,
+      },
+    ],
   },
 ];
 
 export const commonSettings: NavItem[] = [
   {
+    id: "settings",
     icon: <GearIcon />,
     name: "Settings",
-    subItems: [
-      { name: "Users", path: "/users", pro: false },
-      { name: "Applications", path: "/applications", pro: false },
-    ],
   },
 ];
