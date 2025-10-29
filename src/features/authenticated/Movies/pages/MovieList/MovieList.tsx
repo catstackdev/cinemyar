@@ -13,10 +13,9 @@ import {
   Loading,
   Card,
   EmptyState,
-  Image,
-  Tooltip,
 } from "@/components/ui";
 import { useMovies } from "../../hooks/useMovies";
+import { MovieItemCard } from "../../components/MovieItemCard";
 
 const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
   const [search, setSearch] = useState("");
@@ -55,34 +54,17 @@ const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
           />
         </div>
       </div>
-      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map((item, index) => (
-        <Card key={index}>
-          <Tooltip
-            delay={100}
-            content={
-              <div className="h-auto w-88">
-                <Image
-                  src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800"
-                  alt="Cover fit"
-                  fit="cover"
-                  className="h-full w-full"
-                />
-                <h3> Movie name {item} </h3>
-                <p>Description</p>
-              </div>
-            }
-          >
-            <Card className="h-64 w-48 rounded-lg overflow-hidden hover:shadow-md hover:cursor-pointer">
-              <Image
-                src="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800"
-                alt="Cover fit"
-                fit="cover"
-                className="h-full w-full"
-              />
-            </Card>
-          </Tooltip>
-        </Card>
-      ))}
+      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
+        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
+          <MovieItemCard
+            key={item}
+            title={`Movie ${item}`}
+            description="An epic adventure awaits"
+            imageUrl="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800"
+            onClick={() => console.log(`Clicked movie ${item}`)}
+          />
+        ))}
+      </div>
 
       <Card>
         <Table>

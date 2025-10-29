@@ -7,6 +7,7 @@
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
 import AddNewMovieModal from './AddNewMovieModal';
+export * from './MovieItemCard';
 
 
 // Type exports
