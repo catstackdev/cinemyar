@@ -6,19 +6,23 @@ module.exports = {
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
+    '^@/lib/axios$': '<rootDir>/src/__tests__/utils/mocks/axios.ts',
   },
   setupFilesAfterEnv: ['<rootDir>/src/setupTests.ts'],
-  globals: {
-    'ts-jest': {
+  transform: {
+    '^.+\\.tsx?$': ['ts-jest', {
       tsconfig: {
         jsx: 'react-jsx',
         esModuleInterop: true,
         allowSyntheticDefaultImports: true,
+        module: 'esnext',
+        moduleResolution: 'bundler',
+        resolveJsonModule: true,
+        paths: {
+          '@/*': ['./src/*']
+        }
       },
-    },
-  },
-  transform: {
-    '^.+\\.tsx?$': 'ts-jest',
+    }],
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   collectCoverageFrom: [

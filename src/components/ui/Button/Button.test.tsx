@@ -19,7 +19,7 @@ describe("Button", () => {
   // Test 3: Applies custom className
   it("applies a custom className", () => {
     const customClass = "test-class";
-    render(<Button className={customClass} />);
+    render(<Button className={customClass} data-testid="button" />);
     expect(screen.getByTestId("button")).toHaveClass(customClass);
   });
 
