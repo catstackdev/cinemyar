@@ -1,5 +1,6 @@
 import type { BreadcrumbProps } from "./Breadcrumb.types";
 import { cn } from "@/utils/helpers/classNames";
+import { Link } from "react-router-dom";
 
 const ChevronIcon = () => (
   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
@@ -31,8 +32,8 @@ const Breadcrumb = ({
                 </span>
               )}
               {item.href && !isLast ? (
-                <a
-                  href={item.href}
+                <Link
+                  to={item.href}
                   className={cn(
                     "inline-flex items-center text-sm font-medium",
                     "text-foreground hover:text-primary",
@@ -41,7 +42,7 @@ const Breadcrumb = ({
                 >
                   {item.icon && <span className="mr-2">{item.icon}</span>}
                   {item.label}
-                </a>
+                </Link>
               ) : (
                 <span
                   className={cn(

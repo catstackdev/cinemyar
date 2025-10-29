@@ -5,7 +5,7 @@ const Card = ({ children, className, ...rest }: CardProps) => {
   return (
     <div
       className={cn(
-        "rounded-xl border border-border bg-card p-6  text-card-foreground shadow-lg",
+        "rounded-xl border border-border bg-card text-card-foreground shadow-lg",
         className,
       )}
       {...rest}
@@ -14,5 +14,7 @@ const Card = ({ children, className, ...rest }: CardProps) => {
     </div>
   );
 };
+
+Card.displayName = "Card";
 
 export default Card;
