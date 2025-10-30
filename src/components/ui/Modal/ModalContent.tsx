@@ -146,7 +146,7 @@ export const ModalContent = ({
 
       <div
         className={cn(
-          "absolute inset-0 bg-background/80",
+          "absolute inset-0 bg-background",
           BackdropBlurClasses[backdropBlur],
         )}
         style={{ opacity: backdropOpacity / 100 }}
@@ -159,7 +159,7 @@ export const ModalContent = ({
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         className={cn(
-          "relative z-10 bg-background text-foreground rounded-lg shadow-xl border border-border",
+          "relative z-10 bg-card/80 backdrop-blur-sm text-foreground rounded-lg shadow-xl border border-border",
           "flex flex-col",
           animationClasses,
           ModalSizeClasses[size],

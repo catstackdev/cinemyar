@@ -1,14 +1,26 @@
-import { forwardRef, type ElementType, useState, useRef, useCallback } from "react";
+import {
+  forwardRef,
+  type ElementType,
+  useState,
+  useRef,
+  useCallback,
+} from "react";
 import type { ButtonProps, PolymorphicRef } from "./Button.types";
 import { cn } from "@/utils/helpers/classNames";
-import { buttonSizes, buttonVariants, loadingSize, iconOnlySizes, elevationClasses } from "./constants";
+import {
+  buttonSizes,
+  buttonVariants,
+  loadingSize,
+  iconOnlySizes,
+  elevationClasses,
+} from "./constants";
 import Loading from "../Loading";
 
 const Button = forwardRef(
   <C extends ElementType = "button">(
     {
       as,
-      variant = "default",
+      variant = "glass",
       color = "primary",
       size = "md",
       isLoading = false,
@@ -31,7 +43,9 @@ const Button = forwardRef(
     const Component = as || "button";
     const isButtonDisabled = disabled || isLoading;
     const buttonRef = useRef<HTMLElement>(null);
-    const [ripples, setRipples] = useState<Array<{ x: number; y: number; id: number }>>([]);
+    const [ripples, setRipples] = useState<
+      Array<{ x: number; y: number; id: number }>
+    >([]);
 
     const variantClasses =
       buttonVariants[variant]?.[color] ?? buttonVariants.default.primary;
@@ -54,14 +68,14 @@ const Button = forwardRef(
           const x = e.clientX - rect.left;
           const y = e.clientY - rect.top;
           const id = Date.now();
-          
+
           setRipples((prev) => [...prev, { x, y, id }]);
-          
+
           setTimeout(() => {
             setRipples((prev) => prev.filter((ripple) => ripple.id !== id));
           }, 600);
         }
-        
+
         onClick?.(e as any);
       },
       [withRipple, onClick],
@@ -115,19 +129,34 @@ const Button = forwardRef(
           <Loading type="dots" size={loadingSize[size]} inline inheritColor />
         )}
         {leftIcon && !iconOnly && (
-          <span className={cn("inline-flex transition-transform duration-200", isLoading && "opacity-100")}>
+          <span
+            className={cn(
+              "inline-flex transition-transform duration-200",
+              isLoading && "opacity-100",
+            )}
+          >
             {leftIcon}
           </span>
         )}
         {iconOnly ? (
           leftIcon || rightIcon || children
         ) : (
-          <span className={cn("transition-all duration-200", isLoading && !loadingText && "opacity-100")}>
+          <span
+            className={cn(
+              "transition-all duration-200",
+              isLoading && !loadingText && "opacity-100",
+            )}
+          >
             {content}
           </span>
         )}
         {rightIcon && !iconOnly && (
-          <span className={cn("inline-flex transition-transform duration-200", isLoading && "opacity-100")}>
+          <span
+            className={cn(
+              "inline-flex transition-transform duration-200",
+              isLoading && "opacity-100",
+            )}
+          >
             {rightIcon}
           </span>
         )}

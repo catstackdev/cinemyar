@@ -27,11 +27,11 @@ const Login: React.FC = () => {
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
     setValue,
   } = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
-    mode: "onBlur",
+    mode: "all",
     reValidateMode: "onChange",
     defaultValues: {
       email: "",
@@ -129,26 +129,22 @@ const Login: React.FC = () => {
               </Button>
             </div>
 
+            {!!isValid}
             <Button
+              withPulse={isValid}
               variant="glass"
               type="submit"
               className="w-full"
               size="md"
               disabled={isLoading}
-              leftIcon={
-                isLoading ? (
-                  <Loading type="spinner" size="sm" inline inheritColor />
-                ) : null
-              }
+              rightIcon={isLoading ? <JumpingDots /> : null}
             >
-              {isLoading ? (
-                <span>
-                  Signing in
-                  <JumpingDots />
-                </span>
-              ) : (
-                "Sign in"
-              )}
+              {/* leftIcon={ */}
+              {/*   isLoading ? ( */}
+              {/*     <Loading type="spinner" size="sm" inline inheritColor /> */}
+              {/*   ) : null */}
+              {/* } */}
+              {isLoading ? "Signing in" : "Sign in"}
             </Button>
           </Stack>
         </form>

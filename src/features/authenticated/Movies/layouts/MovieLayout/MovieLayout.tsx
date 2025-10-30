@@ -35,6 +35,7 @@ const MovieLayout: React.FC<MovieLayoutProps> = ({ children }) => {
             onClick={() => setOpen(true)}
             leftIcon={<PlusIcon className="w-4 h-4" />}
             size="sm"
+            variant="glass"
           >
             Add New Movie
           </Button>

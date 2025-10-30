@@ -12,7 +12,11 @@ import type { AddNewMovieModalProps } from "./AddNewMovieModal.types";
 import { useForm } from "react-hook-form";
 import { formFields } from "./formfields.model";
 import { useAddMovie } from "../../hooks/useAddMovie";
-import type { AddNewMovieFormData } from "./schemas/AddNewMovie.schema";
+import {
+  AddNewMovieSchema,
+  type AddNewMovieFormData,
+} from "./schemas/AddNewMovie.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const AddNewMovieModal: React.FC<AddNewMovieModalProps> = ({
   children,
@@ -23,7 +27,7 @@ const AddNewMovieModal: React.FC<AddNewMovieModalProps> = ({
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
   } = useForm<AddNewMovieFormData>({
     // resolver: zodResolver(AddNewMovieSchema),
     mode: "onBlur",
@@ -109,11 +113,11 @@ const AddNewMovieModal: React.FC<AddNewMovieModalProps> = ({
           </ModalBody>
           <ModalFooter>
             <ModalClose asChild>
-              <Button color="secondary" variant="default">
+              <Button color="secondary" variant="glass">
                 Cancel
               </Button>
             </ModalClose>
-            <Button type="submit" variant="default">
+            <Button type="submit" variant="glass" withPulse={isValid && false}>
               {isPending ? (
                 <span>
                   Adding New Movie
