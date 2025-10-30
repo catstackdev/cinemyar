@@ -39,6 +39,24 @@ const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
       </div>
     );
   }
+  const images = [
+    null,
+    "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800",
+    "https://images.unsplash.com/photo-1505685296765-3a2736de412f?w=800",
+    "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=800",
+    "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=800",
+
+    "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=800",
+    "https://images.unsplash.com/photo-1505685296765-3a2736de412f?w=800",
+    "https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?w=800",
+    "https://images.unsplash.com/photo-1499084732479-de2c02d45fc4?w=800",
+    "https://images.unsplash.com/photo-1519125323398-675f0ddb6308?w=800",
+    "https://images.unsplash.com/photo-1525182008055-f88b95ff7980?w=800",
+    "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?w=800",
+    "https://images.unsplash.com/photo-1502786129293-79981df4e689?w=800",
+    "https://images.unsplash.com/photo-1521737604893-d14cc237f11d?w=800",
+    "",
+  ];
 
   return (
     <div className={clsx(styles.root, className)}>
@@ -55,13 +73,13 @@ const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
         </div>
       </div>
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 mb-8">
-        {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
+        {Array.from({ length: 20 }, (_, i) => (
           <MovieItemCard
-            key={item}
-            title={`Movie ${item}`}
+            key={i}
+            title={`Movie ${i + 1}`}
             description="An epic adventure awaits"
-            imageUrl="https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800"
-            onClick={() => console.log(`Clicked movie ${item}`)}
+            imageUrl={images[i % images.length]}
+            onClick={() => console.log(`Clicked movie ${i + 1}`)}
           />
         ))}
       </div>

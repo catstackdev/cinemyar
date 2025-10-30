@@ -35,6 +35,30 @@ export const WithFallback: Story = {
   },
 };
 
+export const NoSrc: Story = {
+  args: {
+    alt: "No image provided",
+    aspectRatio: "video",
+  },
+};
+
+export const WithPlaceholder: Story = {
+  args: {
+    alt: "Image with placeholder",
+    placeholder: "https://via.placeholder.com/400x300?text=Placeholder",
+    aspectRatio: "video",
+  },
+};
+
+export const WithProgress: Story = {
+  args: {
+    src: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=2000",
+    alt: "Large image with progress",
+    showProgress: true,
+    wrapperClassName: "w-96 h-64",
+  },
+};
+
 export const AspectRatios: Story = {
   args: {
     src: "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800",

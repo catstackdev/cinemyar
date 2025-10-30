@@ -33,6 +33,9 @@ const MovieItemCard: React.FC<MovieItemCardProps> = ({
             src={imageUrl}
             alt={title}
             fit="cover"
+            placeholder="https://via.placeholder.com/400x600?text=No+Movie+Poster"
+            showProgress={true}
+            fallback="https://via.placeholder.com/400x600?text=Image+Failed"
             className={cn(
               "h-full w-full object-cover",
               "transition-all duration-300 ease-out",
