@@ -18,7 +18,7 @@ const meta = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["default", "outline", "clear", "link"],
+      options: ["default", "outline", "clear", "link", "gradient", "glass"],
     },
     color: {
       control: "select",
@@ -28,10 +28,23 @@ const meta = {
       control: "select",
       options: ["xs", "sm", "md", "lg", "xl"],
     },
+    elevation: {
+      control: "select",
+      options: ["none", "sm", "md", "lg"],
+    },
     isLoading: {
       control: "boolean",
     },
     isDisabled: {
+      control: "boolean",
+    },
+    iconOnly: {
+      control: "boolean",
+    },
+    withRipple: {
+      control: "boolean",
+    },
+    withPulse: {
       control: "boolean",
     },
   },
@@ -54,7 +67,7 @@ export const Default: Story = {
 export const Variants: Story = {
   render: () => (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 items-center">
+      <div className="flex gap-2 items-center flex-wrap">
         <Button variant="default" color="primary">
           Default
         </Button>
@@ -66,6 +79,12 @@ export const Variants: Story = {
         </Button>
         <Button variant="link" color="primary">
           Link
+        </Button>
+        <Button variant="gradient" color="primary">
+          Gradient
+        </Button>
+        <Button variant="glass" color="primary">
+          Glass
         </Button>
       </div>
     </div>
@@ -185,7 +204,7 @@ export const DisabledStates: Story = {
 export const AllCombinations: Story = {
   render: () => (
     <div className="space-y-6">
-      {(["default", "outline", "clear", "link"] as const).map((variant) => (
+      {(["default", "outline", "clear", "link", "gradient", "glass"] as const).map((variant) => (
         <div key={variant} className="space-y-2">
           <h3 className="text-sm font-semibold capitalize">{variant}</h3>
           <div className="flex gap-2 flex-wrap">
@@ -330,6 +349,93 @@ export const ResponsiveSizes: Story = {
       <Button className="px-2 py-1 sm:px-3 sm:py-1.5 md:px-4 md:py-2 lg:px-6 lg:py-3">
         Responsive Padding
       </Button>
+    </div>
+  ),
+};
+
+// New Gradient Variant
+export const GradientButtons: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-2 flex-wrap">
+        <Button variant="gradient" color="primary">Primary Gradient</Button>
+        <Button variant="gradient" color="secondary">Secondary Gradient</Button>
+        <Button variant="gradient" color="danger">Danger Gradient</Button>
+        <Button variant="gradient" color="success">Success Gradient</Button>
+        <Button variant="gradient" color="info">Info Gradient</Button>
+        <Button variant="gradient" color="warning">Warning Gradient</Button>
+      </div>
+    </div>
+  ),
+};
+
+// Glass Variant
+export const GlassButtons: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4 p-8 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg">
+      <div className="flex gap-2 flex-wrap">
+        <Button variant="glass" color="primary">Primary Glass</Button>
+        <Button variant="glass" color="secondary">Secondary Glass</Button>
+        <Button variant="glass" color="danger">Danger Glass</Button>
+        <Button variant="glass" color="success">Success Glass</Button>
+        <Button variant="glass" color="info">Info Glass</Button>
+        <Button variant="glass" color="warning">Warning Glass</Button>
+      </div>
+    </div>
+  ),
+};
+
+// Elevation
+export const ElevationLevels: Story = {
+  render: () => (
+    <div className="flex gap-4 flex-wrap">
+      <Button elevation="none">No Shadow</Button>
+      <Button elevation="sm">Small Shadow</Button>
+      <Button elevation="md">Medium Shadow</Button>
+      <Button elevation="lg">Large Shadow</Button>
+    </div>
+  ),
+};
+
+// Icon Only
+export const IconOnlyButtons: Story = {
+  render: () => (
+    <div className="flex flex-col gap-4">
+      <div className="flex gap-2 items-center">
+        <Button iconOnly size="xs" leftIcon={<PlusIcon />} />
+        <Button iconOnly size="sm" leftIcon={<PlusIcon />} />
+        <Button iconOnly size="md" leftIcon={<PlusIcon />} />
+        <Button iconOnly size="lg" leftIcon={<PlusIcon />} />
+        <Button iconOnly size="xl" leftIcon={<PlusIcon />} />
+      </div>
+      <div className="flex gap-2 items-center">
+        <Button iconOnly variant="outline" leftIcon={<TrashIcon />} color="danger" />
+        <Button iconOnly variant="clear" leftIcon={<DownloadIcon />} color="info" />
+        <Button iconOnly variant="gradient" leftIcon={<CheckIcon />} color="success" />
+        <Button iconOnly variant="glass" leftIcon={<PlusIcon />} color="primary" />
+      </div>
+    </div>
+  ),
+};
+
+// Ripple Effect
+export const RippleEffect: Story = {
+  render: () => (
+    <div className="flex gap-4 flex-wrap">
+      <Button withRipple>With Ripple (Default)</Button>
+      <Button withRipple={false}>No Ripple</Button>
+      <Button variant="gradient" withRipple>Gradient with Ripple</Button>
+    </div>
+  ),
+};
+
+// Pulse Animation
+export const PulseAnimation: Story = {
+  render: () => (
+    <div className="flex gap-4 flex-wrap">
+      <Button withPulse color="danger">Urgent Action</Button>
+      <Button withPulse variant="gradient" color="success">Live Now</Button>
+      <Button withPulse variant="outline" color="warning">New Notification</Button>
     </div>
   ),
 };

@@ -84,7 +84,12 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
   const renderMenuItems = (items: NavItem[], menuType: "main" | "others") => (
     <ul className="flex flex-col gap-4">
       {items.map((nav, index) => (
-        <li key={nav.name}>
+        <li
+          key={nav.name}
+          style={{
+            animation: `menu-item-enter 0.3s ease-out ${index * 0.05}s both`,
+          }}
+        >
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
@@ -159,8 +164,17 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
               }}
             >
               <ul className="mt-2 space-y-1 ml-9">
-                {nav.subItems.map((subItem) => (
-                  <li key={subItem.name}>
+                {nav.subItems.map((subItem, subIndex) => (
+                  <li
+                    key={subItem.name}
+                    style={{
+                      animation:
+                        openSubmenu?.type === menuType &&
+                        openSubmenu?.index === index
+                          ? `submenu-slide 0.2s ease-out ${subIndex * 0.05}s both`
+                          : "none",
+                    }}
+                  >
                     <Link
                       to={subItem.path}
                       className={`menu-dropdown-item ${
@@ -207,16 +221,20 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-card text-card-foreground h-screen transition-all duration-300 ease-in-out z-50   
-        ${
-          isExpanded || isMobileOpen
+      className={cn(
+        "fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 text-card-foreground h-screen transition-all duration-300 ease-in-out z-50",
+        "bg-card/60 backdrop-blur-lg border-r-2 border-r-primary/20 border-t border-t-border/30",
+        "supports-[backdrop-filter]:bg-card/40",
+        "shadow-2xl shadow-primary/5",
+        "before:absolute before:inset-0 before:bg-gradient-to-b before:from-primary/5 before:to-transparent before:pointer-events-none",
+        isExpanded || isMobileOpen
+          ? "w-[290px]"
+          : isHovered
             ? "w-[290px]"
-            : isHovered
-              ? "w-[290px]"
-              : "w-[90px]"
-        }
-        ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:translate-x-0`}
+            : "w-[90px]",
+        isMobileOpen ? "translate-x-0" : "-translate-x-full",
+        "lg:translate-x-0"
+      )}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

@@ -4,7 +4,8 @@ import type { ComponentPropsWithoutRef, ElementType, ReactNode } from "react";
 
 export type ButtonSize = Size;
 export type ButtonColor = Color;
-export type ButtonVariant = "default" | "outline" | "clear" | "link";
+export type ButtonVariant = "default" | "outline" | "clear" | "link" | "gradient" | "glass";
+export type ButtonElevation = "none" | "sm" | "md" | "lg";
 
 export type PolymorphicRef<C extends ElementType> =
   ComponentPropsWithoutRef<C>["ref"];
@@ -28,6 +29,10 @@ export interface BaseButtonProps {
   rightIcon?: ReactNode;
   fullWidth?: boolean;
   loadingText?: string;
+  iconOnly?: boolean;
+  elevation?: ButtonElevation;
+  withRipple?: boolean;
+  withPulse?: boolean;
 }
 
 export type ButtonProps<C extends ElementType = "button"> =

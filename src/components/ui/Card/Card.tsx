@@ -5,7 +5,7 @@ const Card = ({ children, className, ...rest }: CardProps) => {
   return (
     <div
       className={cn(
-        "rounded-xl border border-border bg-card text-card-foreground shadow-lg",
+        "rounded-2xl border bg-card/40 backdrop-blur-md border-r border-border/40 text-card-foreground shadow-lg",
         className,
       )}
       {...rest}

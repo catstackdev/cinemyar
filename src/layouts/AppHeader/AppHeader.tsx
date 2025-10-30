@@ -49,7 +49,13 @@ const AppHeader: React.FC<AppHeaderProps> = ({
 
   return (
     <header
-      className={cn("sticky top-0 flex w-full bg-card z-100 ", className)}
+      className={cn(
+        "sticky top-0 flex w-full z-100",
+        "bg-card/70 backdrop-blur-md border-b border-border/40",
+        "supports-[backdrop-filter]:bg-card/50",
+        "shadow-sm",
+        className,
+      )}
       {...rest}
     >
       {/* border-border lg:border-b */}
@@ -162,8 +168,10 @@ const AppHeader: React.FC<AppHeaderProps> = ({
         <div
           className={`${
             isApplicationMenuOpen ? "flex" : "hidden"
-          } items-center justify-between w-full gap-4 px-5 py-4 lg:flex shadow-theme-md lg:justify-end lg:px-0 lg:shadow-none`}
+          } items-center justify-between w-full gap-4 px-5 py-4 lg:flex  lg:justify-end lg:px-0 lg:shadow-none`}
         >
+          {/* shadow-theme-md */}
+
           <div className="flex items-center gap-2 2xsm:gap-3">
             <ThemeToggle />
             {/* <NotificationDropdown /> */}

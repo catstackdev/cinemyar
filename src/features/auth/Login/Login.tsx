@@ -71,7 +71,7 @@ const Login: React.FC = () => {
   // };
 
   return (
-    <Container className="min-h-screen flex items-center justify-center bg-muted/30">
+    <Container className="min-h-screen flex items-center justify-center ">
       <Card className="w-full max-w-md p-8 shadow-lg">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-foreground mb-2">
@@ -130,6 +130,7 @@ const Login: React.FC = () => {
             </div>
 
             <Button
+              variant="glass"
               type="submit"
               className="w-full"
               size="md"

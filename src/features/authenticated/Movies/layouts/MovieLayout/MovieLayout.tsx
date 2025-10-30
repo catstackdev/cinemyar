@@ -18,7 +18,7 @@ const MovieLayout: React.FC<MovieLayoutProps> = ({ children }) => {
 
   return (
     <Container size="full" className="relative p-4 min-h-full">
-      <div className="h-1/2 bg-primary-200 absolute left-0 right-0 -z-1 top-0"></div>
+      {/* <div className="h-1/2 bg-primary-200 absolute left-0 right-0 -z-1 top-0"></div> */}
       <AddNewMovieModal open={open} onOpenChange={setOpen} />
       <Card className="w-full">
         <CardHeader
