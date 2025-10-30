@@ -1,3 +1,156 @@
 .root {
-  
+  position: relative;
+}
+
+@keyframes iconEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.3) rotate(-180deg);
+  }
+  60% {
+    transform: scale(1.1) rotate(10deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+  }
+}
+
+.iconEntrance {
+  opacity: 0;
+  animation: iconEntrance 1s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  transform-origin: center;
+}
+
+@keyframes filmStripPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.85;
+  }
+}
+
+.filmStripPulse {
+  animation: filmStripPulse 3s ease-in-out infinite;
+}
+
+@keyframes sprocketLeftBlink {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translateX(-1px);
+  }
+}
+
+.sprocketLeft rect {
+  animation: sprocketLeftBlink 2s ease-in-out infinite;
+}
+
+@keyframes sprocketRightBlink {
+  0%, 100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  50% {
+    opacity: 0.4;
+    transform: translateX(1px);
+  }
+}
+
+.sprocketRight rect {
+  animation: sprocketRightBlink 2s ease-in-out infinite;
+}
+
+@keyframes spotlight {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.15);
+  }
+}
+
+.spotlight {
+  animation: spotlight 2.5s ease-in-out infinite;
+}
+
+@keyframes starRotate {
+  0% {
+    opacity: 0;
+    transform: rotate(0deg) scale(0);
+  }
+  50% {
+    transform: rotate(180deg) scale(1.2);
+  }
+  100% {
+    opacity: 1;
+    transform: rotate(360deg) scale(1);
+  }
+}
+
+.starRotate {
+  opacity: 0;
+  animation: starRotate 1.2s cubic-bezier(0.68, -0.55, 0.265, 1.55) forwards;
+  transform-origin: center;
+}
+
+@keyframes starTwinkle {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.95);
+  }
+}
+
+@keyframes textSlideIn {
+  0% {
+    opacity: 0;
+    transform: translateX(30px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.textSlideIn {
+  opacity: 0;
+  animation: textSlideIn 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes subtitleFadeIn {
+  0% {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.subtitleFadeIn {
+  opacity: 0;
+  animation: subtitleFadeIn 0.5s ease-out forwards;
+}
+
+.root:hover .filmStripPulse {
+  animation-duration: 1.5s;
+}
+
+.root:hover .starRotate {
+  animation: starTwinkle 0.6s ease-in-out infinite;
+}
+
+.root:hover .spotlight {
+  animation-duration: 1.5s;
 }

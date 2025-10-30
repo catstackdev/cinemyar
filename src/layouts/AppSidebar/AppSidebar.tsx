@@ -207,7 +207,7 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
 
   return (
     <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-card text-card-foreground h-screen transition-all duration-300 ease-in-out z-50 border-r border-border
+      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-card text-card-foreground h-screen transition-all duration-300 ease-in-out z-50   
         ${
           isExpanded || isMobileOpen
             ? "w-[290px]"
@@ -227,9 +227,9 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
       >
         <Link to="/">
           {isExpanded || isHovered || isMobileOpen ? (
-            <Logo variant="full" size="sm" />
+            <Logo variant="full" size="sm" animated />
           ) : (
-            <Logo variant="icon" size="md" />
+            <Logo variant="icon" size="md" animated />
           )}
         </Link>
       </div>
