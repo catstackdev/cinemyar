@@ -16,13 +16,13 @@ const PageNotFound: React.FC<PageNotFoundProps> = ({
   return (
     <div
       className={cn(
-        "flex items-center justify-center min-h-screen bg-background",
+        "flex items-center justify-center min-h-screen bg-card/80 backdrop-blur-lg",
         className,
       )}
       {...rest}
     >
       <div className="max-w-2xl w-full mx-4">
-        <div className=" rounded-2xl shadow-theme-xl p-8 md:p-12 text-center border border-gray-200 bg-background">
+        <div className=" rounded-2xl shadow-theme-xl p-8 md:p-12 text-center border border-border/40">
           {/* Icon */}
           <div className="mb-8">
             <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-brand-50  mb-6 animate-pulse-slow">

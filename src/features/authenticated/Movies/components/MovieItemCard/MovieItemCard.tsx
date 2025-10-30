@@ -35,7 +35,7 @@ const MovieItemCard: React.FC<MovieItemCardProps> = ({
         "transition-all duration-300 ease-out",
         "hover:z-10",
         showOverlay && "z-10",
-        className
+        className,
       )}
       onClick={onClick}
       onTouchStart={handleTouchStart}
@@ -48,7 +48,7 @@ const MovieItemCard: React.FC<MovieItemCardProps> = ({
           "transition-all duration-300 ease-out",
           "group-hover:scale-105 group-hover:shadow-2xl",
           showOverlay && "scale-105 shadow-2xl",
-          "border border-gray-200 dark:border-gray-700"
+          "border border-border/80 ",
         )}
       >
         <div className="relative h-full w-full">
@@ -56,14 +56,14 @@ const MovieItemCard: React.FC<MovieItemCardProps> = ({
             src={imageUrl}
             alt={title}
             fit="cover"
-            placeholder="https://via.placeholder.com/400x600?text=No+Movie+Poster"
+            placeholder="https://placehold.co/400x600?text=No+Movie+Poster"
             showProgress={true}
-            fallback="https://via.placeholder.com/400x600?text=Image+Failed"
+            fallback="https://placehold.co/400x600?text=Image+Failed"
             className={cn(
               "h-full w-full object-cover",
               "transition-all duration-300 ease-out",
               "group-hover:brightness-110",
-              showOverlay && "brightness-110"
+              showOverlay && "brightness-110",
             )}
           />
           <div
@@ -72,14 +72,14 @@ const MovieItemCard: React.FC<MovieItemCardProps> = ({
               "bg-gradient-to-t from-black/80 via-black/20 to-transparent",
               "opacity-0 group-hover:opacity-100",
               showOverlay && "opacity-100",
-              "transition-opacity duration-300 ease-out"
+              "transition-opacity duration-300 ease-out",
             )}
           >
             <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
               <h3
                 className={cn(
                   "text-lg font-bold mb-1 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300",
-                  showOverlay && "translate-y-0"
+                  showOverlay && "translate-y-0",
                 )}
               >
                 {title}
@@ -88,7 +88,7 @@ const MovieItemCard: React.FC<MovieItemCardProps> = ({
                 <p
                   className={cn(
                     "text-sm text-gray-200 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300 delay-75",
-                    showOverlay && "translate-y-0"
+                    showOverlay && "translate-y-0",
                   )}
                 >
                   {description}
