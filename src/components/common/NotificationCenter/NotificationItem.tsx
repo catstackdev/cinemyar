@@ -34,8 +34,9 @@ const NotificationItem = ({ notification, onClose }: NotificationItemProps) => {
       aria-live="polite"
       className={cn(
         "relative flex w-80 items-start gap-3 rounded-lg border p-4 shadow-lg",
+        "backdrop-blur-lg  ",
         "transition-all duration-300",
-        isExiting ? "translate-x-full opacity-0" : "translate-x-0 opacity-100",
+        isExiting ? "translate-x-full opacity-10" : "translate-x-0 opacity-100",
         NotificationStyles?.[notification.type]?.base,
       )}
     >
