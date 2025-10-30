@@ -9,7 +9,7 @@ export interface ImageProps
     ComponentPropsWithoutRef<"img">,
     "onLoad" | "onError" | "onProgress"
   > {
-  src?: string;
+  src?: string | null;
   alt: string;
   fallback?: string;
   placeholder?: string;

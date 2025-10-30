@@ -40,7 +40,7 @@ const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
     );
   }
   const images = [
-    null,
+    "",
     "https://images.unsplash.com/photo-1574375927938-d5a98e8ffe85?w=800",
     "https://images.unsplash.com/photo-1505685296765-3a2736de412f?w=800",
     "https://images.unsplash.com/photo-1524985069026-dd778a71c7b4?w=800",
