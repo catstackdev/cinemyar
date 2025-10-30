@@ -7,7 +7,7 @@ export type ImageLoadingState = "idle" | "loading" | "loaded" | "error";
 export interface ImageProps
   extends Omit<
     ComponentPropsWithoutRef<"img">,
-    "onLoad" | "onError" | "onProgress"
+    "onLoad" | "onError" | "onProgress" | "src"
   > {
   src?: string | null;
   alt: string;
