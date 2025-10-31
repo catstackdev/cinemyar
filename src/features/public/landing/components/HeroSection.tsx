@@ -30,14 +30,12 @@ const HeroSection: React.FC = () => {
       <div className="absolute top-1/2 left-1/4 w-16 h-16 bg-warning/20 rounded-full blur-lg animate-pulse delay-500" />
 
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           {/* Main Headline */}
           <h1
             className={cn(
-              "text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold",
-              "bg-gradient-to-r from-primary via-info to-primary bg-clip-text text-transparent",
-              "animate-gradient bg-300% mb-6",
-              "text-balance leading-tight",
+              "text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance leading-tight",
+              "gradient-text",
             )}
           >
             Stream Movies, Series & More
@@ -84,9 +82,9 @@ const HeroSection: React.FC = () => {
               size="lg"
               onClick={handleGetStarted}
               className={cn(
-                "px-8 py-4 text-lg font-semibold text-center",
-                "bg-gradient-to-r from-primary/10 to-background/20",
-                "hover:from-primary-600/10 hover:to-info-600/20",
+                "px-8 py-4 text-lg font-semibold",
+                "bg-gradient-to-r from-primary/30 to-info/30",
+                "hover:from-primary-600/30 hover:to-info-600/30",
                 "shadow-lg hover:shadow-xl",
                 "transition-all duration-300 hover:scale-105",
                 "min-w-[200px]",
@@ -94,7 +92,7 @@ const HeroSection: React.FC = () => {
             >
               Get Started Free
               <svg
-                className=" h-5 w-full"
+                className="w-5 h-5 ml-2"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -122,7 +120,7 @@ const HeroSection: React.FC = () => {
             >
               Browse Content
               <svg
-                className="w-5 h-5 mx-auto"
+                className="w-5 h-5 ml-2"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -181,4 +179,3 @@ const HeroSection: React.FC = () => {
 };
 
 export default HeroSection;
-

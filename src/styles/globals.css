@@ -301,20 +301,40 @@
 
   /* Gradient animation */
   .animate-gradient {
-    animation: gradient 6s ease infinite;
+    animation: gradient 2s ease-in-out infinite;
   }
 
   @keyframes gradient {
-    0%, 100% {
+    0% {
       background-position: 0% 50%;
     }
     50% {
       background-position: 100% 50%;
     }
+    100% {
+      background-position: 0% 50%;
+    }
   }
 
   .bg-300\% {
     background-size: 300%;
+  }
+
+  /* Animated gradient text */
+  .gradient-text {
+    background: linear-gradient(
+      90deg, 
+      hsl(var(--primary)) 0%,
+      hsl(var(--info)) 25%,
+      hsl(var(--primary)) 50%,
+      hsl(var(--info)) 75%,
+      hsl(var(--primary)) 100%
+    );
+    background-size: 300% 100%;
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gradient 2s ease-in-out infinite;
   }
 
   /* Line clamp utilities */
