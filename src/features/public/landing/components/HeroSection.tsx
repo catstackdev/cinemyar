@@ -34,7 +34,7 @@ const HeroSection: React.FC = () => {
           {/* Main Headline */}
           <h1
             className={cn(
-              "text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance leading-tight",
+              "text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold mb-6 text-balance leading-tight text-poster ",
               "gradient-text",
             )}
           >

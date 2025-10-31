@@ -112,15 +112,22 @@ const ContentCard: React.FC<ContentCardProps> = ({
           src={imageUrl}
           alt={title}
           fit="cover"
-          placeholder="https://placehold.co/400x600?text=No+Movie+Poster"
           showProgress={true}
-          fallback="https://placehold.co/400x600?text=Image+Failed"
           className={cn(
             "h-full w-full object-cover",
-            " duration-300 transition-transform",
-            "group-hover:scale-105",
+            "transition-all duration-300 ease-out",
+            "group-hover:brightness-110",
           )}
+          fallbackElement={
+            <div className="h-full w-full bg-gradient-to-br from-primary/20 to-warning/20 flex items-center justify-center">
+              <span className="font-display text-6xl text-primary/20">
+                POSTER
+              </span>
+            </div>
+          }
         />
+
+        {/* placeholder="https://placehold.co/400x600?text=No+Movie+Poster" */}
 
         {/* Overlay */}
         <div
@@ -175,7 +182,7 @@ const ContentCard: React.FC<ContentCardProps> = ({
             )}
           >
             <svg
-              className="w-6 h-6 text-white"
+              className="w-6 h-6 text-white ml-1"
               fill="currentColor"
               viewBox="0 0 20 20"
             >

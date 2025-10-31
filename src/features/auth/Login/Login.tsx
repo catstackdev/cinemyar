@@ -71,7 +71,7 @@ const Login: React.FC = () => {
 
   return (
     <Container className="min-h-screen flex items-center justify-center ">
-      <Card className="w-full max-w-md p-8 shadow-lg">
+      <Card className="w-full max-w-md p-8 shadow-lg bg-gradient-to-br from-primary/10 via-transparent to-info/10">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-foreground mb-2">
             Welcome Back

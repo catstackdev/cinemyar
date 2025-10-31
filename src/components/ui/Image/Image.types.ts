@@ -1,4 +1,4 @@
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 
 export type ImageFit = "cover" | "contain" | "fill" | "none" | "scale-down";
 export type ImageAspectRatio = "square" | "video" | "auto";
@@ -12,6 +12,7 @@ export interface ImageProps
   src?: string | null;
   alt: string;
   fallback?: string;
+  fallbackElement?: ReactNode;
   placeholder?: string;
   fit?: ImageFit;
   aspectRatio?: ImageAspectRatio;

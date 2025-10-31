@@ -9,6 +9,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
       src,
       alt,
       fallback,
+      fallbackElement,
       placeholder,
       fit = "cover",
       aspectRatio = "auto",
@@ -26,8 +27,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
     const [imgSrc, setImgSrc] = useState<string | undefined>(
       src || placeholder,
     );
-    const [loadingState, setLoadingState] =
-      useState<ImageLoadingState>("idle");
+    const [loadingState, setLoadingState] = useState<ImageLoadingState>("idle");
     const [progress, setProgress] = useState(0);
     const [hasError, setHasError] = useState(false);
     const [showImage, setShowImage] = useState(true);
@@ -117,25 +117,49 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
       onLoad?.();
     };
 
+    // if (!src && !placeholder) {
+    //   return (
+    //     <div
+    //       className={cn(
+    //         "flex items-center justify-center bg-gray-200 text-gray-500 text-sm",
+    //         imageAspectRatios[aspectRatio],
+    //         wrapperClassName,
+    //       )}
+    //     >
+    //       No image
+    //     </div>
+    //   );
+    // }
+
     if (!src && !placeholder) {
-      return (
+      const fallbackManualUi = (
         <div
           className={cn(
-            "flex items-center justify-center bg-gray-200 text-gray-500 text-sm",
+            "flex items-center justify-center bg-gray-200 text-gray-500 text-sm font-mono ",
             imageAspectRatios[aspectRatio],
             wrapperClassName,
           )}
         >
-          No image
+          No Image
         </div>
       );
+      if (fallbackElement) {
+        return (
+          <div className="relative w-full h-full">
+            {/* {fallbackManualUi} */}
+
+            {fallbackElement}
+          </div>
+        );
+      }
+      return fallbackManualUi;
     }
 
     if (loadingState === "error" && !fallback) {
-      return (
+      const fallbackManualUi = (
         <div
           className={cn(
-            "flex items-center justify-center bg-gray-300 text-gray-600 text-sm",
+            "flex items-center justify-center bg-gray-200 text-gray-500 text-sm font-mono ",
             imageAspectRatios[aspectRatio],
             wrapperClassName,
           )}
@@ -143,6 +167,18 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
           Failed to load image
         </div>
       );
+
+      if (fallbackElement) {
+        return (
+          <div className="relative w-full h-full">
+            {/* {fallbackManualUi} */}
+
+            {fallbackElement}
+          </div>
+        );
+      }
+
+      return fallbackManualUi;
     }
 
     const imageElement = showImage ? (
