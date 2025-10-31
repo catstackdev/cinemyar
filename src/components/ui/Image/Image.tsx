@@ -210,19 +210,26 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
       </div>
     );
 
+    // if (showProgress) {
     if (showProgress && loadingState === "loading") {
       return (
-        <div className={cn("relative", wrapperClassName)}>
-          {imageElement}
-          <div className="absolute inset-0 flex flex-col items-center justify-center bg-black/50 backdrop-blur-sm">
-            <div className="text-white text-lg font-semibold mb-2">
-              {Math.round(progress)}%
-            </div>
-            <div className="w-32 h-2 bg-gray-300 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-blue-500 transition-all duration-200"
-                style={{ width: `${progress}%` }}
-              />
+        <div className={cn("relative w-full h-full", wrapperClassName)}>
+          <div
+            className={cn(
+              "flex  items-center justify-center bg-gradient-to-br from-primary/20 to-warning/20 w-full h-full",
+              imageAspectRatios[aspectRatio],
+            )}
+          >
+            <div className="flex flex-col items-center gap-3">
+              <div className="text-muted-foreground text-sm font-medium">
+                Loading {Math.round(progress)}%
+              </div>
+              <div className="w-32 h-2 bg-muted/30 rounded-full overflow-hidden">
+                <div
+                  className="h-full bg-gradient-to-r from-primary to-info transition-all duration-200"
+                  style={{ width: `${progress}%` }}
+                />
+              </div>
             </div>
           </div>
         </div>
