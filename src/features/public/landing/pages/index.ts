@@ -6,16 +6,11 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
-import AppLayout from './AppLayout';
-
-import AppHeader from './AppHeader';
-
-import AppSidebar from './AppSidebar';
-
-import Backdrop from './Backdrop';
-
-import PublicLayout from './PublicLayout';
-
+import ContactPage from './ContactPage';
+import HomePage from './HomePage';
+import PricingPage from "./PricingPage";
+// import About from './About';
+// import Home from './Home';
 
 // Type exports
 /* PLOP_INJECT_TYPE_EXPORT */
@@ -23,16 +18,11 @@ import PublicLayout from './PublicLayout';
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
-	AppLayout,
-
-	AppHeader,
-
-	AppSidebar,
-
-	Backdrop,
-
-	PublicLayout,
-
+	ContactPage,
+	HomePage,
+  PricingPage,
+  // About,
+  // Home,
 };
 
 // Default exports (if any)

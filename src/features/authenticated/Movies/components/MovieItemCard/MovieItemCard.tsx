@@ -78,7 +78,7 @@ const MovieItemCard: React.FC<MovieItemCardProps> = ({
             <div className="absolute bottom-0 left-0 right-0 p-4 text-white">
               <h3
                 className={cn(
-                  "text-lg font-bold mb-1 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300",
+                  "text-lg font-bold font-display mb-1 transform translate-y-2 group-hover:translate-y-0 transition-transform duration-300",
                   showOverlay && "translate-y-0",
                 )}
               >

@@ -4,18 +4,18 @@ import { LoadingScreen, ProtectedRoute } from "@/components/common";
 import PageNotFound from "@/components/common/PageNotFound";
 import PageRouteError from "@/components/common/PageRouteError";
 import { AuthenticatedRoutesConfig } from "@/features/authenticated/routes";
-import { AppLayout } from "@/layouts";
+import { PublicRoutesConfig } from "@/features/public/routes";
+import { AppLayout, PublicLayout } from "@/layouts";
 import { Suspense } from "react";
 import { AuthRoutesConfig } from "@/features/auth/routes";
-import { RootRedirect } from "@/components/common/RootRedirect";
 
 const router = createBrowserRouter([
   {
-    index: true,
     path: "/",
-    Component: () => <RootRedirect />,
-    // Component: () =>
-    //   createElement(Navigate, { to: "authenticated", replace: true }),
+    element: <PublicLayout />,
+    errorElement: <PageRouteError />,
+    HydrateFallback: LoadingScreen,
+    children: PublicRoutesConfig,
   },
   {
     path: "/auth",
@@ -37,17 +37,6 @@ const router = createBrowserRouter([
     },
     children: AuthenticatedRoutesConfig,
   },
-  // {
-  //   path: "/authenticated",
-  //   element: <ProtectedRoute />,
-  //   children: [
-  //     {
-  //       index: true,
-  //       element: <AppLayout />,
-  //     },
-  //     ...AuthenticatedRoutesConfig,
-  //   ],
-  // },
   {
     path: "*",
     Component: PageNotFound,

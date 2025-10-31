@@ -299,6 +299,32 @@
     user-select: none;
   }
 
+  /* Gradient animation */
+  .animate-gradient {
+    animation: gradient 6s ease infinite;
+  }
+
+  @keyframes gradient {
+    0%, 100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+
+  .bg-300\% {
+    background-size: 300%;
+  }
+
+  /* Line clamp utilities */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
   /* Glass morphism effect */
   .glass {
     background: hsl(var(--background) / 0.8);
