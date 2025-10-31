@@ -38,13 +38,20 @@ const Logo: React.FC<LogoProps> = ({
   iconDelay = "0s",
   textDelay = "0.8s",
   subtitleDelay = "1.2s",
+  withBorder = false,
+  withGlow = false,
+  withShine = false,
   ...rest
 }) => {
   const sizeClass = sizeClasses[size];
 
   const renderIcon = () => (
     <div
-      className={cn("relative", animated && styles.iconEntrance)}
+      className={cn(
+        "relative",
+        animated && styles.iconEntrance,
+        withGlow && styles.iconGlow
+      )}
       style={
         animated
           ? {
@@ -174,8 +181,14 @@ const Logo: React.FC<LogoProps> = ({
       <h1
         className={cn(
           sizeClass.text,
-          "font-bold text-primary tracking-wider",
+          "font-display font-normal tracking-widest",
           animated && styles.textSlideIn,
+          withGlow && styles.textGlow,
+          withShine && styles.shineEffect,
+          withGlow && withShine && styles.gradientText,
+          withGlow && !withShine && "text-primary",
+          !withGlow && !withShine && "text-primary",
+          animated && withGlow && styles.animatedSpacing
         )}
         style={
           animated
@@ -190,8 +203,10 @@ const Logo: React.FC<LogoProps> = ({
       <p
         className={cn(
           sizeClass.subtitle,
-          "text-warning tracking-widest uppercase font-semibold",
+          "text-warning tracking-widest uppercase font-display font-normal",
           animated && styles.subtitleFadeIn,
+          withShine && styles.shineEffect,
+          withGlow && styles.textGlow
         )}
         style={
           animated
@@ -206,29 +221,37 @@ const Logo: React.FC<LogoProps> = ({
     </div>
   );
 
-  if (variant === "icon") {
-    return (
-      <div className={cn(styles.root, className)} {...rest}>
-        {renderIcon()}
-      </div>
-    );
-  }
+  const rootClasses = cn(
+    styles.root,
+    variant === "full" && "flex items-center",
+    variant === "full" && sizeClass.gap,
+    className
+  );
 
-  if (variant === "text") {
+  const wrapperClasses = cn(
+    withBorder && styles.borderWrapper
+  );
+
+  const content = (
+    <>
+      {variant !== "text" && renderIcon()}
+      {variant !== "icon" && renderText()}
+    </>
+  );
+
+  if (withBorder) {
     return (
-      <div className={cn(styles.root, className)} {...rest}>
-        {renderText()}
+      <div className={wrapperClasses} {...rest}>
+        <div className={rootClasses}>
+          {content}
+        </div>
       </div>
     );
   }
 
   return (
-    <div
-      className={cn(styles.root, "flex items-center", sizeClass.gap, className)}
-      {...rest}
-    >
-      {renderIcon()}
-      {renderText()}
+    <div className={rootClasses} {...rest}>
+      {content}
     </div>
   );
 };

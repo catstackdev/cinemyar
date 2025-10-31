@@ -154,3 +154,175 @@
 .root:hover .spotlight {
   animation-duration: 1.5s;
 }
+
+@keyframes borderRotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes borderSpin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.borderWrapper {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  border-radius: 1.2rem;
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary-500)),
+    hsl(var(--warning-500)),
+    hsl(var(--info-500)),
+    hsl(var(--warning-500)),
+    hsl(var(--primary-500))
+  );
+  background-size: 400% 400%;
+  animation: borderRotate 3s ease-in-out infinite;
+  box-shadow: 0 0 20px hsl(var(--primary-500) / 0.3);
+  padding: 4px;
+}
+
+.borderWrapper > * {
+  position: relative;
+  display: block;
+  background: hsl(var(--card));
+  border-radius: calc(1.2rem - 3px);
+  padding: 1rem;
+  z-index: 1;
+}
+
+.borderWrapper > * > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes textGlow {
+  0%, 100% {
+    text-shadow: 
+      0 0 10px hsl(var(--primary-500) / 0.6),
+      0 0 20px hsl(var(--primary-500) / 0.4),
+      0 0 30px hsl(var(--primary-500) / 0.2),
+      0 0 40px hsl(var(--warning-500) / 0.1);
+  }
+  50% {
+    text-shadow: 
+      0 0 20px hsl(var(--primary-500) / 1),
+      0 0 30px hsl(var(--primary-500) / 0.7),
+      0 0 40px hsl(var(--primary-500) / 0.4),
+      0 0 50px hsl(var(--warning-500) / 0.3);
+  }
+}
+
+.textGlow {
+  animation: textGlow 2s ease-in-out infinite;
+}
+
+.textGlow:not(.gradientText) {
+  color: hsl(var(--primary-600));
+}
+
+@keyframes shine {
+  0% {
+    left: -100%;
+  }
+  100% {
+    left: 200%;
+  }
+}
+
+.shineEffect {
+  position: relative;
+  overflow: hidden;
+}
+
+.shineEffect::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.5) 50%,
+    transparent 100%
+  );
+  transform: skewX(-20deg);
+  animation: shine 3s ease-in-out infinite;
+  animation-delay: 1s;
+  pointer-events: none;
+}
+
+@keyframes letterSpacing {
+  0%, 100% {
+    letter-spacing: 0.1em;
+  }
+  50% {
+    letter-spacing: 0.2em;
+  }
+}
+
+.animatedSpacing {
+  animation: letterSpacing 3s ease-in-out infinite;
+}
+
+@keyframes gradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.gradientText {
+  background: linear-gradient(
+    90deg,
+    hsl(var(--primary-600)),
+    hsl(var(--warning-500)),
+    hsl(var(--info-500)),
+    hsl(var(--warning-500)),
+    hsl(var(--primary-600))
+  );
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  animation: gradientShift 3s ease-in-out infinite;
+  filter: drop-shadow(0 0 10px hsl(var(--primary-500) / 0.5));
+}
+
+@keyframes iconGlow {
+  0%, 100% {
+    filter: drop-shadow(0 0 8px hsl(var(--primary-500) / 0.5))
+            drop-shadow(0 0 12px hsl(var(--primary-500) / 0.3));
+  }
+  50% {
+    filter: drop-shadow(0 0 20px hsl(var(--primary-500) / 0.8))
+            drop-shadow(0 0 30px hsl(var(--warning-500) / 0.6))
+            drop-shadow(0 0 40px hsl(var(--primary-500) / 0.4));
+  }
+}
+
+.iconGlow {
+  animation: iconGlow 2s ease-in-out infinite;
+}
+
+.iconGlow svg {
+  filter: drop-shadow(0 0 10px hsl(var(--primary-500) / 0.4));
+}

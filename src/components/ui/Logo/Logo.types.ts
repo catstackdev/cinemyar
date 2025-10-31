@@ -9,4 +9,7 @@ export interface LogoProps extends React.ComponentPropsWithoutRef<"div"> {
   iconDelay?: string;
   textDelay?: string;
   subtitleDelay?: string;
+  withBorder?: boolean;
+  withGlow?: boolean;
+  withShine?: boolean;
 }

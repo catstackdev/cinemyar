@@ -3,9 +3,13 @@ import { Logo } from "@/components/ui";
 export default function LogoDemo() {
   return (
     <div className="p-8 space-y-12">
-      <div className="space-y-4">
-        <h2 className="text-2xl font-bold text-primary">Logo Component Demo</h2>
-        <p className="text-muted-foreground">
+      <div className="space-y-4 relative">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/10 via-transparent to-primary/10 blur-3xl -z-10" />
+        <h2 className="text-2xl font-bold text-primary relative inline-block">
+          Logo Component Demo
+          <span className="absolute -bottom-2 left-0 w-full h-1 bg-gradient-to-r from-primary via-warning to-primary animate-[shimmer_3s_ease-in-out_infinite] bg-[length:200%_100%]" />
+        </h2>
+        <p className="text-muted-foreground animate-[fade-in_0.5s_ease-out_0.2s_both]">
           Animated film strip logo with spotlight star for CINEMYAR
         </p>
       </div>
@@ -124,13 +128,95 @@ export default function LogoDemo() {
       </section>
 
       <section className="space-y-6">
+        <h3 className="text-xl font-semibold text-primary">Enhanced Effects</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="p-8 border rounded-lg space-y-4 bg-card">
+            <h4 className="font-medium text-sm text-muted-foreground">Animated Border</h4>
+            <div className="flex justify-center items-center min-h-[120px]">
+              <Logo animated withBorder size="lg" />
+            </div>
+            <code className="text-xs bg-muted p-2 rounded block">
+              {`<Logo animated withBorder size="lg" />`}
+            </code>
+          </div>
+
+          <div className="p-8 border rounded-lg space-y-4 bg-card">
+            <h4 className="font-medium text-sm text-muted-foreground">Glowing Text</h4>
+            <div className="flex justify-center items-center min-h-[120px]">
+              <Logo animated withGlow size="lg" />
+            </div>
+            <code className="text-xs bg-muted p-2 rounded block">
+              {`<Logo animated withGlow size="lg" />`}
+            </code>
+          </div>
+
+          <div className="p-8 border rounded-lg space-y-4 bg-card">
+            <h4 className="font-medium text-sm text-muted-foreground">Shine Effect</h4>
+            <div className="flex justify-center items-center min-h-[120px]">
+              <Logo animated withShine size="lg" />
+            </div>
+            <code className="text-xs bg-muted p-2 rounded block">
+              {`<Logo animated withShine size="lg" />`}
+            </code>
+          </div>
+
+          <div className="p-8 border rounded-lg space-y-4 bg-card">
+            <h4 className="font-medium text-sm text-muted-foreground">All Effects Combined</h4>
+            <div className="flex justify-center items-center min-h-[120px]">
+              <Logo animated withBorder withGlow withShine size="lg" />
+            </div>
+            <code className="text-xs bg-muted p-2 rounded block">
+              {`<Logo animated withBorder withGlow withShine />`}
+            </code>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
+        <h3 className="text-xl font-semibold text-primary">Icon Effects</h3>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="p-8 border rounded-lg space-y-4 bg-card">
+            <h4 className="font-medium text-sm text-muted-foreground">Icon with Border</h4>
+            <div className="flex justify-center items-center min-h-[100px]">
+              <Logo variant="icon" animated withBorder size="xl" />
+            </div>
+            <code className="text-xs bg-muted p-2 rounded block">
+              {`<Logo variant="icon" withBorder />`}
+            </code>
+          </div>
+
+          <div className="p-8 border rounded-lg space-y-4 bg-card">
+            <h4 className="font-medium text-sm text-muted-foreground">Icon with Glow</h4>
+            <div className="flex justify-center items-center min-h-[100px]">
+              <Logo variant="icon" animated withGlow size="xl" />
+            </div>
+            <code className="text-xs bg-muted p-2 rounded block">
+              {`<Logo variant="icon" withGlow />`}
+            </code>
+          </div>
+
+          <div className="p-8 border rounded-lg space-y-4 bg-card">
+            <h4 className="font-medium text-sm text-muted-foreground">Icon - All Effects</h4>
+            <div className="flex justify-center items-center min-h-[100px]">
+              <Logo variant="icon" animated withBorder withGlow size="xl" />
+            </div>
+            <code className="text-xs bg-muted p-2 rounded block">
+              {`<Logo variant="icon" withBorder withGlow />`}
+            </code>
+          </div>
+        </div>
+      </section>
+
+      <section className="space-y-6">
         <h3 className="text-xl font-semibold text-primary">Hover Effects</h3>
         <p className="text-sm text-muted-foreground">
           Hover over the logo to see interactive animations
         </p>
         
         <div className="p-12 border rounded-lg bg-card flex justify-center">
-          <Logo size="xl" animated />
+          <Logo size="xl" animated withBorder withGlow withShine />
         </div>
       </section>
 
@@ -168,6 +254,30 @@ export default function LogoDemo() {
           <li className="flex items-start gap-2">
             <span className="text-warning">★</span>
             <span><strong>Hover Effects:</strong> Speeds up all animations for interaction</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-primary">✨</span>
+            <span><strong>Animated Border:</strong> Rotating gradient border (4s loop)</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-primary">✨</span>
+            <span><strong>Text Glow:</strong> Pulsing text shadow with primary color</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-primary">✨</span>
+            <span><strong>Shine Effect:</strong> Periodic shine sweep across text (3s interval)</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-primary">✨</span>
+            <span><strong>Gradient Text:</strong> Shifting gradient animation on text</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-primary">✨</span>
+            <span><strong>Icon Glow:</strong> Drop shadow pulse effect on icon</span>
+          </li>
+          <li className="flex items-start gap-2">
+            <span className="text-primary">✨</span>
+            <span><strong>Letter Spacing:</strong> Dynamic letter spacing animation</span>
           </li>
         </ul>
       </section>
