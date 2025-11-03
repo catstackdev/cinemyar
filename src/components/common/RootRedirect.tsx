@@ -1,27 +1,23 @@
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { checkAuth } from "@/state/auth";
-import { useEffect } from "react";
+import { useAppSelector } from "@/store/hooks";
 import { Navigate, useLocation } from "react-router-dom";
 import { LoadingScreen } from "./LoadingScreen";
 
 export const RootRedirect: React.FC = () => {
-  const dispatch = useAppDispatch();
   const location = useLocation();
   const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      dispatch(checkAuth());
-    }
-  }, [dispatch, isAuthenticated]);
+  // No useEffect needed here - AuthInitializer handles token validation
 
+  // Show loading while validating token
   if (isLoading) {
-    return <LoadingScreen message="Checking authentication..." />;
+    return <LoadingScreen message="Validating session..." />;
   }
 
+  // If not authenticated, redirect to auth
   if (!isAuthenticated) {
-    return <Navigate to="/auth" state={{ from: location }} replace />;
+    return <Navigate to="/" state={{ from: location }} replace />;
   }
 
+  // User is authenticated, redirect to app
   return <Navigate to="/authenticated" replace />;
 };

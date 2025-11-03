@@ -1,6 +1,6 @@
 // Auto-generated file. Do not edit manually.
 export const environment = {
   production: false,
-  apiUrl: 'http://47.128.81.163:3000',
+  apiUrl: 'http://52.77.230.241',
 
 } as const;

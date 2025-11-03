@@ -5,6 +5,7 @@ export { ThemeToggle } from "./ThemeToggle";
 export { ProtectedRoute } from "./ProtectedRoute";
 export { ConfirmDialog } from "./ConfirmDialog";
 export { VideoPlayer } from "./VideoPlayer";
+export { AppAuthGuard } from "./AppAuthGuard";
 
 export type { ErrorBoundaryProps, ErrorFallbackProps } from "./ErrorBoundary";
 export type { LoadingScreenProps } from "./LoadingScreen";

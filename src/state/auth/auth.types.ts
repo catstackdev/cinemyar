@@ -3,6 +3,7 @@ export interface User {
   email: string;
   username?: string;
   role?: string;
+  avatar?: string;
   subscription?: any;
 }
 
@@ -12,6 +13,7 @@ export interface AuthState {
   isLoading: boolean;
   error: string | null;
   accessToken?: string | null;
+  hasInitialized?: boolean; // Track if we've attempted initial validation
 }
 
 export interface RefreshAuthResponse {
@@ -30,4 +32,3 @@ export interface RefreshAuthResponse {
 //   updates: Partial<AuthItem>;
 // }
 //
-

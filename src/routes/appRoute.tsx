@@ -1,6 +1,6 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { LoadingScreen } from "@/components/common";
+import { LoadingScreen, ProtectedRoute, AppAuthGuard } from "@/components/common";
 import PageNotFound from "@/components/common/PageNotFound";
 import PageRouteError from "@/components/common/PageRouteError";
 import { AuthenticatedRoutesConfig } from "@/features/authenticated/routes";
@@ -25,12 +25,12 @@ const router = createBrowserRouter([
   },
   {
     path: "/authenticated",
-    element: <AppLayout />,
-    // element: (
-    //   <ProtectedRoute>
-    //     <AppLayout />
-    //   </ProtectedRoute>
-    // ),
+    // element: <AppLayout />,
+    element: (
+      <ProtectedRoute>
+        <AppLayout />
+      </ProtectedRoute>
+    ),
     errorElement: <PageRouteError />,
     HydrateFallback: LoadingScreen,
     handle: {
@@ -46,6 +46,8 @@ const router = createBrowserRouter([
 
 export const AppRoute = () => (
   <Suspense fallback={<LoadingScreen />}>
-    <RouterProvider router={router} />
+    <AppAuthGuard>
+      <RouterProvider router={router} />
+    </AppAuthGuard>
   </Suspense>
 );

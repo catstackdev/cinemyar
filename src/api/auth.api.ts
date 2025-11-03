@@ -18,7 +18,7 @@ export const authAPI = {
   refreshToken: async (
     refreshToken: string,
   ): Promise<{ accessToken: string }> => {
-    const { data } = await apiClient.post("/auth/refresh", { refreshToken });
+    const { data } = await apiClient.post("/auth/validate", { refreshToken });
     return data;
   },
 

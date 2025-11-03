@@ -7,6 +7,7 @@ import { ThemeToggle } from "@/components/common";
 import Logo from "@/components/ui/Logo";
 import Breadcrumb from "@/components/ui/Breadcrumb";
 import { useBreadcrumbs } from "@/hooks";
+import { UserDropdown } from "./components";
 
 const AppHeader: React.FC<AppHeaderProps> = ({
   children,
@@ -175,8 +176,8 @@ const AppHeader: React.FC<AppHeaderProps> = ({
           <div className="flex items-center gap-2 2xsm:gap-3">
             <ThemeToggle />
             {/* <NotificationDropdown /> */}
+            <UserDropdown />
           </div>
-          {/* <UserDropdown /> */}
         </div>
       </div>
     </header>

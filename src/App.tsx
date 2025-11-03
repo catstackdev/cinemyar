@@ -6,6 +6,12 @@ import { AppRoute } from "./routes/appRoute";
 
 function App() {
   const [showSplash, setShowSplash] = useState(() => {
+    // Skip splash in development if you add ?skip-splash to URL
+    const skipSplash = import.meta.env.DEV && window.location.search.includes('skip-splash');
+    if (skipSplash) {
+      sessionStorage.setItem("cinemyarSplashShown", "true");
+      return false;
+    }
     return !sessionStorage.getItem("cinemyarSplashShown");
   });
   const [isAppReady, setIsAppReady] = useState(false);

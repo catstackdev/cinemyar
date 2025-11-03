@@ -1,31 +1,24 @@
-import { useEffect } from "react";
-import { useAppDispatch, useAppSelector } from "@/store/hooks";
-import { checkAuth } from "@/state/auth";
+import { useAppSelector } from "@/store/hooks";
 import { LoadingScreen } from "@/components/common/LoadingScreen";
 import type { ProtectedRouteProps } from "./ProtectedRoute.types";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
-  const dispatch = useAppDispatch();
-  const { isAuthenticated, isLoading } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, isLoading, accessToken } = useAppSelector((state) => state.auth);
+  const location = useLocation();
 
-  useEffect(() => {
-    if (!isAuthenticated) {
-      dispatch(checkAuth());
-    }
-  }, [dispatch, isAuthenticated]);
-
-  if (isLoading) {
+  // Show loading only if we're checking auth and have a token
+  if (isLoading && accessToken) {
     return <LoadingScreen message="Checking authentication..." />;
   }
 
-  if (!isAuthenticated) {
-    // return <Navigate to="auth/login" state={{ from: location }} replace />;
-    return <Navigate to="/auth" replace />;
+  // If not authenticated and not loading, redirect to auth
+  if (!isAuthenticated && !isLoading) {
+    return <Navigate to="/auth" state={{ from: location }} replace />;
   }
-  return children;
 
-  // return <Outlet />;
+  // If authenticated, render the protected content
+  return children;
 };
 
 export default ProtectedRoute;
