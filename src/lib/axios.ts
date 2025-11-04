@@ -1,5 +1,5 @@
 import axios, { type AxiosError, type AxiosResponse } from "axios";
-import type { Response } from "@/types/response.types";
+import type { ResponseType } from "@/types/response.types";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
@@ -23,8 +23,8 @@ export const setupAxiosInterceptors = (
 
 // Response interceptor with refresh token logic (commented out)
 // apiClient.interceptors.response.use(
-//   (response: AxiosResponse<Response<any>>) => response,
-//   async (error: AxiosError<Response<any>>) => {
+//   (response: AxiosResponse<ResponseType<any>>) => response,
+//   async (error: AxiosError<ResponseType<any>>) => {
 //     const originalRequest = error.config as any;
 //
 //     if (error.response?.status === 401 && !originalRequest._retry) {
@@ -65,8 +65,8 @@ apiClient.interceptors.request.use(
 
 // Handle errors globally with standardized response types
 apiClient.interceptors.response.use(
-  (response: AxiosResponse<Response<any>>) => response,
-  (error: AxiosError<Response<any>>) => {
+  (response: AxiosResponse<ResponseType<any>>) => response,
+  (error: AxiosError<ResponseType<any>>) => {
     const errorMessage =
       error.response?.data?.message || 
       error.response?.data?.error || 
@@ -81,20 +81,20 @@ apiClient.interceptors.response.use(
   },
 );
 
-// Typed API client wrapper that ensures Response<T> structure
+// Typed API client wrapper that ensures ResponseType<T> structure
 export const api = {
-  get: <T = any>(url: string, config?: any): Promise<AxiosResponse<Response<T>>> =>
+  get: <T = any>(url: string, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
     apiClient.get(url, config),
   
-  post: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<Response<T>>> =>
+  post: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
     apiClient.post(url, data, config),
   
-  put: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<Response<T>>> =>
+  put: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
     apiClient.put(url, data, config),
   
-  patch: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<Response<T>>> =>
+  patch: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
     apiClient.patch(url, data, config),
   
-  delete: <T = any>(url: string, config?: any): Promise<AxiosResponse<Response<T>>> =>
+  delete: <T = any>(url: string, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
     apiClient.delete(url, config),
 };

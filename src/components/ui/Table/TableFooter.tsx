@@ -7,7 +7,12 @@ const TableFooter = forwardRef<HTMLTableSectionElement, TableFooterProps>(
     return (
       <tfoot
         ref={ref}
-        className={cn("bg-gray-50 font-medium", className)}
+        className={cn(
+          "bg-muted/30 font-medium",
+          "border-t border-border/50",
+          "[&_tr]:hover:bg-transparent",
+          className
+        )}
         {...props}
       >
         {children}

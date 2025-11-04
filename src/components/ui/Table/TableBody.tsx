@@ -7,7 +7,11 @@ const TableBody = forwardRef<HTMLTableSectionElement, TableBodyProps>(
     return (
       <tbody
         ref={ref}
-        className={cn("[&_tr:last-child]:border-0", className)}
+        className={cn(
+          "[&_tr:last-child]:border-0",
+          "bg-card/50",
+          className
+        )}
         {...props}
       >
         {children}

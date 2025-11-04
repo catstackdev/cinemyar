@@ -25,8 +25,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
       const mockUser: User = {
         id: "1",
-        name: "John Doe",
         email,
+        username: "John Doe",
+        role: "admin", // Default role for mock user
         avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=" + email,
       };
 
@@ -53,8 +54,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
         const mockUser: User = {
           id: Date.now().toString(),
-          name,
           email,
+          username: name,
+          role: "user", // Default role for registered user
           avatar: "https://api.dicebear.com/7.x/avataaars/svg?seed=" + email,
         };
 

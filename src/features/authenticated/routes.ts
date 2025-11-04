@@ -10,6 +10,15 @@ const AuthenticatedDashboardPage = lazy(
 const AuthenticatedMoviesLayout = lazy(
   () => import("@/features/authenticated/Movies/layouts/MovieLayout"),
 );
+
+const CategoryPage = lazy(
+  () => import("@/features/authenticated/Categories/pages/CategoriesPage"),
+);
+
+const CategoryDetailPage = lazy(
+  () => import("@/features/authenticated/Categories/pages/CategoryDetail"),
+);
+
 export const AuthenticatedRoutesConfig: RouteObject[] = [
   {
     index: true,
@@ -30,6 +39,28 @@ export const AuthenticatedRoutesConfig: RouteObject[] = [
       breadcrumb: { label: "Movies", icon: "🎬" },
     },
     children: AuthenticatedMoviesRoutesConfig,
+  },
+  {
+    path: "categories",
+    Component: CategoryPage,
+    loader: () =>
+      import(
+        "@/features/authenticated/Categories/loaders/categoriesLoader"
+      ).then((m) => m.categoriesLoader()),
+    handle: {
+      breadcrumb: { label: "Categories", icon: "🎬" },
+    },
+  },
+  {
+    path: "categories/:id",
+    Component: CategoryDetailPage,
+    loader: ({ params }) =>
+      import(
+        "@/features/authenticated/Categories/loaders/categoryDetailLoader"
+      ).then((m) => m.categoryDetailLoader({ params: params as { id: string } })),
+    handle: {
+      breadcrumb: { label: "Category Detail", icon: "📄" },
+    },
   },
   {
     path: "*",

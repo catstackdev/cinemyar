@@ -1,9 +1,6 @@
-export interface User {
-  id: string;
-  name: string;
-  email: string;
-  avatar?: string;
-}
+import type { User } from "@/state/auth/auth.types";
+
+export type { User };
 
 export interface AuthContextValue {
   user: User | null;

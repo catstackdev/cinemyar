@@ -25,9 +25,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/authenticated",
-    // element: <AppLayout />,
     element: (
-      <ProtectedRoute>
+      <ProtectedRoute allowedRoles={["admin", "translator", "super-admin"]}>
         <AppLayout />
       </ProtectedRoute>
     ),

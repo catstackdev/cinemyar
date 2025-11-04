@@ -3,7 +3,7 @@ export interface ResponseMeta {
   path: string;
   method: string;
 }
-export interface Response<T> {
+export interface ResponseType<T> {
   success: boolean;
   message: string;
   data?: T;

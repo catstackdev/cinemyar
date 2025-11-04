@@ -1,10 +1,13 @@
+export type UserRole = "admin" | "translator" | "super-admin" | "user";
+
 export interface User {
   id: string;
   email: string;
   username?: string;
-  role?: string;
+  role: UserRole;
   avatar?: string;
   subscription?: any;
+  permissions?: string[];
 }
 
 export interface AuthState {

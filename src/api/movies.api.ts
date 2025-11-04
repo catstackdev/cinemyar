@@ -35,8 +35,19 @@ export const moviesAPI = {
   },
 
   getMovie: async (id: number): Promise<Movie> => {
-    const { data } = await apiClient.get<Movie>(`/movies/${id}`);
-    return data;
+    // const { data } = await apiClient.get<Movie>(`/movies/${id}`);
+    // return data;
+    return {
+      id,
+      title: `Movie ${id}`,
+      description: `Description of movie ${id}`,
+      releaseDate: "2022-01-01",
+      genre: "Action",
+      rating: 8.5,
+      duration: 120,
+      posterUrl: "https://via.placeholder.com/400x600",
+      trailerUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+    };
   },
 };
 

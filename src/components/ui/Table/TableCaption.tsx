@@ -7,7 +7,10 @@ const TableCaption = forwardRef<HTMLTableCaptionElement, TableCaptionProps>(
     return (
       <caption
         ref={ref}
-        className={cn("mt-4 text-sm text-gray-500", className)}
+        className={cn(
+          "mt-4 text-sm text-muted-foreground",
+          className
+        )}
         {...props}
       >
         {children}

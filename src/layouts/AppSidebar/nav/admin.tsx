@@ -3,6 +3,7 @@ import {
   CodeIcon,
   DashboardIcon,
   GearIcon,
+  MixIcon,
   VideoIcon,
 } from "@radix-ui/react-icons";
 import type { NavItem } from "./nav.types";
@@ -45,6 +46,12 @@ export const adminNav: NavItem[] = [
         icon: <BarChartIcon className="w-4 h-4" />,
       },
     ],
+  },
+  {
+    id: "categories",
+    icon: <MixIcon />,
+    name: "Categories",
+    path: "/authenticated/categories",
   },
 ];
 

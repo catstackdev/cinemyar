@@ -8,7 +8,9 @@ const TableHead = forwardRef<HTMLTableCellElement, TableHeadProps>(
       <th
         ref={ref}
         className={cn(
-          "h-12 px-4 text-left align-middle font-medium text-gray-500",
+          "h-12 px-4 text-left align-middle",
+          "font-semibold text-xs uppercase tracking-wide",
+          "text-muted-foreground",
           "[&:has([role=checkbox])]:pr-0",
           className,
         )}

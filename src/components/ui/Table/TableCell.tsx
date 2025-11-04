@@ -7,7 +7,13 @@ const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(
     return (
       <td
         ref={ref}
-        className={cn("p-4 align-middle [&:has([role=checkbox])]:pr-0", className)}
+        className={cn(
+          "p-4 align-middle",
+          "text-foreground/90",
+          "transition-colors duration-200",
+          "[&:has([role=checkbox])]:pr-0",
+          className
+        )}
         {...props}
       >
         {children}
