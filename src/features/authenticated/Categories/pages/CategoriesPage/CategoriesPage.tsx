@@ -105,7 +105,7 @@ const CategoriesPage: React.FC<CategoriesPageProps> = ({ children }) => {
       <Card className="w-full glass border-border/50 shadow-xl">
         <CardHeader
           divided
-          className="flex flex-row items-center gap-4 justify-between bg-gradient-to-r from-primary/5 via-transparent to-info/5"
+          className="flex rounded-t-lg flex-row items-center gap-4 justify-between bg-gradient-to-r from-primary/5 via-transparent to-info/5"
         >
           <div className="space-y-2">
             <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-info bg-clip-text text-transparent">
@@ -126,8 +126,9 @@ const CategoriesPage: React.FC<CategoriesPageProps> = ({ children }) => {
           </Button>
         </CardHeader>
 
-        <CardContent className="p-6">
-          <div className="w-full overflow-hidden rounded-xl border border-border/50 bg-card/30 backdrop-blur-sm shadow-lg">
+        <CardContent className="!p-0 ">
+          {/* <div className="w-full overflow-hidden rounded-b-xl border border-border/50 bg-card/30 backdrop-blur-sm shadow-lg"> */}
+          <div className="w-full overflow-hidden rounded-b-xl h-full bg-card/30 backdrop-blur-sm">
             <Table>
               <TableHeader>
                 <TableRow>
