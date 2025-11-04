@@ -12,6 +12,7 @@ import MovieMetadata from './MovieMetadata';
 import MovieAnalytics from './MovieAnalytics';
 import MovieEncoding from './MovieEncoding';
 import MovieList from './MovieList';
+import MovieDetail from './MovieDetail';
 
 // Type exports
 /* PLOP_INJECT_TYPE_EXPORT */
@@ -25,6 +26,7 @@ export {
 	MovieAnalytics,
 	MovieEncoding,
 	MovieList,
+	MovieDetail,
 };
 
 // Default exports (if any)

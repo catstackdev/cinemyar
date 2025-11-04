@@ -37,7 +37,7 @@ function Navigation() {
             {isAuthenticated ? (
               <>
                 <span className="text-sm text-muted-foreground">
-                  Welcome, {user?.name}!
+                  Welcome, {user?.username}!
                 </span>
                 <Button
                   onClick={() => setShowLogoutDialog(true)}
@@ -117,7 +117,7 @@ function LoginPage() {
     setIsLoading(true);
     setError("");
     try {
-      await login(email, password);
+      await login();
     } catch (err) {
       setError("Login failed. Please try again.");
     } finally {
@@ -176,7 +176,7 @@ function DashboardPage() {
     <div className="space-y-6">
       <h1 className="text-3xl font-bold">Dashboard (Protected)</h1>
       <p className="text-muted-foreground">
-        Welcome, {user?.name}! This page is protected by ProtectedRoute.
+        Welcome, {user?.username}! This page is protected by ProtectedRoute.
       </p>
 
       <div className="rounded-lg border border-border bg-card p-6">
@@ -214,12 +214,12 @@ function ProfilePage() {
           {user?.avatar && (
             <img
               src={user.avatar}
-              alt={user.name}
+              alt={user.username || "User avatar"}
               className="h-16 w-16 rounded-full"
             />
           )}
           <div>
-            <h2 className="text-xl font-semibold">{user?.name}</h2>
+            <h2 className="text-xl font-semibold">{user?.username}</h2>
             <p className="text-muted-foreground">{user?.email}</p>
           </div>
         </div>

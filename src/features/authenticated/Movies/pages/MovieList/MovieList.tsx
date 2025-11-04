@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import styles from "./MovieList.module.css";
 import type { MovieListProps } from "./MovieList.types";
@@ -19,6 +20,7 @@ import { MovieItemCard } from "../../components/MovieItemCard";
 
 const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
   const [search, setSearch] = useState("");
+  const navigate = useNavigate();
 
   const { data, isLoading, error } = useMovies({ page: 1, search });
 
@@ -79,7 +81,7 @@ const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
             title={`Movie ${i + 1}`}
             description="An epic adventure awaits"
             imageUrl={images[i % images.length]}
-            onClick={() => console.log(`Clicked movie ${i + 1}`)}
+            onClick={() => navigate(`/authenticated/movies/${i + 1}`)}
           />
         ))}
       </div>
@@ -107,7 +109,11 @@ const MovieList: React.FC<MovieListProps> = ({ children, className }) => {
                 <TableCell>{movie.rating}/10</TableCell>
                 <TableCell>{movie.duration} min</TableCell>
                 <TableCell>
-                  <Button variant="outline" size="sm">
+                  <Button 
+                    variant="outline" 
+                    size="sm"
+                    onClick={() => navigate(`/authenticated/movies/${movie.id}`)}
+                  >
                     View Details
                   </Button>
                 </TableCell>

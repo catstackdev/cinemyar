@@ -27,6 +27,10 @@ const SettingsPage = lazy(
   () => import("@/features/authenticated/Movies/pages/MovieSettings"),
 );
 
+const MovieDetailPage = lazy(
+  () => import("@/features/authenticated/Movies/pages/MovieDetail"),
+);
+
 export const AuthenticatedMoviesRoutesConfig: RouteObject[] = [
   {
     index: true,
@@ -73,6 +77,13 @@ export const AuthenticatedMoviesRoutesConfig: RouteObject[] = [
     Component: SettingsPage,
     handle: {
       breadcrumb: { label: "Settings" },
+    },
+  },
+  {
+    path: ":id",
+    Component: MovieDetailPage,
+    handle: {
+      breadcrumb: { label: "Movie Detail" },
     },
   },
   {
