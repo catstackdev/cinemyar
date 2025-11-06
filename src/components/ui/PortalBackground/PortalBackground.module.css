@@ -1,0 +1,910 @@
+/* ===================================
+   DOCTOR STRANGE PORTAL - Authentic Design
+   - Inner: Shows another dimension (different background)
+   - Outer: Rotating geometric mandala patterns
+   - Effects: Electric crackling sparks
+   =================================== */
+
+/* Main Container */
+.portalContainer {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  overflow: hidden;
+  background:
+    radial-gradient(
+      ellipse at 50% 50%,
+      rgba(255, 140, 0, 0.05) 0%,
+      transparent 50%
+    ),
+    linear-gradient(135deg, #0a0e27 0%, #1a1f3a 50%, #0f1729 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===================================
+   PORTAL GATEWAY - The magical window
+   =================================== */
+.portalGateway {
+  position: fixed;
+  pointer-events: none;
+  z-index: 0;
+  transition: all 0.3s ease;
+}
+
+/* ===================================
+   PORTAL POSITIONS - Control via props
+   =================================== */
+
+/* Center - Default */
+.position-center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* Left */
+.position-left {
+  top: 50%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+
+/* Right */
+.position-right {
+  top: 50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
+
+/* Top Left */
+.position-top-left {
+  top: 30%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+
+/* Top Right */
+.position-top-right {
+  top: 30%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
+
+/* Bottom Left */
+.position-bottom-left {
+  top: 70%;
+  left: 30%;
+  transform: translate(-50%, -50%);
+}
+
+/* Bottom Right */
+.position-bottom-right {
+  top: 70%;
+  left: 70%;
+  transform: translate(-50%, -50%);
+}
+
+/* Mobile - All positions go to center top */
+@media (max-width: 1024px) {
+  .position-left,
+  .position-right,
+  .position-top-left,
+  .position-top-right,
+  .position-bottom-left,
+  .position-bottom-right {
+    top: 25%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+}
+
+/* ===================================
+   PORTAL SIZES - Control via props
+   =================================== */
+
+/* Small */
+.size-sm {
+  width: 350px;
+  height: 350px;
+}
+
+.size-sm .dimensionalView {
+  width: 250px;
+  height: 250px;
+}
+
+.size-sm .mandalaRings {
+  width: 350px;
+  height: 350px;
+}
+
+.size-sm .sparkContainer {
+  width: 350px;
+  height: 350px;
+}
+
+.size-sm .edgeGlow {
+  width: 350px;
+  height: 350px;
+}
+
+.size-sm .spark {
+  transform: translate(-50%, -50%) rotate(var(--spark-angle, 0deg))
+    translateY(-175px);
+  height: 10px;
+}
+
+/* Medium - Default */
+.size-md {
+  width: 500px;
+  height: 500px;
+}
+
+.size-md .dimensionalView {
+  width: 350px;
+  height: 350px;
+}
+
+.size-md .mandalaRings {
+  width: 500px;
+  height: 500px;
+}
+
+.size-md .sparkContainer {
+  width: 500px;
+  height: 500px;
+}
+
+.size-md .edgeGlow {
+  width: 500px;
+  height: 500px;
+}
+
+.size-md .spark {
+  transform: translate(-50%, -50%) rotate(var(--spark-angle, 0deg))
+    translateY(-250px);
+}
+
+/* Large */
+.size-lg {
+  width: 650px;
+  height: 650px;
+}
+
+.size-lg .dimensionalView {
+  width: 450px;
+  height: 450px;
+}
+
+.size-lg .mandalaRings {
+  width: 650px;
+  height: 650px;
+}
+
+.size-lg .sparkContainer {
+  width: 650px;
+  height: 650px;
+}
+
+.size-lg .edgeGlow {
+  width: 650px;
+  height: 650px;
+}
+
+.size-lg .spark {
+  transform: translate(-50%, -50%) rotate(var(--spark-angle, 0deg))
+    translateY(-325px);
+}
+
+/* Extra Large */
+.size-xl {
+  width: 800px;
+  height: 800px;
+}
+
+.size-xl .dimensionalView {
+  width: 560px;
+  height: 560px;
+}
+
+.size-xl .mandalaRings {
+  width: 800px;
+  height: 800px;
+}
+
+.size-xl .sparkContainer {
+  width: 800px;
+  height: 800px;
+}
+
+.size-xl .edgeGlow {
+  width: 800px;
+  height: 800px;
+}
+
+.size-xl .spark {
+  transform: translate(-50%, -50%) rotate(var(--spark-angle, 0deg))
+    translateY(-400px);
+}
+
+/* ===================================
+   DIMENSIONAL VIEW - See through to another world
+   =================================== */
+.dimensionalView {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 350px;
+  height: 350px;
+  border-radius: 50%;
+  overflow: hidden;
+  z-index: 1;
+  box-shadow:
+    inset 0 0 60px rgba(0, 0, 0, 0.8),
+    0 0 80px rgba(255, 140, 0, 0.3);
+}
+
+.otherDimension {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background:
+    radial-gradient(
+      ellipse at 20% 30%,
+      rgba(100, 150, 255, 0.4) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      ellipse at 80% 70%,
+      rgba(255, 100, 200, 0.3) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 50% 50%,
+      rgba(150, 100, 255, 0.2) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      circle at 40% 60%,
+      rgba(100, 200, 255, 0.25) 0%,
+      transparent 35%
+    ),
+    linear-gradient(
+      135deg,
+      #1a1f4a 0%,
+      #2d1f4a 25%,
+      #1f2d4a 50%,
+      #2a1f5a 75%,
+      #1a1f4a 100%
+    );
+  animation: dimensionalShimmer 6s ease-in-out infinite;
+  filter: blur(3px);
+}
+
+.otherDimension::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 80%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 140, 0, 0.1) 0%,
+    transparent 50%
+  );
+  animation: innerGlow 3s ease-in-out infinite;
+}
+
+@keyframes innerGlow {
+  0%,
+  100% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(-50%, -50%) scale(1.1);
+  }
+}
+
+.dimensionalParticle {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(
+    circle,
+    rgba(255, 200, 100, 0.8) 0%,
+    transparent 70%
+  );
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(255, 200, 100, 0.6);
+  animation: floatParticle 5s ease-in-out infinite;
+  animation-delay: var(--particle-delay, 0s);
+  left: var(--particle-x, 50%);
+  top: var(--particle-y, 50%);
+}
+
+@keyframes floatParticle {
+  0%,
+  100% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0.5);
+  }
+  25% {
+    opacity: 0.8;
+    transform: translate(-10px, -15px) scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: translate(15px, -10px) scale(1.2);
+  }
+  75% {
+    opacity: 0.6;
+    transform: translate(-5px, 10px) scale(0.8);
+  }
+}
+
+/* ===================================
+   ROTATING MANDALA RINGS - Geometric patterns
+   =================================== */
+.mandalaRings {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  z-index: 2;
+}
+
+.mandala {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  color: #ff8c00;
+  filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.8));
+}
+
+/* Outer ring 1 - Large spokes, slowest */
+.mandala1 {
+  animation: rotateMandala 25s linear infinite;
+  opacity: 0.85;
+  filter: drop-shadow(0 0 10px rgba(255, 140, 0, 0.9));
+}
+
+/* Outer ring 2 - Detailed, opposite direction */
+.mandala2 {
+  animation: rotateMandala 18s linear infinite reverse;
+  opacity: 0.8;
+}
+
+/* Middle ring - Complex patterns */
+.mandala3 {
+  animation: rotateMandala 15s linear infinite;
+  opacity: 0.75;
+  filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.85));
+}
+
+/* Inner ring 1 - Geometric */
+.mandala4 {
+  animation: rotateMandala 12s linear infinite reverse;
+  opacity: 0.7;
+}
+
+/* Inner ring 2 - Dense patterns */
+.mandala5 {
+  animation: rotateMandala 10s linear infinite;
+  opacity: 0.8;
+}
+
+/* Core ring - Center frame, brightest */
+.mandala6 {
+  animation: rotateMandala 30s linear infinite reverse;
+  opacity: 0.95;
+  filter: drop-shadow(0 0 15px rgba(255, 140, 0, 1));
+}
+
+/* ===================================
+   ELECTRIC SPARKS - Crackling energy
+   =================================== */
+.sparkContainer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  z-index: 3;
+}
+
+.spark {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 3px;
+  height: 15px;
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 200, 1),
+    rgba(255, 200, 0, 1),
+    rgba(255, 140, 0, 0.8),
+    transparent
+  );
+  border-radius: 50% 50% 0 0;
+  box-shadow:
+    0 0 6px rgba(255, 200, 0, 1),
+    0 0 12px rgba(255, 140, 0, 0.8);
+  transform-origin: center;
+  transform: translate(-50%, -50%) rotate(var(--spark-angle, 0deg))
+    translateY(-250px);
+  animation: sparkCrackle 0.15s ease-in-out infinite;
+  animation-delay: var(--spark-delay, 0s);
+  opacity: 0;
+}
+
+/* ===================================
+   EDGE GLOW - Bright rim
+   =================================== */
+.edgeGlow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  border: 4px solid var(--edge-color-solid, rgba(255, 140, 0, 0.8));
+  box-shadow:
+    0 0 20px var(--edge-color-1, rgba(255, 140, 0, 0.8)),
+    0 0 40px var(--edge-color-2, rgba(255, 140, 0, 0.6)),
+    0 0 60px var(--edge-color-3, rgba(255, 140, 0, 0.4)),
+    inset 0 0 20px var(--edge-color-inset-1, rgba(255, 140, 0, 0.4)),
+    inset 0 0 40px var(--edge-color-inset-2, rgba(255, 140, 0, 0.2));
+  z-index: 2;
+  animation: edgePulse 2s ease-in-out infinite;
+}
+
+/* ===================================
+   CONTENT - Overlay
+   =================================== */
+.content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ===================================
+   ANIMATIONS
+   =================================== */
+
+/* Mandala rotation */
+@keyframes rotateMandala {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Dimensional shimmer effect */
+@keyframes dimensionalShimmer {
+  0%,
+  100% {
+    opacity: 0.8;
+    transform: scale(1) rotate(0deg);
+    filter: blur(2px) brightness(1);
+  }
+  33% {
+    opacity: 0.9;
+    transform: scale(1.05) rotate(1deg);
+    filter: blur(3px) brightness(1.1);
+  }
+  66% {
+    opacity: 0.85;
+    transform: scale(0.98) rotate(-1deg);
+    filter: blur(2.5px) brightness(0.95);
+  }
+}
+
+/* Electric spark crackling */
+@keyframes sparkCrackle {
+  0% {
+    opacity: 0;
+    height: 15px;
+  }
+  50% {
+    opacity: 1;
+    height: 20px;
+  }
+  100% {
+    opacity: 0;
+    height: 12px;
+  }
+}
+
+/* Edge glow pulse */
+@keyframes edgePulse {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow:
+      0 0 20px var(--edge-color-1, rgba(255, 140, 0, 0.8)),
+      0 0 40px var(--edge-color-2, rgba(255, 140, 0, 0.6)),
+      0 0 60px var(--edge-color-3, rgba(255, 140, 0, 0.4)),
+      inset 0 0 20px var(--edge-color-inset-1, rgba(255, 140, 0, 0.4)),
+      inset 0 0 40px var(--edge-color-inset-2, rgba(255, 140, 0, 0.2));
+  }
+  50% {
+    opacity: 0.9;
+    box-shadow:
+      0 0 30px var(--edge-color-pulse-1, rgba(255, 140, 0, 1)),
+      0 0 50px var(--edge-color-pulse-2, rgba(255, 140, 0, 0.8)),
+      0 0 70px var(--edge-color-pulse-3, rgba(255, 140, 0, 0.5)),
+      inset 0 0 30px var(--edge-color-pulse-inset-1, rgba(255, 140, 0, 0.5)),
+      inset 0 0 50px var(--edge-color-pulse-inset-2, rgba(255, 140, 0, 0.3));
+  }
+}
+
+/* ===================================
+   VARIANTS - Color schemes
+   =================================== */
+
+/* Mystic - Orange (default) */
+.mystic {
+  --edge-color-solid: rgba(255, 140, 0, 0.8);
+  --edge-color-1: rgba(255, 140, 0, 0.8);
+  --edge-color-2: rgba(255, 140, 0, 0.6);
+  --edge-color-3: rgba(255, 140, 0, 0.4);
+  --edge-color-inset-1: rgba(255, 140, 0, 0.4);
+  --edge-color-inset-2: rgba(255, 140, 0, 0.2);
+  --edge-color-pulse-1: rgba(255, 140, 0, 1);
+  --edge-color-pulse-2: rgba(255, 140, 0, 0.8);
+  --edge-color-pulse-3: rgba(255, 140, 0, 0.5);
+  --edge-color-pulse-inset-1: rgba(255, 140, 0, 0.5);
+  --edge-color-pulse-inset-2: rgba(255, 140, 0, 0.3);
+}
+
+.mystic .mandala {
+  color: #ff8c00;
+  filter: drop-shadow(0 0 8px rgba(255, 140, 0, 0.8));
+}
+
+/* Cosmic - Blue */
+.cosmic {
+  --edge-color-solid: rgba(65, 105, 225, 0.8);
+  --edge-color-1: rgba(65, 105, 225, 0.8);
+  --edge-color-2: rgba(65, 105, 225, 0.6);
+  --edge-color-3: rgba(65, 105, 225, 0.4);
+  --edge-color-inset-1: rgba(65, 105, 225, 0.4);
+  --edge-color-inset-2: rgba(65, 105, 225, 0.2);
+  --edge-color-pulse-1: rgba(65, 105, 225, 1);
+  --edge-color-pulse-2: rgba(65, 105, 225, 0.8);
+  --edge-color-pulse-3: rgba(65, 105, 225, 0.5);
+  --edge-color-pulse-inset-1: rgba(65, 105, 225, 0.5);
+  --edge-color-pulse-inset-2: rgba(65, 105, 225, 0.3);
+}
+
+.cosmic .mandala {
+  color: #4169e1;
+  filter: drop-shadow(0 0 8px rgba(65, 105, 225, 0.8));
+}
+
+.cosmic .spark {
+  background: linear-gradient(
+    to bottom,
+    rgba(135, 206, 235, 1),
+    rgba(65, 105, 225, 1),
+    rgba(30, 144, 255, 0.8),
+    transparent
+  );
+  box-shadow:
+    0 0 6px rgba(65, 105, 225, 1),
+    0 0 12px rgba(30, 144, 255, 0.8);
+}
+
+.cosmic .otherDimension {
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(100, 150, 255, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(150, 100, 255, 0.3) 0%,
+      transparent 50%
+    ),
+    linear-gradient(45deg, #1a1f4a 0%, #1f1f5a 50%, #1f2d6a 100%);
+}
+
+/* Fire - Red/Orange */
+.fire {
+  --edge-color-solid: rgba(255, 69, 0, 0.8);
+  --edge-color-1: rgba(255, 69, 0, 0.8);
+  --edge-color-2: rgba(255, 69, 0, 0.6);
+  --edge-color-3: rgba(255, 69, 0, 0.4);
+  --edge-color-inset-1: rgba(255, 69, 0, 0.4);
+  --edge-color-inset-2: rgba(255, 69, 0, 0.2);
+  --edge-color-pulse-1: rgba(255, 69, 0, 1);
+  --edge-color-pulse-2: rgba(255, 69, 0, 0.8);
+  --edge-color-pulse-3: rgba(255, 69, 0, 0.5);
+  --edge-color-pulse-inset-1: rgba(255, 69, 0, 0.5);
+  --edge-color-pulse-inset-2: rgba(255, 69, 0, 0.3);
+}
+
+.fire .mandala {
+  color: #ff4500;
+  filter: drop-shadow(0 0 8px rgba(255, 69, 0, 0.8));
+}
+
+.fire .spark {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 215, 0, 1),
+    rgba(255, 69, 0, 1),
+    rgba(220, 20, 60, 0.8),
+    transparent
+  );
+  box-shadow:
+    0 0 6px rgba(255, 69, 0, 1),
+    0 0 12px rgba(255, 99, 71, 0.8);
+}
+
+.fire .otherDimension {
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(255, 100, 0, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(255, 50, 0, 0.3) 0%,
+      transparent 50%
+    ),
+    linear-gradient(45deg, #3a1f1a 0%, #4a1f1a 50%, #3a1f2a 100%);
+}
+
+/* Ice - Cyan */
+.ice {
+  --edge-color-solid: rgba(0, 206, 209, 0.8);
+  --edge-color-1: rgba(0, 206, 209, 0.8);
+  --edge-color-2: rgba(0, 206, 209, 0.6);
+  --edge-color-3: rgba(0, 206, 209, 0.4);
+  --edge-color-inset-1: rgba(0, 206, 209, 0.4);
+  --edge-color-inset-2: rgba(0, 206, 209, 0.2);
+  --edge-color-pulse-1: rgba(0, 206, 209, 1);
+  --edge-color-pulse-2: rgba(0, 206, 209, 0.8);
+  --edge-color-pulse-3: rgba(0, 206, 209, 0.5);
+  --edge-color-pulse-inset-1: rgba(0, 206, 209, 0.5);
+  --edge-color-pulse-inset-2: rgba(0, 206, 209, 0.3);
+}
+
+.ice .mandala {
+  color: #00ced1;
+  filter: drop-shadow(0 0 8px rgba(0, 206, 209, 0.8));
+}
+
+.ice .spark {
+  background: linear-gradient(
+    to bottom,
+    rgba(224, 255, 255, 1),
+    rgba(0, 206, 209, 1),
+    rgba(32, 178, 170, 0.8),
+    transparent
+  );
+  box-shadow:
+    0 0 6px rgba(0, 206, 209, 1),
+    0 0 12px rgba(32, 178, 170, 0.8);
+}
+
+.ice .otherDimension {
+  background:
+    radial-gradient(
+      circle at 30% 30%,
+      rgba(100, 200, 255, 0.4) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 70% 70%,
+      rgba(100, 255, 255, 0.3) 0%,
+      transparent 50%
+    ),
+    linear-gradient(45deg, #1a2f3a 0%, #1a3f4a 50%, #1a2f4a 100%);
+}
+
+/* ===================================
+   INTENSITY LEVELS
+   =================================== */
+
+/* Low - Calm portal */
+.low .mandala1 {
+  animation-duration: 50s !important;
+}
+.low .mandala2 {
+  animation-duration: 36s !important;
+}
+.low .mandala3 {
+  animation-duration: 30s !important;
+}
+.low .mandala4 {
+  animation-duration: 24s !important;
+}
+.low .mandala5 {
+  animation-duration: 20s !important;
+}
+.low .mandala6 {
+  animation-duration: 60s !important;
+}
+.low .otherDimension {
+  animation-duration: 10s !important;
+}
+.low .edgeGlow {
+  animation-duration: 4s !important;
+}
+.low .spark {
+  animation-duration: 0.25s !important;
+}
+
+/* Medium - Default */
+.medium {
+  /* Uses default speeds */
+}
+
+/* High - Intense portal */
+.high .mandala1 {
+  animation-duration: 12s !important;
+}
+.high .mandala2 {
+  animation-duration: 9s !important;
+}
+.high .mandala3 {
+  animation-duration: 7s !important;
+}
+.high .mandala4 {
+  animation-duration: 6s !important;
+}
+.high .mandala5 {
+  animation-duration: 5s !important;
+}
+.high .mandala6 {
+  animation-duration: 15s !important;
+}
+.high .otherDimension {
+  animation-duration: 3s !important;
+}
+.high .edgeGlow {
+  animation-duration: 1s !important;
+}
+.high .spark {
+  animation-duration: 0.08s !important;
+}
+
+/* Disable animations */
+.portalContainer:not(.animated) * {
+  animation: none !important;
+}
+
+/* ===================================
+   RESPONSIVE
+   =================================== */
+
+/* Mobile responsive - scale down all sizes */
+@media (max-width: 1024px) {
+  .size-sm {
+    width: 320px;
+    height: 320px;
+  }
+
+  .size-md {
+    width: 400px;
+    height: 400px;
+  }
+
+  .size-lg {
+    width: 480px;
+    height: 480px;
+  }
+
+  .size-xl {
+    width: 550px;
+    height: 550px;
+  }
+}
+
+@media (max-width: 768px) {
+  .size-sm {
+    width: 280px;
+    height: 280px;
+  }
+
+  .size-md {
+    width: 350px;
+    height: 350px;
+  }
+
+  .size-lg {
+    width: 420px;
+    height: 420px;
+  }
+
+  .size-xl {
+    width: 480px;
+    height: 480px;
+  }
+
+  .spark {
+    height: 12px;
+  }
+}
+
+@media (max-width: 640px) {
+  .size-sm {
+    width: 250px;
+    height: 250px;
+  }
+
+  .size-md {
+    width: 300px;
+    height: 300px;
+  }
+
+  .size-lg {
+    width: 350px;
+    height: 350px;
+  }
+
+  .size-xl {
+    width: 400px;
+    height: 400px;
+  }
+
+  .spark {
+    height: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .size-sm {
+    width: 220px;
+    height: 220px;
+  }
+
+  .size-md {
+    width: 260px;
+    height: 260px;
+  }
+
+  .size-lg {
+    width: 300px;
+    height: 300px;
+  }
+
+  .size-xl {
+    width: 340px;
+    height: 340px;
+  }
+
+  .spark {
+    height: 8px;
+  }
+
+  .dimensionalParticle {
+    width: 3px;
+    height: 3px;
+  }
+}

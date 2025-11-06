@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useState } from "react";
 import { cn } from "@/utils/helpers/classNames";
 import type { PageNotFoundProps } from "./PageNotFound.types";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { SearchX, Home, ArrowLeft } from "lucide-react";
-import { Button } from "@/components/ui";
+import { Button, MessageBox } from "@/components/ui";
 
 const PageNotFound: React.FC<PageNotFoundProps> = ({
   children,
@@ -13,104 +13,145 @@ const PageNotFound: React.FC<PageNotFoundProps> = ({
   showBackButton = true,
   ...rest
 }) => {
+  const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(true);
+  const [pendingAction, setPendingAction] = useState<(() => void) | null>(null);
+
+  // Handle close animation with callback
+  const handleClose = (callback: () => void) => {
+    setPendingAction(() => callback);
+    setIsOpen(false);
+  };
+
+  const handleAnimationEnd = () => {
+    if (pendingAction) {
+      pendingAction();
+    }
+  };
+
+  const handleGoBack = () => {
+    handleClose(() => window.history.back());
+  };
+
+  const handleGoHome = () => {
+    handleClose(() => navigate("/"));
+  };
+
   return (
-    <div
-      className={cn(
-        "flex items-center justify-center min-h-screen bg-card/80 backdrop-blur-lg",
-        className,
-      )}
+    <MessageBox
+      animated
+      open={isOpen}
+      onClose={handleAnimationEnd}
+      withPortal
+      portalVariant="mystic"
+      portalIntensity="low"
+      portalSize="lg"
+      portalPosition="center"
+      portalAnimated
+      variant="warning"
+      fullScreen
+      className={cn("text-center", className)}
       {...rest}
     >
-      <div className="max-w-2xl w-full mx-4">
-        <div className=" rounded-2xl shadow-theme-xl p-8 md:p-12 text-center border border-border/40">
-          {/* Icon */}
-          <div className="mb-8">
-            <div className="inline-flex items-center justify-center w-24 h-24 rounded-full bg-brand-50  mb-6 animate-pulse-slow">
-              <SearchX className="w-12 h-12 text-brand-500 " />
-            </div>
-
-            {/* 404 Text */}
-            <div className="mb-4">
-              <h1 className="text-9xl font-bold text-brand-500  tracking-tight">
-                404
-              </h1>
-              <div className="h-1 w-24 mx-auto bg-brand-500  rounded-full mt-4" />
-            </div>
-
-            {/* Title */}
-            <h2 className="text-title-lg font-bold text-muted-foreground  mb-3">
-              Page Not Found
-            </h2>
-
-            {/* Description */}
-            <p className="text-muted-foreground text-theme-xl max-w-md mx-auto">
-              {message}
-            </p>
-          </div>
-
-          {/* Actions */}
-          <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
-            {showBackButton && (
-              <Button
-                color="secondary"
-                onClick={() => window.history.back()}
-                leftIcon={<ArrowLeft className="w-5 h-5" />}
-              >
-                Go Back
-              </Button>
-            )}
-
-            {showHomeButton && (
-              <Button
-                color="primary"
-                as={Link}
-                to="/"
-                rightIcon={<Home className="w-5 h-5" />}
-              >
-                Go Home
-              </Button>
-            )}
-          </div>
-
-          {/* Additional Content */}
-          {children && (
-            <div className="mt-8 pt-8 border-t border-gray-200 dark:border-gray-800">
-              {children}
-            </div>
-          )}
+      {/* Icon */}
+      <div className="mb-6">
+        <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-warning-50 mb-4">
+          <SearchX className="w-10 h-10 text-warning animate-pulse" />
         </div>
 
-        {/* Helper Links (Optional) */}
-        <div className="mt-8 text-center">
-          <p className="text-gray-500 dark:text-gray-400 text-theme-sm mb-4">
-            Here are some helpful links instead:
-          </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button variant="link" size="sm" color="primary" as={Link} to="/">
-              Home
-            </Button>
-            <Button
-              variant="link"
-              size="sm"
-              color="primary"
-              as={Link}
-              to="/about"
-            >
-              About
-            </Button>
-            <Button
-              color="primary"
-              as={Link}
-              to="/contact"
-              variant="link"
-              size="sm"
-            >
-              Contact
-            </Button>
-          </div>
+        {/* 404 Text */}
+        <div className="mb-4">
+          <h1 className="text-8xl md:text-9xl font-bold text-warning tracking-tight">
+            404
+          </h1>
+          <div className="h-1 w-24 mx-auto bg-warning rounded-full mt-4" />
         </div>
+
+        {/* Title */}
+        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
+          Page Not Found
+        </h2>
+
+        {/* Description */}
+        <p className="text-muted-foreground text-sm md:text-base max-w-md mx-auto">
+          {message}
+        </p>
       </div>
-    </div>
+
+      {/* Actions */}
+      <div className="flex flex-col sm:flex-row gap-3 justify-center items-center mt-6">
+        {showBackButton && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleGoBack}
+            disabled={!isOpen}
+            withPulse={isOpen}
+            className="w-full sm:w-auto"
+            leftIcon={<ArrowLeft className="w-4 h-4" />}
+          >
+            Go Back
+          </Button>
+        )}
+
+        {showHomeButton && (
+          <Button
+            variant="glass"
+            size="sm"
+            onClick={handleGoHome}
+            disabled={!isOpen}
+            className="w-full sm:w-auto "
+            leftIcon={<Home className="w-4 h-4" />}
+          >
+            Go Home
+          </Button>
+        )}
+      </div>
+
+      {/* Additional Content */}
+      {children && (
+        <div className="mt-8 pt-8 border-t border-border">{children}</div>
+      )}
+
+      {/* Helper Links */}
+      {/* <div className="mt-8 text-center"> */}
+      {/*   <p className="text-muted-foreground text-xs md:text-sm mb-4"> */}
+      {/*     Here are some helpful links instead: */}
+      {/*   </p> */}
+      {/*   <div className="flex flex-wrap gap-3 justify-center"> */}
+      {/*     <Button */}
+      {/*       variant="link" */}
+      {/*       size="sm" */}
+      {/*       color="warning" */}
+      {/*       as={Link} */}
+      {/*       to="/" */}
+      {/*       disabled={!isOpen} */}
+      {/*     > */}
+      {/*       Home */}
+      {/*     </Button> */}
+      {/*     <Button */}
+      {/*       variant="link" */}
+      {/*       size="sm" */}
+      {/*       color="warning" */}
+      {/*       as={Link} */}
+      {/*       to="/authenticated" */}
+      {/*       disabled={!isOpen} */}
+      {/*     > */}
+      {/*       Dashboard */}
+      {/*     </Button> */}
+      {/*     <Button */}
+      {/*       variant="link" */}
+      {/*       size="sm" */}
+      {/*       color="warning" */}
+      {/*       as={Link} */}
+      {/*       to="/login" */}
+      {/*       disabled={!isOpen} */}
+      {/*     > */}
+      {/*       Login */}
+      {/*     </Button> */}
+      {/*   </div> */}
+      {/* </div> */}
+    </MessageBox>
   );
 };
 

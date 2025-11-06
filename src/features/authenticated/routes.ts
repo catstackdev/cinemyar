@@ -2,6 +2,7 @@ import PageNotFound from "@/components/common/PageNotFound";
 import { createElement, lazy } from "react";
 import { type RouteObject, Navigate } from "react-router-dom";
 import { AuthenticatedMoviesRoutesConfig } from "./Movies/routes";
+import { AuthenticatedCategoriesRoutesConfig } from "./Categories/routes";
 
 const AuthenticatedDashboardPage = lazy(
   () => import("@/features/authenticated/Dashboard"),
@@ -9,14 +10,6 @@ const AuthenticatedDashboardPage = lazy(
 
 const AuthenticatedMoviesLayout = lazy(
   () => import("@/features/authenticated/Movies/layouts/MovieLayout"),
-);
-
-const CategoryPage = lazy(
-  () => import("@/features/authenticated/Categories/pages/CategoriesPage"),
-);
-
-const CategoryDetailPage = lazy(
-  () => import("@/features/authenticated/Categories/pages/CategoryDetail"),
 );
 
 export const AuthenticatedRoutesConfig: RouteObject[] = [
@@ -40,28 +33,37 @@ export const AuthenticatedRoutesConfig: RouteObject[] = [
     },
     children: AuthenticatedMoviesRoutesConfig,
   },
+
   {
     path: "categories",
-    Component: CategoryPage,
-    loader: () =>
-      import(
-        "@/features/authenticated/Categories/loaders/categoriesLoader"
-      ).then((m) => m.categoriesLoader()),
+    // Component: CategoryPage,
     handle: {
       breadcrumb: { label: "Categories", icon: "🎬" },
     },
+    children: AuthenticatedCategoriesRoutesConfig,
   },
-  {
-    path: "categories/:id",
-    Component: CategoryDetailPage,
-    loader: ({ params }) =>
-      import(
-        "@/features/authenticated/Categories/loaders/categoryDetailLoader"
-      ).then((m) => m.categoryDetailLoader({ params: params as { id: string } })),
-    handle: {
-      breadcrumb: { label: "Category Detail", icon: "📄" },
-    },
-  },
+  // {
+  //   path: "categories",
+  //   Component: CategoryPage,
+  //   loader: () =>
+  //     import(
+  //       "@/features/authenticated/Categories/loaders/categoriesLoader"
+  //     ).then((m) => m.categoriesLoader()),
+  //   handle: {
+  //     breadcrumb: { label: "Categories", icon: "🎬" },
+  //   },
+  // },
+  // {
+  //   path: "categories/:id",
+  //   Component: CategoryDetailPage,
+  //   loader: ({ params }) =>
+  //     import(
+  //       "@/features/authenticated/Categories/loaders/categoryDetailLoader"
+  //     ).then((m) => m.categoryDetailLoader({ params: params as { id: string } })),
+  //   handle: {
+  //     breadcrumb: { label: "Category Detail", icon: "📄" },
+  //   },
+  // },
   {
     path: "*",
     Component: PageNotFound,

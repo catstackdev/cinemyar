@@ -4,11 +4,11 @@ import type { ErrorFallbackProps } from "./ErrorBoundary.types";
 
 const ErrorFallback = ({ error, resetError }: ErrorFallbackProps) => {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background p-4">
+    <div className="flex min-h-screen items-center justify-center bg-card/80  p-4">
       <div className="w-full max-w-md space-y-6 text-center">
         <div className="flex justify-center">
-          <div className="rounded-full bg-red-100 dark:bg-red-950 p-4">
-            <AlertTriangle className="h-12 w-12 text-red-600 dark:text-red-400" />
+          <div className="rounded-full bg-danger-foreground p-4">
+            <AlertTriangle className="h-12 w-12 text-danger" />
           </div>
         </div>
 

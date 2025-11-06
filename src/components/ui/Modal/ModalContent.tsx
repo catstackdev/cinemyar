@@ -159,7 +159,7 @@ export const ModalContent = ({
         aria-labelledby={titleId}
         aria-describedby={descriptionId}
         className={cn(
-          "relative z-10 bg-card/80 backdrop-blur-sm text-foreground rounded-lg shadow-xl border border-border",
+          "relative z-10 bg-card/10 backdrop-blur-sm text-foreground rounded-lg shadow-xl border border-border",
           "flex flex-col",
           animationClasses,
           ModalSizeClasses[size],
@@ -175,7 +175,7 @@ export const ModalContent = ({
           <button
             type="button"
             onClick={handleClose}
-            className="absolute top-4 right-4 p-1 rounded-md hover:bg-muted transition-colors z-10"
+            className="absolute top-4 right-4 p-2  hover:bg-muted transition-colors z-10 rounded-full"
             aria-label="Close modal"
           >
             <X className="w-5 h-5" />

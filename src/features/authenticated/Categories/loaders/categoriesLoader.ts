@@ -3,7 +3,7 @@ import { queryClient } from "@/contexts/AppProviders";
 import { categoriesQueryKey } from "../hooks/categoriesQueryKey";
 
 export const categoriesLoader = async () => {
-  const queryKey = categoriesQueryKey({ page: 1, limit: 20 });
+  const queryKey = categoriesQueryKey();
 
   return await queryClient.ensureQueryData({
     queryKey,

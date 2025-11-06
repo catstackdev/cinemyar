@@ -26,9 +26,20 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
   );
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
-  // const isActive = (path: string) => location.pathname === path;
+  // Check if the current path matches or is a child of the nav path
   const isActive = useCallback(
-    (path: string) => location.pathname === path,
+    (path: string) => {
+      // Exact match
+      if (location.pathname === path) return true;
+      
+      // For parent routes, check if current path starts with nav path
+      // But exclude root paths to avoid matching everything
+      if (path !== "/" && location.pathname.startsWith(path + "/")) {
+        return true;
+      }
+      
+      return false;
+    },
     [location.pathname],
   );
 

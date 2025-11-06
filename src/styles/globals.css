@@ -373,4 +373,76 @@
     --tw-shadow-color: hsl(var(--shadow-color) / 0.12);
     --tw-shadow: var(--tw-shadow-colored);
   }
+
+  /* Shimmer animation for loading states */
+  @keyframes shimmer {
+    0% {
+      background-position: -200% 0;
+    }
+    100% {
+      background-position: 200% 0;
+    }
+  }
+
+  /* Box open animation - Error page entrance */
+  @keyframes boxOpen {
+    0% {
+      transform: scale(0.3) rotateX(90deg);
+      opacity: 0;
+    }
+    50% {
+      transform: scale(1.05) rotateX(-5deg);
+      opacity: 0.8;
+    }
+    100% {
+      transform: scale(1) rotateX(0deg);
+      opacity: 1;
+    }
+  }
+
+  /* Box close animation - Error page exit */
+  @keyframes boxClose {
+    0% {
+      transform: scale(1) rotateX(0deg);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.05) rotateX(5deg);
+      opacity: 0.5;
+    }
+    100% {
+      transform: scale(0.3) rotateX(-90deg);
+      opacity: 0;
+    }
+  }
+
+  /* Box shake animation - For error emphasis */
+  @keyframes boxShake {
+    0%, 100% {
+      transform: translateX(0) rotate(0deg);
+    }
+    25% {
+      transform: translateX(-10px) rotate(-2deg);
+    }
+    75% {
+      transform: translateX(10px) rotate(2deg);
+    }
+  }
+
+  /* Utility classes for box animations */
+  .animate-box-open {
+    animation: boxOpen 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    transform-origin: center;
+    perspective: 1000px;
+  }
+
+  .animate-box-close {
+    animation: boxClose 0.5s cubic-bezier(0.4, 0, 0.6, 1) forwards;
+    transform-origin: center;
+    perspective: 1000px;
+  }
+
+  .animate-box-shake {
+    animation: boxShake 0.5s ease-in-out;
+  }
 }

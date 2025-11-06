@@ -28,10 +28,10 @@ export const FormFieldInput = forwardRef<HTMLInputElement, FormFieldInputProps>(
         aria-invalid={!!error}
         aria-describedby={error ? `${name}-error` : undefined}
         className={cn(
-          "w-full border rounded-md transition-colors peer placeholder-shown:border-input",
+          "w-full border rounded-md transition-colors peer",
           "bg-background text-foreground",
           isFloating
-            ? "px-3 pt-3 pb-3 placeholder:opacity-0 focus:placeholder:opacity-100"
+            ? "px-4 py-3 placeholder:opacity-0 focus:placeholder:opacity-100 placeholder:text-transparent"
             : "px-3 py-2 placeholder:text-muted-foreground",
           "focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background",
           inputStateClass,

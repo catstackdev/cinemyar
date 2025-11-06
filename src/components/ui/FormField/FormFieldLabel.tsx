@@ -21,13 +21,20 @@ export const FormFieldLabel = ({
       <label
         htmlFor={id}
         className={cn(
-          "absolute left-3 top-4 origin-[0] transition-all duration-200 pointer-events-none text-md z-10 rounded",
-          "text-muted-foreground bg-background mx-1",
-          "peer-placeholder-shown:top-4 peer-placeholder-shown:scale-100",
-          "peer-focus:top-0 peer-focus:-translate-y-3 peer-focus:scale-75 peer-focus:text-primary",
-          "peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-3 peer-[:not(:placeholder-shown)]:scale-75",
-          "peer-[:not(:placeholder-shown)]:text-foreground",
-          disabled && "opacity-60",
+          "absolute left-2.5 top-0 -translate-y-1/2 origin-[0] transition-all duration-200 pointer-events-none text-sm font-medium z-10",
+          "px-2 bg-card rounded-sm",
+          "text-muted-foreground",
+          // Empty state - label in center
+          "peer-placeholder-shown:top-1/2 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:scale-100 peer-placeholder-shown:text-base peer-placeholder-shown:font-normal",
+          // Focus state - label on border with color
+          "peer-focus:top-0 peer-focus:-translate-y-1/2 peer-focus:scale-100 peer-focus:text-sm peer-focus:text-primary peer-focus:font-semibold",
+          // Filled state - label on border
+          "peer-[:not(:placeholder-shown)]:top-0 peer-[:not(:placeholder-shown)]:-translate-y-1/2 peer-[:not(:placeholder-shown)]:scale-100 peer-[:not(:placeholder-shown)]:text-sm",
+          "peer-[:not(:placeholder-shown)]:text-foreground peer-[:not(:placeholder-shown)]:font-medium",
+          // Hover state - when input is hovered
+          "peer-hover:text-foreground/80",
+          // Disabled state
+          disabled && "opacity-60 peer-disabled:opacity-60",
           className,
         )}
         {...rest}

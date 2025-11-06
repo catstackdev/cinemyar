@@ -3,6 +3,8 @@ import { createElement, lazy } from "react";
 import { type RouteObject, Navigate } from "react-router-dom";
 
 const LoginPage = lazy(() => import("@/features/auth/Login"));
+const RegisterPage = lazy(() => import("@/features/auth/Register"));
+
 export const AuthRoutesConfig: RouteObject[] = [
   {
     index: true,
@@ -12,16 +14,12 @@ export const AuthRoutesConfig: RouteObject[] = [
     path: "login",
     Component: LoginPage,
   },
-
+  {
+    path: "register",
+    Component: RegisterPage,
+  },
   {
     path: "*",
     Component: PageNotFound,
   },
-  // {
-  //   path: "cities/:id",
-  //   Component: City,
-  //   loader: TravelAppCityPageLoader,
-  //   ErrorBoundary: ErrorPage,
-  //   HydrateFallback: PageLoading,
-  // },
 ];
