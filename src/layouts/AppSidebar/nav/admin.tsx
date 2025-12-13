@@ -63,11 +63,18 @@ export const adminNav: NavItem[] = [
         path: "/dashboard/genres",
         requiredPermissions: ["genre.view"],
       },
+      // {
+      //   id: "genres-add",
+      //   name: "Add Genre",
+      //   path: "/dashboard/genres/new",
+      //   requiredPermissions: ["genre.create"],
+      // },
       {
-        id: "genres-add",
-        name: "Add Genre",
-        path: "/dashboard/genres/new",
-        requiredPermissions: ["genre.create"],
+        id: "genres-staged-images",
+        name: "Staged Images",
+        path: "/dashboard/genres/staged-images",
+        requiredPermissions: ["genre.approve", "genre.publish", "genre.reject"],
+        requireAllPermissions: false, // Need any permission (OR logic)
       },
       {
         id: "genres-deleted",

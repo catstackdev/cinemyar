@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/ratings.const.ts
-// Generated: 2025-12-09T09:00:51.990Z
+// Generated: 2025-12-13T17:50:25.549Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 // ============================================

@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/validation/auth/auth-forgot-password.schema.ts
-// Generated: 2025-12-09T09:00:51.993Z
+// Generated: 2025-12-13T17:50:25.552Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import { z } from 'zod';
