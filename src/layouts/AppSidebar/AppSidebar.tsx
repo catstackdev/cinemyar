@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import type { AppSidebarProps } from "./AppSidebar.types";
 import { useSidebar } from "@/contexts/SidebarContext";
 import { ChevronDownIcon } from "lucide-react";
@@ -8,11 +14,22 @@ import { getNavForRole } from "./utils/navRoleHelper";
 import { DotsHorizontalIcon } from "@radix-ui/react-icons";
 import Logo from "@/components/ui/Logo";
 import { cn } from "@/utils/helpers";
+import { useAppSelector } from "@/store/hooks";
+import { filterNavItems } from "@/utils/navPermissions";
 
 const AppSidebar: React.FC<AppSidebarProps> = () => {
+  // Get user from Redux state
+  const user = useAppSelector((state) => state.auth.user);
+
+  // Get navigation for admin role
   const { main, others } = getNavForRole("admin");
-  const navItems = main;
-  const othersItems = others;
+
+  // Filter navigation items based on user permissions
+  const navItems = useMemo(() => filterNavItems(main, user), [main, user]);
+  const othersItems = useMemo(
+    () => filterNavItems(others, user),
+    [others, user],
+  );
 
   const { isExpanded, isMobileOpen, isHovered, setIsHovered } = useSidebar();
   const location = useLocation();
@@ -31,13 +48,13 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
     (path: string) => {
       // Exact match
       if (location.pathname === path) return true;
-      
+
       // For parent routes, check if current path starts with nav path
       // But exclude root paths to avoid matching everything
       if (path !== "/" && location.pathname.startsWith(path + "/")) {
         return true;
       }
-      
+
       return false;
     },
     [location.pathname],
@@ -50,7 +67,7 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
       items.forEach((nav, index) => {
         if (nav.subItems) {
           nav.subItems.forEach((subItem) => {
-            if (isActive(subItem.path)) {
+            if (subItem.path && isActive(subItem.path)) {
               setOpenSubmenu({
                 type: menuType as "main" | "others",
                 index,
@@ -65,7 +82,7 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
     if (!submenuMatched) {
       setOpenSubmenu(null);
     }
-  }, [location, isActive]);
+  }, [location, isActive, navItems, othersItems]);
 
   useEffect(() => {
     if (openSubmenu !== null) {
@@ -175,53 +192,58 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
               }}
             >
               <ul className="mt-2 space-y-1 ml-9">
-                {nav.subItems.map((subItem, subIndex) => (
-                  <li
-                    key={subItem.name}
-                    style={{
-                      animation:
-                        openSubmenu?.type === menuType &&
-                        openSubmenu?.index === index
-                          ? `submenu-slide 0.2s ease-out ${subIndex * 0.05}s both`
-                          : "none",
-                    }}
-                  >
-                    <Link
-                      to={subItem.path}
-                      className={`menu-dropdown-item ${
-                        isActive(subItem.path)
-                          ? "menu-dropdown-item-active"
-                          : "menu-dropdown-item-inactive"
-                      }`}
+                {nav.subItems.map((subItem, subIndex) => {
+                  // Skip subitems without a path
+                  if (!subItem.path) return null;
+
+                  return (
+                    <li
+                      key={subItem.name}
+                      style={{
+                        animation:
+                          openSubmenu?.type === menuType &&
+                          openSubmenu?.index === index
+                            ? `submenu-slide 0.2s ease-out ${subIndex * 0.05}s both`
+                            : "none",
+                      }}
                     >
-                      {subItem.name}
-                      <span className="flex items-center gap-1 ml-auto">
-                        {/* {subItem.new && ( */}
-                        {/*   <span */}
-                        {/*     className={`ml-auto ${ */}
-                        {/*       isActive(subItem.path) */}
-                        {/*         ? "menu-dropdown-badge-active" */}
-                        {/*         : "menu-dropdown-badge-inactive" */}
-                        {/*     } menu-dropdown-badge`} */}
-                        {/*   > */}
-                        {/*     new */}
-                        {/*   </span> */}
-                        {/* )} */}
-                        {/* {subItem.pro && ( */}
-                        {/*   <span */}
-                        {/*     className={`ml-auto ${ */}
-                        {/*       isActive(subItem.path) */}
-                        {/*         ? "menu-dropdown-badge-active" */}
-                        {/*         : "menu-dropdown-badge-inactive" */}
-                        {/*     } menu-dropdown-badge`} */}
-                        {/*   > */}
-                        {/*     pro */}
-                        {/*   </span> */}
-                        {/* )} */}
-                      </span>
-                    </Link>
-                  </li>
-                ))}
+                      <Link
+                        to={subItem.path}
+                        className={`menu-dropdown-item ${
+                          isActive(subItem.path)
+                            ? "menu-dropdown-item-active"
+                            : "menu-dropdown-item-inactive"
+                        }`}
+                      >
+                        {subItem.name}
+                        <span className="flex items-center gap-1 ml-auto">
+                          {/* {subItem.new && ( */}
+                          {/*   <span */}
+                          {/*     className={`ml-auto ${ */}
+                          {/*       isActive(subItem.path) */}
+                          {/*         ? "menu-dropdown-badge-active" */}
+                          {/*         : "menu-dropdown-badge-inactive" */}
+                          {/*     } menu-dropdown-badge`} */}
+                          {/*   > */}
+                          {/*     new */}
+                          {/*   </span> */}
+                          {/* )} */}
+                          {/* {subItem.pro && ( */}
+                          {/*   <span */}
+                          {/*     className={`ml-auto ${ */}
+                          {/*       isActive(subItem.path) */}
+                          {/*         ? "menu-dropdown-badge-active" */}
+                          {/*         : "menu-dropdown-badge-inactive" */}
+                          {/*     } menu-dropdown-badge`} */}
+                          {/*   > */}
+                          {/*     pro */}
+                          {/*   </span> */}
+                          {/* )} */}
+                        </span>
+                      </Link>
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           )}
@@ -244,7 +266,7 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
             ? "w-[290px]"
             : "w-[90px]",
         isMobileOpen ? "translate-x-0" : "-translate-x-full",
-        "lg:translate-x-0"
+        "lg:translate-x-0",
       )}
       onMouseEnter={() => !isExpanded && setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}

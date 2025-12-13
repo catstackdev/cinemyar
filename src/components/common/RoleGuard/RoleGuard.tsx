@@ -1,5 +1,5 @@
 import { Navigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAppSelector } from "@/store/hooks";
 import { hasRole } from "@/utils/permissions";
 import Alert from "@/components/ui/Alert";
 import type { RoleGuardProps } from "./RoleGuard.types";
@@ -10,7 +10,7 @@ export default function RoleGuard({
   fallback,
   redirectTo = "/"
 }: RoleGuardProps) {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated } = useAppSelector((state) => state.auth);
 
   // If not authenticated, redirect to login
   if (!isAuthenticated) {

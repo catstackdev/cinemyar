@@ -1,4 +1,4 @@
-import { type ReactNode, useEffect } from "react";
+import { type ReactNode, useEffect, useRef } from "react";
 import { Provider } from "react-redux";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ThemeContextProvider } from "./ThemeContext";
@@ -26,50 +26,69 @@ interface AppProvidersProps {
 
 function AxiosInterceptorSetup() {
   const { addNotification } = useNotification();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setupAxiosInterceptors((message, type) => {
-      addNotification({
-        type: type === "error" ? "error" : "success",
-        message,
-      });
-    });
-  }, [addNotification]);
+    setupAxiosInterceptors(
+      (message, type) => {
+        addNotification({
+          type: type === "error" ? "error" : "success",
+          message,
+        });
+      },
+      dispatch,
+    );
+  }, [addNotification, dispatch]);
 
   return null;
 }
 
 function AuthInitializer() {
   const dispatch = useAppDispatch();
-  const { isAuthenticated, isLoading, accessToken, hasInitialized } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, isLoading, hasInitialized } = useAppSelector(
+    (state) => state.auth,
+  );
+  const initAttempted = useRef(false);
 
   useEffect(() => {
-    // Only validate on initial app load if we have a token but haven't initialized
-    const storedToken = localStorage.getItem("accessToken");
-    
-    console.log("🔄 AuthInitializer: Checking auth state", {
-      hasStoredToken: !!storedToken,
-      storedTokenValue: storedToken ? `${storedToken.substring(0, 20)}...` : null,
-      hasReduxToken: !!accessToken,
+    // Prevent double execution (React StrictMode + effect re-runs)
+    if (initAttempted.current) {
+      console.log("🔐 AuthInitializer: Already attempted initialization, skipping");
+      return;
+    }
+
+    console.log("🔄 AuthInitializer: Checking auth state (cookie-based)", {
       isAuthenticated,
       isLoading,
-      hasInitialized
+      hasInitialized,
     });
 
-    // Only call checkAuth if we have a token and haven't initialized yet
-    if (storedToken && !hasInitialized && !isAuthenticated) {
-      console.log("🔐 AuthInitializer: Starting token validation (initial load)");
-      dispatch(checkAuth());
-    } else if (!storedToken && !hasInitialized) {
-      console.log("🔐 AuthInitializer: No token found, marking as initialized");
-      // If no token, mark as initialized to stop loading state
-      dispatch(setInitialized());
-    } else if (isAuthenticated) {
-      console.log("🔐 AuthInitializer: User already authenticated");
-    } else if (hasInitialized) {
-      console.log("🔐 AuthInitializer: Auth already initialized");
+    // Check if Redux state already initialized
+    if (hasInitialized) {
+      console.log("🔐 AuthInitializer: Auth already initialized in Redux");
+      initAttempted.current = true;
+      return;
     }
-  }, [dispatch]); // Only run once on mount
+
+    // Mark as attempted to prevent double calls
+    initAttempted.current = true;
+
+    const localStorageAccessTokenExpiresAt = localStorage.getItem(
+      "accessTokenExpiresAt",
+    );
+    if (!localStorageAccessTokenExpiresAt) {
+      console.log("🔐 AuthInitializer: Cookie-based session not exists");
+      dispatch(setInitialized());
+      return;
+    }
+    // Cookie-based auth: check on mount if cookies might exist
+    if (!isAuthenticated) {
+      console.log("🔐 AuthInitializer: Checking for cookie-based session");
+      dispatch(checkAuth());
+    } else {
+      console.log("🔐 AuthInitializer: User already authenticated");
+    }
+  }, [dispatch, hasInitialized, isAuthenticated]); // Include deps for correctness
 
   return null;
 }

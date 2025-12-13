@@ -7,10 +7,10 @@ interface AppAuthGuardProps {
 }
 
 export const AppAuthGuard: React.FC<AppAuthGuardProps> = ({ children }) => {
-  const { isLoading, accessToken } = useAppSelector((state) => state.auth);
+  const { isLoading, accessTokenExpiresAt } = useAppSelector((state) => state.auth);
 
   // Show loading screen if we're validating a token on initial load
-  if (isLoading && accessToken) {
+  if (isLoading && accessTokenExpiresAt) {
     return <LoadingScreen message="Validating session..." />;
   }
 

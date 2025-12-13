@@ -1,13 +1,27 @@
+import type { UserRole } from "@/shared/types/types";
+import type { ReactNode } from "react";
+
 export type NavChildItem = {
   id: string;
-  icon?: React.ReactNode;
   name: string;
-  path: string;
+  path?: string;
+  icon?: ReactNode;
+
+  // Add permission fields
+  requiredRole?: UserRole[];
+  requiredPermissions?: string[];
+  requireAllPermissions?: boolean;
 };
-export type NavItem = {
+export interface NavItem {
   id: string;
   name: string;
-  icon: React.ReactNode;
   path?: string;
+  icon: ReactNode;
+
+  // Add permission fields
+  requiredRole?: UserRole[];
+  requiredPermissions?: string[];
+  requireAllPermissions?: boolean;
+
   subItems?: NavChildItem[];
-};
+}

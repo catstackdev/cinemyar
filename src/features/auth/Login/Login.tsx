@@ -10,11 +10,11 @@ import {
 } from "@/components/ui";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { type LoginFormData, loginSchema } from "./schemas/auth.schema";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { login as loginAction } from "@/state/auth";
 import { cn } from "@/utils/helpers/classNames";
+import { loginSchema, type LoginDto } from "@/shared/types/validation";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -30,21 +30,21 @@ const Login: React.FC = () => {
     handleSubmit,
     formState: { errors, isValid },
     setValue,
-  } = useForm<LoginFormData>({
+  } = useForm<LoginDto>({
     resolver: zodResolver(loginSchema),
     mode: "all",
     reValidateMode: "onChange",
     defaultValues: {
-      email: "",
+      identifier: "",
       password: "",
     },
   });
 
   useEffect(() => {
     if (rememberMe) {
-      const savedEmail = localStorage.getItem("email");
+      const savedEmail = localStorage.getItem("identifier");
       if (savedEmail) {
-        setValue("email", savedEmail);
+        setValue("identifier", savedEmail);
       }
     }
   }, [rememberMe, setValue]);
@@ -56,7 +56,7 @@ const Login: React.FC = () => {
     }
   }, [isAuthenticated, navigate]);
 
-  const onSubmit = async (data: LoginFormData) => {
+  const onSubmit = async (data: LoginDto) => {
     dispatch(loginAction({ ...data, rememberMe }));
   };
 
@@ -204,12 +204,12 @@ const Login: React.FC = () => {
                 <FormField.Root
                   name="email"
                   layout="floating"
-                  error={errors.email?.message}
+                  error={errors.identifier?.message}
                 >
                   <div className="relative">
                     <FormField.Input
-                      type="email"
-                      {...register("email")}
+                      type="text"
+                      {...register("identifier")}
                       disabled={isLoading}
                       className={cn(
                         "h-12 bg-card/80 backdrop-blur-md border-2 rounded-lg text-sm sm:text-base transition-all duration-200",
@@ -225,9 +225,9 @@ const Login: React.FC = () => {
                       Email Address
                     </FormField.Label>
                   </div>
-                  {errors.email && (
+                  {errors.identifier && (
                     <FormField.Error icon>
-                      {errors.email.message}
+                      {errors.identifier.message}
                     </FormField.Error>
                   )}
                 </FormField.Root>

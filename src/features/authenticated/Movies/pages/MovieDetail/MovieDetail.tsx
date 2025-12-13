@@ -22,7 +22,7 @@ import { moviesAPI, type Movie } from "@/api/movies.api";
 import { Button, Loading, Alert, Badge, Card, Textarea } from "@/components/ui";
 import Image from "@/components/ui/Image";
 import Chip from "@/components/ui/Chip";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAppSelector } from "@/store/hooks";
 import { isAdmin } from "@/utils/permissions";
 import {
   EncodingProgress,
@@ -255,7 +255,7 @@ const CategorySelector: React.FC<{
 const MovieDetail: React.FC<MovieDetailProps> = ({ children, className }) => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user } = useAppSelector((state) => state.auth);
 
   // Check if user can edit
   const canEdit = isAdmin(user);

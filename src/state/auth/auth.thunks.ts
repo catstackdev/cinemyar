@@ -1,42 +1,69 @@
-import type { LoginFormData } from "@/features/auth/Login/schemas/auth.schema";
+import type { RegisterFormData } from "@/features/auth/Register/schemas/auth.schema";
 import { api } from "@/lib/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RefreshAuthResponse } from "./auth.types";
+import type { LoginDto } from "@/shared/types/validation";
 
 export const login = createAsyncThunk(
   "auth/login",
   async ({
-    email,
+    identifier,
     password,
     rememberMe,
-  }: LoginFormData & { rememberMe?: boolean }) => {
-    const response = await api.post("/auth/login", { email, password });
-    
-    // Store access token in localStorage
-    if (response.data.data?.access_token) {
-      localStorage.setItem("accessToken", response.data.data.access_token);
-    }
-    
-    // Handle remember me functionality
+  }: LoginDto & { rememberMe?: boolean }) => {
+    const response = await api.post("/auth/login", { identifier, password });
+
+    // Cookie-based auth: tokens are in HTTP-only cookies, not in response
+    // Backend sets cookies automatically
+    localStorage.setItem(
+      "accessTokenExpiresAt",
+      response.data.data?.accessTokenExpiresAt.toString(),
+    );
+
+    // Handle remember me functionality (store email only)
     if (rememberMe) {
       localStorage.setItem("rememberMe", "true");
-      localStorage.setItem("email", email);
+      localStorage.setItem("email", identifier);
     } else {
       localStorage.removeItem("rememberMe");
       localStorage.removeItem("email");
     }
 
     return {
-      user: response.data.data.user,
-      access_token: response.data.data.access_token,
+      user: response.data?.data?.user,
+      accessTokenExpiresAt: response.data?.data?.accessTokenExpiresAt,
+    };
+  },
+);
+
+export const register = createAsyncThunk(
+  "auth/register",
+  async ({ email, username, password }: RegisterFormData) => {
+    const response = await api.post("/auth/register", {
+      email,
+      username,
+      password,
+    });
+
+    // Cookie-based auth: tokens are in HTTP-only cookies, not in response
+    // Backend sets cookies automatically
+    localStorage.setItem(
+      "accessTokenExpiresAt",
+      response.data.data?.accessTokenExpiresAt.toString(),
+    );
+
+    return {
+      user: response.data.data?.user,
+      accessTokenExpiresAt: response.data.data?.accessTokenExpiresAt,
     };
   },
 );
 
 export const logout = createAsyncThunk("auth/logout", async () => {
   await api.post("/auth/logout");
-  // Clear localStorage on logout
-  localStorage.removeItem("accessToken");
+  // Cookie-based auth: backend clears cookies
+  // Only clear remember me preferences
+  localStorage.removeItem("accessTokenExpiresAt");
   localStorage.removeItem("rememberMe");
   localStorage.removeItem("email");
 });
@@ -44,39 +71,29 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 export const checkAuth = createAsyncThunk(
   "auth/checkAuth",
   async (): Promise<RefreshAuthResponse> => {
-    // Check if we have a token in localStorage first
-    const token = localStorage.getItem("accessToken");
-    if (!token) {
-      console.log("🔐 checkAuth: No token found in localStorage");
-      throw new Error("No access token found");
-    }
-
     try {
-      console.log("🔐 checkAuth: Making API call to /auth/validate with token:", token.substring(0, 20) + "...");
-      const response = await api.get("/auth/validate");
-      
+      console.log("🔐 checkAuth: Checking auth via cookie-based /auth/me");
+      // Use cookie-based /auth/me endpoint (cookies sent automatically)
+      const response = await api.get("/auth/me");
+
       console.log("🔐 checkAuth: API response success", {
         status: response.status,
         hasData: !!response.data,
         hasUserData: !!response.data?.data?.user,
-        hasToken: !!response.data?.data?.access_token
       });
-      
-      // Update token in localStorage if a new one is provided
-      if (response.data.data?.access_token) {
-        localStorage.setItem("accessToken", response.data.data.access_token);
-      }
-      
-      return response.data.data;
+
+      // Cookie-based auth: no token in response, only user data
+      return {
+        user: response.data.data?.user,
+        accessTokenExpiresAt: response.data.data?.accessTokenExpiresAt, // Not needed with cookie auth
+      };
     } catch (error: any) {
-      console.log("🔐 checkAuth: API call failed", {
+      localStorage.removeItem("accessTokenExpiresAt");
+      console.log("🔐 checkAuth: API call failed - no valid cookie", {
         message: error?.message,
         status: error?.response?.status,
         statusText: error?.response?.statusText,
-        responseData: error?.response?.data
       });
-      // Clear invalid token
-      localStorage.removeItem("accessToken");
       throw error;
     }
   },

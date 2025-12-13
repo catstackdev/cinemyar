@@ -10,11 +10,11 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   fallback,
   allowedRoles 
 }) => {
-  const { isAuthenticated, isLoading, accessToken } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, isLoading, accessTokenExpiresAt } = useAppSelector((state) => state.auth);
   const location = useLocation();
 
   // Show loading only if we're checking auth and have a token
-  if (isLoading && accessToken) {
+  if (isLoading && accessTokenExpiresAt) {
     return <LoadingScreen message="Checking authentication..." />;
   }
 

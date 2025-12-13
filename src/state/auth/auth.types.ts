@@ -1,4 +1,6 @@
-export type UserRole = "admin" | "translator" | "super-admin" | "user";
+import type { AuthUserRole } from "@/types/auth-enums.types";
+
+export type UserRole = AuthUserRole;
 
 export interface User {
   id: string;
@@ -15,12 +17,13 @@ export interface AuthState {
   isAuthenticated: boolean;
   isLoading: boolean;
   error: string | null;
-  accessToken?: string | null;
+  // accessToken?: string | null;
+  accessTokenExpiresAt?: number | null;
   hasInitialized?: boolean; // Track if we've attempted initial validation
 }
 
 export interface RefreshAuthResponse {
-  access_token: string | null;
+  accessTokenExpiresAt: number | null;
   user: User | null;
 }
 

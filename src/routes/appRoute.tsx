@@ -1,6 +1,10 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 
-import { LoadingScreen, ProtectedRoute, AppAuthGuard } from "@/components/common";
+import {
+  LoadingScreen,
+  ProtectedRoute,
+  AppAuthGuard,
+} from "@/components/common";
 import PageNotFound from "@/components/common/PageNotFound";
 import PageRouteError from "@/components/common/PageRouteError";
 import { AuthenticatedRoutesConfig } from "@/features/authenticated/routes";
@@ -8,6 +12,7 @@ import { PublicRoutesConfig } from "@/features/public/routes";
 import { AppLayout, PublicLayout } from "@/layouts";
 import { Suspense } from "react";
 import { AuthRoutesConfig } from "@/features/auth/routes";
+import { UserRole } from "@/shared/types/enums";
 
 const router = createBrowserRouter([
   {
@@ -26,7 +31,7 @@ const router = createBrowserRouter([
   {
     path: "/authenticated",
     element: (
-      <ProtectedRoute allowedRoles={["admin", "translator", "super-admin"]}>
+      <ProtectedRoute allowedRoles={[UserRole.ADMIN, UserRole.SUPER_ADMIN]}>
         <AppLayout />
       </ProtectedRoute>
     ),

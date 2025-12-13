@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import type { UserRole } from "@/state/auth/auth.types";
+import type { UserRole } from "@/state/auth";
 
 export interface ProtectedRouteProps {
   children: ReactNode;

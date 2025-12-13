@@ -11,5 +11,5 @@ export const FeedbackExamplesPage = () => {
   );
 };
 
-export { ProtectedRouteDemo } from "./ProtectedRouteDemo";
+// export { ProtectedRouteDemo } from "./ProtectedRouteDemo"; // Disabled - requires AuthContext
 export { VideoPlayerDemo } from "./VideoPlayerDemo";

@@ -5,11 +5,11 @@ import Logo from "@/components/ui/Logo";
 import { useTheme } from "@/contexts/ThemeContext";
 import { cn } from "@/utils/helpers";
 import type { PublicHeaderProps } from "./PublicLayout.types";
-import { useAuth } from "@/contexts/AuthContext";
+import { useAppSelector } from "@/store/hooks";
 import { UserDropdown } from "../AppHeader/components";
 
 const PublicHeader: React.FC<PublicHeaderProps> = ({ className }) => {
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated } = useAppSelector((state) => state.auth);
   const navigate = useNavigate();
   const { actualTheme, setTheme } = useTheme();
 
