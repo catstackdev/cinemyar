@@ -5,7 +5,7 @@ export interface ParamFilterDropdownProps extends React.ComponentPropsWithoutRef
   className?: string;
   filters: FilterGroup[];
   selectedValues?: Record<string, string>;
-  onFilterChange?: (values: Record<string, string>) => void;
+  onFilterChange?: (values: Record<string, string | undefined>) => void;
   loading?: boolean;
 }
 

@@ -34,9 +34,11 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
-  const handleSelect = (groupName: string, value: string) => {
+  const handleSelect = (groupName: string, value: string | undefined) => {
     const newValues = { ...selectedValues, [groupName]: value };
-    if (!value) delete newValues[groupName];
+    // if (!value) delete newValues[groupName];
+
+    console.log("newValues", newValues);
     onFilterChange?.(newValues);
   };
 
@@ -75,7 +77,7 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
                 <Chip
                   key={groupName}
                   variant="primary"
-                  onRemove={() => handleSelect(groupName, "")}
+                  onRemove={() => handleSelect(groupName, undefined)}
                 >
                   {group?.title}: {option.label}
                 </Chip>
