@@ -10,6 +10,7 @@ const Radio = ({
   className,
   disabled,
   id,
+  labelClass,
   ...rest
 }: RadioProps) => {
   const sizeClass = sizeClasses[size];
@@ -23,7 +24,7 @@ const Radio = ({
           id={radioId}
           disabled={disabled}
           className={cn(
-            "border-input text-primary focus:ring-2 focus:ring-primary focus:ring-offset-2",
+            "border-input text-primary ",
             "focus:ring-offset-background",
             "disabled:cursor-not-allowed disabled:opacity-50",
             error && "border-danger focus:ring-danger",
@@ -33,12 +34,12 @@ const Radio = ({
         />
       </div>
       {(label || description) && (
-        <div className="ml-3">
+        <div className={cn("ml-3", labelClass)}>
           {label && (
             <label
               htmlFor={radioId}
               className={cn(
-                "block text-sm font-medium text-foreground",
+                "block text-sm font-medium ",
                 disabled && "opacity-50 cursor-not-allowed",
                 error && "text-danger",
               )}
@@ -47,7 +48,12 @@ const Radio = ({
             </label>
           )}
           {description && (
-            <p className={cn("text-sm text-muted-foreground", disabled && "opacity-50")}>
+            <p
+              className={cn(
+                "text-sm text-muted-foreground",
+                disabled && "opacity-50",
+              )}
+            >
               {description}
             </p>
           )}

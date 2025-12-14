@@ -1,7 +1,7 @@
 import type { ChipVariant, ChipSize } from "./Chip.types";
 
 export const chipVariants: Record<ChipVariant, string> = {
-  default: "bg-gray-100 text-gray-700 hover:bg-gray-200",
+  default: "bg-foreground text-background hover:bg-foreground/80",
   primary: "bg-blue-100 text-blue-700 hover:bg-blue-200",
   success: "bg-green-100 text-green-700 hover:bg-green-200",
   warning: "bg-yellow-100 text-yellow-700 hover:bg-yellow-200",
