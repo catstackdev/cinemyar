@@ -16,7 +16,7 @@ export const adminNav: NavItem[] = [
     name: "Dashboard",
     icon: <DashboardIcon />,
     requiredRole: ["ADMIN", "SUPER_ADMIN"],
-    path: "/dashboard",
+    path: "/authenticated/dashboard",
   },
   {
     id: "movies",
@@ -27,7 +27,7 @@ export const adminNav: NavItem[] = [
       {
         id: "movies-all",
         name: "All Movies",
-        path: "/dashboard/movies",
+        path: "/authenticated/dashboard/movies",
         requiredPermissions: ["movie.view"],
       },
       {
@@ -60,7 +60,7 @@ export const adminNav: NavItem[] = [
       {
         id: "genres-all",
         name: "All Genres",
-        path: "/dashboard/genres",
+        path: "/authenticated/genres",
         requiredPermissions: ["genre.view"],
       },
       // {
@@ -72,14 +72,14 @@ export const adminNav: NavItem[] = [
       {
         id: "genres-staged-images",
         name: "Staged Images",
-        path: "/dashboard/genres/staged-images",
+        path: "/authenticated/genres/staged-images",
         requiredPermissions: ["genre.approve", "genre.publish", "genre.reject"],
         requireAllPermissions: false, // Need any permission (OR logic)
       },
       {
         id: "genres-deleted",
         name: "Deleted Genres",
-        path: "/dashboard/genres/deleted",
+        path: "/authenticated/genres/deleted",
         requiredPermissions: ["genre.view.deleted"],
       },
     ],

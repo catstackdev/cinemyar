@@ -2,7 +2,7 @@ import PageNotFound from "@/components/common/PageNotFound";
 import { createElement, lazy } from "react";
 import { type RouteObject, Navigate } from "react-router-dom";
 import { AuthenticatedMoviesRoutesConfig } from "./Movies/routes";
-import { AuthenticatedCategoriesRoutesConfig } from "./Categories/routes";
+import { AuthenticatedGenresRoutesConfig } from "./Genres/routes";
 
 const AuthenticatedDashboardPage = lazy(
   () => import("@/features/authenticated/Dashboard"),
@@ -35,12 +35,11 @@ export const AuthenticatedRoutesConfig: RouteObject[] = [
   },
 
   {
-    path: "categories",
-    // Component: CategoryPage,
+    path: "genres",
     handle: {
-      breadcrumb: { label: "Categories", icon: "🎬" },
+      breadcrumb: { label: "Genres", icon: "🎭" },
     },
-    children: AuthenticatedCategoriesRoutesConfig,
+    children: AuthenticatedGenresRoutesConfig,
   },
   // {
   //   path: "categories",
