@@ -1,7 +1,9 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/genre/genre-options.types.ts
-// Generated: 2025-12-13T17:50:25.550Z
+// Generated: 2025-12-14T03:23:38.143Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
+
+import { ApiResponse } from '../api-response.types';
 
 export type GenreOptionItem = {
   id: string;
@@ -10,3 +12,10 @@ export type GenreOptionItem = {
   iconUrls: Record<string, string> | null;
   children?: GenreOptionItem[];
 };
+
+/**
+ * Full API response type for  genre option list (frontend)
+ *
+ */
+
+export type PublicGenresOptionsApiResponse = ApiResponse<GenreOptionItem[]>;

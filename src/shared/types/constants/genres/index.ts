@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/genres/index.ts
-// Generated: 2025-12-13T17:50:25.548Z
+// Generated: 2025-12-14T03:23:38.141Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 export { GENRE_HIERARCHY } from './genre-hierarchy.const';

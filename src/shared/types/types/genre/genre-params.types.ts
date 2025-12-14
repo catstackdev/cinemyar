@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/genre/genre-params.types.ts
-// Generated: 2025-12-13T17:50:25.550Z
+// Generated: 2025-12-14T03:23:38.143Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**
@@ -14,4 +14,8 @@ export interface GenrePaginationParams {
   orderBy?: 'asc' | 'desc';
   page?: number; // Default: 1
   limit?: number; // Default: 10
+}
+
+export interface GenreOptionParams {
+  onlyParent?: boolean;
 }

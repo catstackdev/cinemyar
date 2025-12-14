@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/index.ts
-// Generated: 2025-12-13T17:50:25.548Z
+// Generated: 2025-12-14T03:23:38.142Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 // Re-export all constants from split files
