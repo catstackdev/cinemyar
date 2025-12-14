@@ -33,14 +33,16 @@ import type {
 import { AdminAllGenreQueryKey } from "../../hooks/admin-genere.query.key";
 import { AdminGenresAPI } from "../../api/admin-genres.api";
 import { useDebounce } from "@/hooks";
+import { AdminGenresParamFilter } from "../../components";
+import { QueryParamSearch } from "@/components/common/queryParams";
 
 const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   const navigate = useNavigate();
   const initialData = useLoaderData<AdminGenresApiResponse>();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [searchInput, setSearchInput] = useState(
-    searchParams.get("search") || "",
-  );
+  // const [searchInput, setSearchInput] = useState(
+  //   searchParams.get("search") || "",
+  // );
 
   // Sorting hook
   const { requestSort, getSortDirection } = useTableSortParams({
@@ -70,19 +72,19 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
     initialData,
   });
 
-  const debouncedSearch = useDebounce(searchInput, 500);
+  // const debouncedSearch = useDebounce(searchInput, 500);
 
   // Update URL params when debounced search changes
-  React.useEffect(() => {
-    const newParams = new URLSearchParams(searchParams);
-    if (debouncedSearch) {
-      newParams.set("search", debouncedSearch);
-      newParams.set("page", "1"); // Reset to page 1 on search
-    } else {
-      newParams.delete("search");
-    }
-    setSearchParams(newParams, { replace: true });
-  }, [debouncedSearch]);
+  // React.useEffect(() => {
+  //   const newParams = new URLSearchParams(searchParams);
+  //   if (debouncedSearch) {
+  //     newParams.set("search", debouncedSearch);
+  //     newParams.set("page", "1"); // Reset to page 1 on search
+  //   } else {
+  //     newParams.delete("search");
+  //   }
+  //   setSearchParams(newParams, { replace: true });
+  // }, [debouncedSearch]);
 
   const updateParams = useCallback(
     (updates: Partial<GenrePaginationParams>) => {
@@ -119,7 +121,7 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   }, []);
 
   const totalPages = data?.data?.meta?.totalPages ?? 1;
-  const currentPage = params.page;
+  const currentPage = params.page ?? 1;
   const totalItems = data?.data?.meta?.total ?? 0;
 
   return (
@@ -150,19 +152,14 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
           </div>
 
           {/* Search Bar */}
-          <div className="w-full max-w-md relative">
-            <div className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
-              <Search className="w-4 h-4" />
-            </div>
-            <input
-              type="text"
+          <div className="w-full flex justify-between gap-2 items-baseline">
+            <QueryParamSearch
+              paramName="search"
+              debounceDelay={500}
               placeholder="Search genres..."
-              value={searchInput}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setSearchInput(e.target.value)
-              }
-              className="w-full pl-10 pr-4 py-2 border border-border rounded-md bg-background text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
             />
+
+            <AdminGenresParamFilter />
           </div>
         </CardHeader>
 
