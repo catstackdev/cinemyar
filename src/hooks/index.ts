@@ -7,3 +7,5 @@ export { useClickOutside } from "./useClickOutside";
 export { useToggle } from "./useToggle";
 export { useCopyToClipboard } from "./useCopyToClipboard";
 export { useBreadcrumbs } from "./useBreadcrumbs";
+export { useParamUpdate } from "./useParamUpdate";
+export type { UseParamUpdateOptions, UseParamUpdateReturn } from "./useParamUpdate";

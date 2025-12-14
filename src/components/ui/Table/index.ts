@@ -34,5 +34,10 @@ export type {
 export type { TableSortableHeadProps } from "./TableSortableHead";
 export { useTableSort } from "./hooks/useTableSort";
 export type { SortDirection, SortConfig, UseTableSortReturn } from "./hooks/useTableSort";
+export { useTableSortParams } from "./hooks/useTableSortParams";
+export type {
+  UseTableSortParamsOptions,
+  UseTableSortParamsReturn,
+} from "./hooks/useTableSortParams";
 
 export default Table;
