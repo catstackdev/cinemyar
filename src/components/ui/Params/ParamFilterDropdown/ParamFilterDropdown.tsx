@@ -36,10 +36,9 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
 
   const handleSelect = (groupName: string, value: string | undefined) => {
     const newValues = { ...selectedValues, [groupName]: value };
-    // if (!value) delete newValues[groupName];
-
     console.log("newValues", newValues);
     onFilterChange?.(newValues);
+    if (!value) delete newValues[groupName];
   };
 
   // Close dropdown if clicked outside
@@ -55,34 +54,44 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
   // const selectedSummary = filters
   //   .map((group) => selectedValues[group.name] || group.title)
   //   .join(", ");
 
   return (
     <div
-      className={cn("flex gap-2 items-baseline justify-between", className)}
+      className={cn("flex gap-2 items-baseline justify-end", className)}
       {...rest}
     >
-      <div className="flex flex-wrap gap-2 w-full">
+      <div className="flex flex-wrap gap-2 ">
         {Object.entries(selectedValues).length > 0
-          ? Object.entries(selectedValues).map(([groupName, value]) => {
-              const group = filters.find((g) => g.name === groupName);
-              const option = group?.options.find((o) => o.value === value);
+          ? Object.entries(selectedValues)
+              .map(([groupName, value]) => {
+                // 1. Find the filter group definition
+                const group = filters.find((g) => g.name === groupName);
 
-              if (!option) return null;
+                // 2. CHECK: If the group doesn't exist OR if notShowChip is true, skip rendering the chip.
+                if (!group || group.notShowChip) {
+                  return null;
+                }
 
-              return (
-                <Chip
-                  key={groupName}
-                  variant="primary"
-                  onRemove={() => handleSelect(groupName, undefined)}
-                >
-                  {group?.title}: {option.label}
-                </Chip>
-              );
-            })
+                // 3. Find the selected option within the group
+                const option = group.options.find((o) => o.value === value);
+
+                if (!option) return null;
+
+                return (
+                  <Chip
+                    key={groupName}
+                    variant="primary"
+                    // Pass undefined to remove the filter (as implemented in previous examples)
+                    onRemove={() => handleSelect(groupName, undefined)}
+                  >
+                    {group.title}: {option.label}
+                  </Chip>
+                );
+              })
+              .filter(Boolean) // Remove the nulls returned by the map function
           : null}
       </div>
 

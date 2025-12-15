@@ -1,5 +1,8 @@
 import React, { useMemo } from "react";
-import type { AdminGenresParamFilterProps } from "./AdminGenresParamFilter.types";
+import {
+  defaultParams,
+  type AdminGenresParamFilterProps,
+} from "./AdminGenresParamFilter.types";
 import { useGenreOption } from "@/features/domain/genres/hooks/useGenreOption";
 import type { FilterGroup } from "@/components/ui/Params/ParamFilterDropdown/ParamFilterDropdown.types";
 import { QueryParamFilter } from "@/components/common/queryParams";
@@ -32,6 +35,7 @@ const AdminGenresParamFilter: React.FC<AdminGenresParamFilterProps> = ({
       {
         name: "orderBy",
         title: "Order By",
+        notShowChip: true,
         options: [
           { label: "Ascending", value: "asc" },
           { label: "Descending", value: "desc" },
@@ -47,6 +51,7 @@ const AdminGenresParamFilter: React.FC<AdminGenresParamFilterProps> = ({
       filters={filters}
       className={cn("w-full", className)}
       loading={isLoading}
+      defaultParams={defaultParams}
     >
       {children}
     </QueryParamFilter>

@@ -24,7 +24,7 @@ import {
 } from "@/components/ui/Card";
 import { formatDate } from "@/utils/helpers";
 import { useQuery } from "@tanstack/react-query";
-import { PlusIcon, Edit, Search } from "lucide-react";
+import { PlusIcon, Edit } from "lucide-react";
 import { useNavigate, useLoaderData, useSearchParams } from "react-router-dom";
 import type {
   AdminGenresApiResponse,
@@ -32,7 +32,6 @@ import type {
 } from "@/shared/types/types";
 import { AdminAllGenreQueryKey } from "../../hooks/admin-genere.query.key";
 import { AdminGenresAPI } from "../../api/admin-genres.api";
-import { useDebounce } from "@/hooks";
 import { AdminGenresParamFilter } from "../../components";
 import { QueryParamSearch } from "@/components/common/queryParams";
 
@@ -40,9 +39,6 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   const navigate = useNavigate();
   const initialData = useLoaderData<AdminGenresApiResponse>();
   const [searchParams, setSearchParams] = useSearchParams();
-  // const [searchInput, setSearchInput] = useState(
-  //   searchParams.get("search") || "",
-  // );
 
   // Sorting hook
   const { requestSort, getSortDirection } = useTableSortParams({
@@ -71,20 +67,6 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
     queryFn: () => AdminGenresAPI.getGenres(params),
     initialData,
   });
-
-  // const debouncedSearch = useDebounce(searchInput, 500);
-
-  // Update URL params when debounced search changes
-  // React.useEffect(() => {
-  //   const newParams = new URLSearchParams(searchParams);
-  //   if (debouncedSearch) {
-  //     newParams.set("search", debouncedSearch);
-  //     newParams.set("page", "1"); // Reset to page 1 on search
-  //   } else {
-  //     newParams.delete("search");
-  //   }
-  //   setSearchParams(newParams, { replace: true });
-  // }, [debouncedSearch]);
 
   const updateParams = useCallback(
     (updates: Partial<GenrePaginationParams>) => {

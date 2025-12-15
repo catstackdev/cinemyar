@@ -1,5 +1,7 @@
-export interface AdminGenresParamFilterProps
-  extends React.ComponentPropsWithoutRef<"div"> {
+export interface AdminGenresParamFilterProps extends React.ComponentPropsWithoutRef<"div"> {
   children?: React.ReactNode;
   className?: string;
 }
+export const defaultParams = {
+  orderBy: "asc",
+};

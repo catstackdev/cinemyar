@@ -6,4 +6,5 @@ export interface QueryParamFilterProps {
   className?: string;
   filters: FilterGroup[];
   loading?: boolean;
+  defaultParams?: Record<string, string>;
 }

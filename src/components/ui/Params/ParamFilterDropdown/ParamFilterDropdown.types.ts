@@ -13,4 +13,5 @@ export interface FilterGroup {
   name: string; // as primary key // param key
   title: string; // header
   options: Option[];
+  notShowChip?: boolean;
 }
