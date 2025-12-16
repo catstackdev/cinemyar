@@ -18,7 +18,11 @@ import type {
   StepStatus,
   StepperContentProps,
 } from "./Stepper.types";
-import { MOBILE_BREAKPOINT } from "./constants";
+import {
+  CONECTOR_X_PADDING,
+  CONECTOR_Y_POSITION,
+  MOBILE_BREAKPOINT,
+} from "./constants";
 
 const Stepper = forwardRef<HTMLDivElement, StepperProps>(
   (
@@ -243,76 +247,109 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
           aria-label="Progress"
         >
           {/* Steps header */}
-          <div className="flex items-center justify-between w-full">
-            {steps.map((step, index) => {
-              const isClickable =
-                !step.disabled &&
-                (step.onClick !== undefined || // Custom onClick always makes it clickable
-                  (allowClickNavigation && index <= activeStep)); // Only allow clicking completed or current steps when allowClickNavigation is true
+          <div className="flex flex-col w-full">
+            {/* Indicators with connectors - connector lines go between circles only */}
+            <div className="flex items-center justify-between w-full">
+              {steps.map((step, index) => {
+                const isClickable =
+                  !step.disabled &&
+                  (step.onClick !== undefined || // Custom onClick always makes it clickable
+                    (allowClickNavigation && index <= activeStep)); // Only allow clicking completed or current steps when allowClickNavigation is true
 
-              return (
-                <div
-                  key={index}
-                  className="flex items-center flex-1 last:flex-initial"
-                >
-                  {/* Step container */}
-                  <div className="flex flex-col items-center min-w-0">
-                    {/* Indicator */}
-                    <button
-                      type="button"
-                      onClick={() => handleStepClick(index)}
-                      disabled={!isClickable}
-                      className={cn(
-                        "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary",
-                        "transition-transform duration-200",
-                        isClickable && "cursor-pointer hover:scale-105",
-                        !isClickable && "cursor-default",
+                return (
+                  <div key={index} className="flex  flex-1 ">
+                    <div className="flex gap-2 flex-col relative flex-1">
+                      {index < steps.length - 1 && (
+                        <div
+                          className={cn(
+                            " w-full absolute   transform translate-x-1/2",
+                            CONECTOR_X_PADDING[size],
+                            CONECTOR_Y_POSITION[size],
+                          )}
+                        >
+                          <StepperConnector
+                            isComplete={steps[index]?.status === "complete"}
+                          />
+                        </div>
                       )}
-                      aria-label={`${step.label}, step ${index + 1} of ${steps.length}`}
-                      aria-current={
-                        step.status === "current" ? "step" : undefined
-                      }
-                    >
-                      <StepperIndicator
-                        stepNumber={index + 1}
-                        status={step.status}
-                        icon={step.icon}
-                        isLoading={step.isLoading}
-                      />
-                    </button>
-
-                    {/* Label & Description */}
-                    <div className="mt-2 text-center max-w-[120px]">
-                      <p
+                      <button
+                        type="button"
+                        onClick={() => handleStepClick(index)}
+                        disabled={!isClickable}
                         className={cn(
-                          "text-sm font-medium truncate transition-colors",
-                          step.status === "current" && "text-foreground",
-                          step.status === "complete" && "text-foreground",
-                          step.status === "upcoming" && "text-muted-foreground",
-                          step.status === "error" && "text-danger",
+                          "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-primary",
+                          "transition-transform duration-200 shrink-0",
+                          "self-center",
+                          isClickable && "cursor-pointer hover:scale-105",
+                          !isClickable && "cursor-default",
                         )}
+                        aria-label={`${step.label}, step ${index + 1} of ${steps.length}`}
+                        aria-current={
+                          step.status === "current" ? "step" : undefined
+                        }
                       >
-                        {step.label}
-                      </p>
-                      {step.description && (
-                        <p className="text-xs text-muted-foreground mt-1 truncate">
-                          {step.description}
-                        </p>
-                      )}
-                    </div>
-                  </div>
+                        <StepperIndicator
+                          stepNumber={index + 1}
+                          status={step.status}
+                          icon={step.icon}
+                          isLoading={step.isLoading}
+                        />
+                      </button>
+                      <div className="flex items-start flex-1 last:flex-none self-center">
+                        {/* Label aligned with indicator */}
+                        <div
+                          className={cn("flex flex-col items-center shrink-0")}
+                        >
+                          <p
+                            className="text-sm font-medium w-full text-center"
+                            title={step.label}
+                          >
+                            <span
+                              className={cn(
+                                "block px-1 transition-colors",
+                                step.status === "current" && "text-foreground",
+                                step.status === "complete" && "text-foreground",
+                                step.status === "upcoming" &&
+                                  "text-muted-foreground",
+                                step.status === "error" && "text-danger",
+                              )}
+                            >
+                              {step.label}
+                            </span>
+                          </p>
+                          {step.description && (
+                            <p
+                              className="text-xs mt-1 w-full text-center"
+                              title={step.description}
+                            >
+                              <span className="block truncate px-1 text-muted-foreground">
+                                {step.description}
+                              </span>
+                            </p>
+                          )}
+                        </div>
 
-                  {/* Connector line (not for last step) */}
-                  {index < steps.length - 1 && (
-                    <div className="flex-1 px-2">
-                      <StepperConnector
-                        isComplete={steps[index]?.status === "complete"}
-                      />
+                        {/* Spacer to match connector width */}
+                        {index < steps.length - 1 && (
+                          <div className="flex-1 px-2" aria-hidden="true" />
+                        )}
+                      </div>
                     </div>
-                  )}
-                </div>
-              );
-            })}
+
+                    {/* Connector line (not for last step) */}
+                    {/* {index < steps.length - 1 && ( */}
+                    {/*   <div className="flex-1 px-2"> */}
+                    {/*     <StepperConnector */}
+                    {/*       isComplete={steps[index]?.status === "complete"} */}
+                    {/*     /> */}
+                    {/*   </div> */}
+                    {/* )} */}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Labels & Descriptions below indicators - mirrors indicator structure */}
           </div>
 
           {/* Active step content */}

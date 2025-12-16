@@ -16,7 +16,7 @@ const StepperConnector = forwardRef<HTMLDivElement, StepperConnectorProps>(
       <div
         ref={ref}
         className={cn(
-          'relative transition-all duration-500 ease-in-out',
+          'transition-colors duration-300',
           CONNECTOR_SIZES[size],
           isComplete
             ? CONNECTOR_STATUS_CLASSES.complete[color]
@@ -25,16 +25,7 @@ const StepperConnector = forwardRef<HTMLDivElement, StepperConnectorProps>(
         )}
         role="separator"
         aria-hidden="true"
-      >
-        {/* Animated fill for transition */}
-        <div
-          className={cn(
-            'absolute inset-0 transition-transform duration-500 ease-in-out origin-left',
-            CONNECTOR_STATUS_CLASSES.complete[color],
-            isComplete ? 'scale-x-100' : 'scale-x-0',
-          )}
-        />
-      </div>
+      />
     );
   },
 );
