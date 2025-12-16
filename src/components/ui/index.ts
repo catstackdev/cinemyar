@@ -40,6 +40,13 @@ export { default as Separator } from "./Separator";
 export { default as Skeleton } from "./Skeleton";
 export { default as Spinner } from "./Spinner";
 export { default as Stack } from "./Stack";
+export {
+  Stepper,
+  StepperStep,
+  StepperContent,
+  StepperIndicator,
+  StepperConnector,
+} from "./Stepper";
 export { default as Switch } from "./Switch";
 export { default as Tabs } from "./Tabs";
 export {
@@ -111,6 +118,15 @@ export type {
   StackJustify,
   StackSpacing,
 } from "./Stack/Stack.types";
+export type {
+  StepperProps,
+  StepperStepProps,
+  StepperContentProps,
+  StepStatus,
+  StepperVariant,
+  StepperSize,
+  StepperColor,
+} from "./Stepper/Stepper.types";
 export type { SwitchProps, SwitchSize } from "./Switch/Switch.types";
 export type { TabsProps, TabItem } from "./Tabs/Tabs.types";
 export type {
