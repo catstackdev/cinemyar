@@ -22,6 +22,18 @@ export const hasPermission = (
   return user.permissions.includes(permission);
 };
 
+export const hasPermissions = (
+  user: User | null,
+  permissions: string | string[],
+  requireAll = false,
+): boolean => {
+  if (!user || !user.permissions) return false;
+  const required = Array.isArray(permissions) ? permissions : [permissions];
+  return requireAll
+    ? required.every((p) => user?.permissions?.includes(p))
+    : required.some((p) => user.permissions?.includes(p));
+};
+
 /**
  * Check if user has admin privileges (admin or super-admin)
  */

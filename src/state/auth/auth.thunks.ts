@@ -1,4 +1,4 @@
-import type { RegisterFormData } from "@/features/auth/Register/schemas/auth.schema";
+import type { RegisterFormData } from "@/modules/auth/Register/schemas/auth.schema";
 import { api } from "@/lib/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RefreshAuthResponse } from "./auth.types";

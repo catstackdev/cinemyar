@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/axios";
-import type { AddCategoryFormData } from "@/schemas/movie.schema";
+import type { AddGenreFormData } from "@/schemas/movie.schema";
 import type { ResponseType } from "@/types/response.types";
 export interface Category {
   id: string;
@@ -42,7 +42,7 @@ export const categoriesAPI = {
 
   updateCategory: async (
     id: string,
-    categoryData: Partial<AddCategoryFormData>,
+    categoryData: Partial<AddGenreFormData>,
   ): Promise<ResponseType<Category>> => {
     const { data } = await apiClient.patch<ResponseType<Category>>(
       `/categories/${id}`,
@@ -52,14 +52,14 @@ export const categoriesAPI = {
   },
 };
 
-export const addCategory = async (data: AddCategoryFormData) => {
+export const addCategory = async (data: AddGenreFormData) => {
   const res = await apiClient.post<ResponseType<Category>>("/categories", data);
   return res.data;
 };
 
 export const updateCategory = async (
   id: string,
-  data: Partial<AddCategoryFormData>,
+  data: Partial<AddGenreFormData>,
 ) => {
   const res = await apiClient.patch<ResponseType<Category>>(
     `/categories/${id}`,

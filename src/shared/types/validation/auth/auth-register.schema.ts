@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/validation/auth/auth-register.schema.ts
-// Generated: 2025-12-14T03:23:38.144Z
+// Generated: 2025-12-17T07:26:43.467Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import { z } from 'zod';

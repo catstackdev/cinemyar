@@ -1,5 +1,8 @@
 import type { User } from "@/state/auth/auth.types";
-import type { NavItem, NavChildItem } from "@/layouts/AppSidebar/nav/nav.types";
+import type {
+  NavItem,
+  NavChildItem,
+} from "@/modules/authenticated/layouts/AppSidebar/nav/nav.types";
 import type { UserRole } from "@/shared/types/types";
 
 /**

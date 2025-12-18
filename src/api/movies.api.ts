@@ -1,4 +1,4 @@
-import type { AddNewMovieFormData } from "@/features/authenticated/Movies/components/AddNewMovieModal/schemas/AddNewMovie.schema";
+import type { AddNewMovieFormData } from "@/modules/authenticated/features/Movies/components/AddNewMovieModal/schemas/AddNewMovie.schema";
 import { apiClient } from "@/lib/axios";
 
 export interface Movie {
