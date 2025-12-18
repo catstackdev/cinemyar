@@ -54,7 +54,7 @@ export const AdminGenresAPI = {
   ): Promise<ApiResponse<AdminGenreSerialized>> => {
     const { data: res } = await apiClient.put<
       ApiResponse<AdminGenreSerialized>
-    >(`/genres/${id}`, data);
+    >(`/admin/genres/${id}`, data);
     return res;
   },
   //
@@ -64,9 +64,15 @@ export const AdminGenresAPI = {
     );
     return data;
   },
-  permanentDeleteGenre: async (id: string): Promise<ApiResponse<any>> => {
+  permanentDeleteGenre: async (
+    id: string,
+    reason?: string,
+  ): Promise<ApiResponse<any>> => {
     const { data } = await apiClient.delete<ApiResponse<any>>(
       `/admin/genres/deleted/${id}/permanent`,
+      {
+        data: reason ? { reason } : {},
+      },
     );
     return data;
   },

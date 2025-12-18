@@ -9,6 +9,7 @@ import { AdminGenresAPI } from "@/modules/authenticated/features/Genres/api/admi
 import { AdminAllGenreQueryKey } from "./admin-genere.query.key";
 import { Time } from "@/shared/types/constants/time.const";
 import type { GenrePaginationParams } from "@/shared/types/types";
+import type { UpdateGenreFormData } from "@/schemas/movie.schema";
 
 //
 export const useAdminGenres = (params: GenrePaginationParams) => {
@@ -24,6 +25,22 @@ export const useAdminAddGenre = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: AdminGenresAPI.addGenre,
+    onSuccess: () => {
+      return refreshQueryClient(queryClient);
+    },
+  });
+};
+
+export const useAdminUpdateGenre = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({
+      id,
+      data,
+    }: {
+      id: string;
+      data: Partial<UpdateGenreFormData>;
+    }) => AdminGenresAPI.updateGenre(id, data),
     onSuccess: () => {
       return refreshQueryClient(queryClient);
     },
@@ -46,7 +63,8 @@ export const useSolfDeleteGenre = () => {
 export const usePermanentDeleteGenre = () => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: AdminGenresAPI.permanentDeleteGenre,
+    mutationFn: ({ id, reason }: { id: string; reason: string }) =>
+      AdminGenresAPI.permanentDeleteGenre(id, reason),
     onSuccess: () => {
       return refreshQueryClient(queryClient);
     },

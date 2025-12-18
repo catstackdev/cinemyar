@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import type { AddNewGenresProps } from "./AddNewGenres.types";
 import {
   ModalRoot,
@@ -9,13 +9,26 @@ import {
   ModalFooter,
 } from "@/components/ui/Modal";
 import { useForm } from "react-hook-form";
-import GenreMetaDataForm from "./GenreMetaDataForm";
-import type { AddGenreFormData } from "@/schemas/movie.schema";
-import { Button, Stepper, StepperContent, StepperStep } from "@/components/ui";
+import { AddGenreSchema, type AddGenreFormData } from "@/schemas/movie.schema";
+import {
+  Button,
+  FormField,
+  Stack,
+  Stepper,
+  StepperContent,
+  StepperStep,
+} from "@/components/ui";
 import { CheckCircle, FileText, Upload } from "lucide-react";
-import { useAdminAddGenre } from "../../../hooks/useAdminGenres";
+import {
+  useAdminAddGenre,
+  useAdminUpdateGenre,
+} from "../../../hooks/useAdminGenres";
 import type { ApiResponse, AdminGenreSerialized } from "@/shared/types/types";
 import { applyServerErrors } from "@/utils/helpers/applyServerError";
+import { slugify } from "../../../utils/helpers";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { GenresParentSelect } from "@/modules/domain/genres/components";
+import { formFields } from "./AddNewGenres.models";
 
 const AddNewGenres: React.FC<AddNewGenresProps> = ({
   children,
@@ -23,34 +36,93 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   onOpenChange,
 }) => {
   const { mutate: addGenre, isPending } = useAdminAddGenre();
-  const [newGenreId, setNewGenreId] = useState<string | null>(null);
+  const { mutate: updateGenre, isPending: isPendingUpdate } =
+    useAdminUpdateGenre();
+  const [newGenre, setNewGenre] = useState<AdminGenreSerialized | null>(null);
   const [activeStep, setActiveStep] = useState(0);
   const {
     register,
     handleSubmit,
     control,
     reset,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty, isSubmitting },
     trigger,
+    watch,
+    setValue,
     setError,
     getValues,
-  } = useForm<AddGenreFormData>({});
+  } = useForm<AddGenreFormData>({
+    resolver: zodResolver(AddGenreSchema),
+    defaultValues: {
+      name: newGenre?.name ?? "",
+      slug: newGenre?.slug ?? "",
+      parentId: newGenre?.parentId ?? "",
+      description: newGenre?.description ?? "",
+    },
+  });
+  const watchedName = watch("name");
+  useEffect(() => {
+    if (!newGenre && watchedName) {
+      const generatedSlug = slugify(watchedName);
+      setValue("slug", generatedSlug, {
+        shouldValidate: true,
+        shouldDirty: true,
+      });
+    }
+  }, [watchedName, setValue, newGenre]);
+  useEffect(() => {
+    if (newGenre) {
+      reset(
+        {
+          name: newGenre.name,
+          slug: newGenre.slug,
+          parentId: newGenre.parentId,
+          description: newGenre.description ?? "",
+        },
+        {
+          keepDefaultValues: false, // Ensures these become the new "base" values
+        },
+      );
+    }
+  }, [newGenre, reset]);
+
   const handleStep1Submit = async (data: AddGenreFormData) => {
-    addGenre(data, {
-      onSuccess: (response: ApiResponse<AdminGenreSerialized>) => {
-        console.log("response", response);
-        const id = response?.data?.id;
-        setNewGenreId(id);
+    if (newGenre) {
+      if (!isDirty) {
         setActiveStep(1);
-      },
-      onError: (error: any) => {
-        console.log("error", error);
-        applyServerErrors<AddGenreFormData>(error, setError);
-      },
-    });
+        return;
+      }
+      updateGenre(
+        { id: newGenre.id, data },
+        {
+          onSuccess: (response: ApiResponse<AdminGenreSerialized>) => {
+            console.log("response", response);
+            setNewGenre(response?.data);
+            setActiveStep(1);
+          },
+          onError: (error: any) => {
+            console.log("error", error);
+            applyServerErrors<AddGenreFormData>(error, setError);
+          },
+        },
+      );
+    } else {
+      addGenre(data, {
+        onSuccess: (response: ApiResponse<AdminGenreSerialized>) => {
+          console.log("response", response);
+          setNewGenre(response?.data);
+          reset();
+          setActiveStep(1);
+        },
+        onError: (error: any) => {
+          console.log("error", error);
+          applyServerErrors<AddGenreFormData>(error, setError);
+        },
+      });
+    }
   };
   const handleStep2Submit = async () => {
-    if (!newGenreId) return; // Should not happen if flow is correct
+    if (!newGenre) return; // Should not happen if flow is correct
     const { iconFile, bannerFile } = getValues();
 
     // ** API Call for Upload **
@@ -63,7 +135,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   const handleNext = async () => {
     if (activeStep === 0) {
       // Step 0 requires validation before submitting/moving
-      const isValid = await trigger(["name", "description", "slug"]);
+      // const isValid = await trigger(["name", "description", "slug"]);
       if (isValid) {
         handleSubmit(handleStep1Submit)();
       }
@@ -104,11 +176,47 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
               <StepperContent>
                 <div className="p-4 bg-muted/50 rounded-lg overflow-auto max-h-[calc(100vh-400px)]">
                   <h3 className="font-semibold mb-4">Create Your Account</h3>
-                  <GenreMetaDataForm
-                    register={register}
-                    errors={errors}
-                    control={control}
-                  />
+
+                  <Stack spacing="lg">
+                    {formFields.map(({ name, label, type, required }) => {
+                      const key = name as keyof AddGenreFormData;
+                      return (
+                        <FormField.Root
+                          key={name}
+                          name={name}
+                          layout="stacked"
+                          error={errors[key]?.message}
+                          disabled={
+                            (!!newGenre && name == "slug") || isSubmitting
+                          }
+                        >
+                          <FormField.Label required={required}>
+                            {label}
+                          </FormField.Label>
+                          {type === "textarea" ? (
+                            <FormField.Textarea {...register(key)} />
+                          ) : type === "select" ? (
+                            <GenresParentSelect name={key} control={control} />
+                          ) : (
+                            <FormField.Input
+                              type={type}
+                              {...register(
+                                key,
+                                type === "number"
+                                  ? { valueAsNumber: true }
+                                  : {},
+                              )}
+                            />
+                          )}
+                          {errors[key] && (
+                            <FormField.Error icon>
+                              {errors[key]?.message?.toString()}
+                            </FormField.Error>
+                          )}
+                        </FormField.Root>
+                      );
+                    })}
+                  </Stack>
                 </div>
               </StepperContent>
             </StepperStep>
@@ -179,7 +287,11 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
               onClick={handleNext} // Calls the logic that validates, submits, or advances
               disabled={isPending}
             >
-              {activeStep === 0 ? "Save & Next" : "Complete Upload"}
+              {activeStep === 0
+                ? newGenre
+                  ? "Update & Next"
+                  : "Save & Next"
+                : "Complete Upload"}
             </Button>
           ) : (
             // Final close button after success

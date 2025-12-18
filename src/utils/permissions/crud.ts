@@ -7,6 +7,7 @@ export const CRUD = {
 export const GENRE_PERMISSIONS = {
   CREATE: "genre.create",
   UPDATE: "genre.update",
+  UPLOAD: "genre.upload",
   DELETE: "genre.delete",
   DELETED_VIEW: "genre.delete.view",
   DELETED_RESTORE: "genre.delete.restore",

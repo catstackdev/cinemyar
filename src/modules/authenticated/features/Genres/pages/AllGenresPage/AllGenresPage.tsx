@@ -41,7 +41,10 @@ import {
   PermissionGuard,
   TableActionButtons,
 } from "@/components/common";
-import { useSolfDeleteGenre } from "../../hooks/useAdminGenres";
+import {
+  usePermanentDeleteGenre,
+  useSolfDeleteGenre,
+} from "../../hooks/useAdminGenres";
 import { useCrudPage, useModal } from "@/hooks";
 
 const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
@@ -64,6 +67,8 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   // Delete mutation
   const { mutate: solfDeleteGenre, isPending: isSolfDeleting } =
     useSolfDeleteGenre();
+  // const { mutate: permanentDeleteGenre, isPending: isPermanentDeleting } =
+  //   usePermanentDeleteGenre();
 
   // CRUD Page Hook - combines pagination, sorting, and data fetching
   const {
@@ -124,6 +129,19 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
       });
     }
   }, [deleteModal.data]);
+
+  // const confirmPermanentDelete = useCallback(() => {
+  //   if (deleteModal.data) {
+  //     permanentDeleteGenre(deleteModal.data?.id, {
+  //       onSuccess: () => {
+  //         deleteModal.close();
+  //       },
+  //       onError: (error) => {
+  //         console.error("Failed to delete genre:", error);
+  //       },
+  //     });
+  //   }
+  // }, [deleteModal.data]);
   //eoc delete modal
 
   return (

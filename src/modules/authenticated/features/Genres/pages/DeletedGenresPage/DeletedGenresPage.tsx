@@ -18,6 +18,7 @@ import {
   Pagination,
   Container,
   Table,
+  FormField,
 } from "@/components/ui";
 import {
   CardHeader,
@@ -43,10 +44,25 @@ import {
   useDeletedGenreRestore,
   usePermanentDeleteGenre,
 } from "../../hooks/useAdminGenres";
+import {
+  type DeleteGenreFormData,
+  DeleteGenreSchema,
+} from "@/schemas/movie.schema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
 
 const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
   const navigate = useNavigate();
+
   const initialData = useLoaderData<AdminGenresApiResponse>();
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors, isSubmitting },
+  } = useForm<DeleteGenreFormData>({
+    resolver: zodResolver(DeleteGenreSchema),
+  });
 
   const deleteModal = useModal<AdminGenreSerialized>();
   const restoreModal = useModal<AdminGenreSerialized>();
@@ -116,19 +132,25 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
     },
     [deleteModal],
   );
-  const confirmDelete = useCallback(() => {
+  const handleActualDelete = async (data: DeleteGenreFormData) => {
     if (deleteModal.data) {
-      permanentDeleteGenre(deleteModal.data?.id, {
-        onSuccess: () => {
-          deleteModal.close();
+      permanentDeleteGenre(
+        {
+          id: deleteModal.data?.id,
+          reason: data.reason,
         },
-        onError: (error) => {
-          console.error("Failed to delete genre:", error);
+        {
+          onSuccess: () => {
+            reset();
+            deleteModal.close();
+          },
+          onError: (error) => {
+            console.error("Failed to delete genre:", error);
+          },
         },
-      });
+      );
     }
-  }, [deleteModal.data]);
-  //eoc delete modal
+  };
 
   const handleRestoreClick = useCallback(
     (genre: AdminGenreSerialized, e: React.MouseEvent) => {
@@ -173,15 +195,41 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
       <PermissionGuard permissions={GENRE_PERMISSIONS.DELETE} roles={["ADMIN"]}>
         <ConfirmDialog
           open={deleteModal.isOpen}
-          onOpenChange={deleteModal.close}
-          onConfirm={confirmDelete}
+          onOpenChange={(open) => {
+            if (!open) {
+              deleteModal.close();
+              reset(); // Clear the form when closing
+            }
+          }}
+          onConfirm={handleSubmit(handleActualDelete)}
           title="Delete Genre"
-          description={`Are you sure you want to delete "${deleteModal.data?.name}"? This action cannot be undone.`}
           confirmText="Delete"
           cancelText="Cancel"
           variant="danger"
           isLoading={isDeleting}
-        />
+        >
+          <FormField.Root
+            name="reason"
+            layout="stacked"
+            error={errors.reason?.message}
+          >
+            <FormField.Label required>Reason for Delete</FormField.Label>
+            <FormField.Textarea
+              {...register("reason")}
+              placeholder="Why is this genre being removed?"
+              disabled={isSubmitting}
+            />
+
+            {errors.reason && (
+              <FormField.Error icon>{errors.reason.message}</FormField.Error>
+            )}
+          </FormField.Root>
+
+          <p>
+            Are you sure you want to delete "${deleteModal.data?.name}"? This
+            action cannot be undone.
+          </p>
+        </ConfirmDialog>
       </PermissionGuard>
 
       <Card className="w-full glass border-border/50 shadow-xl">
