@@ -6,6 +6,8 @@ export { ProtectedRoute } from "./ProtectedRoute";
 export { ConfirmDialog } from "./ConfirmDialog";
 export { VideoPlayer } from "./VideoPlayer";
 export { AppAuthGuard } from "./AppAuthGuard";
+export { PermissionGuard } from "./PermissionGuard";
+export { TableActionButtons } from "./TableActionButtons";
 
 export type { ErrorBoundaryProps, ErrorFallbackProps } from "./ErrorBoundary";
 export type { LoadingScreenProps } from "./LoadingScreen";
@@ -19,3 +21,5 @@ export type {
   VideoTrack,
   VideoPlayerOptions,
 } from "./VideoPlayer";
+export type { PermissionGuardProps } from "./PermissionGuard";
+export type { TableActionButtonsProps } from "./TableActionButtons";

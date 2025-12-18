@@ -31,7 +31,7 @@ const ConfirmDialog = ({
     setLoading(true);
     try {
       await onConfirm();
-      onOpenChange(false);
+      // onOpenChange(false);
     } catch (error) {
       console.error("Confirm action failed:", error);
     } finally {
@@ -45,8 +45,12 @@ const ConfirmDialog = ({
   };
 
   const icons = {
-    danger: <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />,
-    warning: <AlertCircle className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />,
+    danger: (
+      <AlertTriangle className="h-6 w-6 text-red-600 dark:text-red-400" />
+    ),
+    warning: (
+      <AlertCircle className="h-6 w-6 text-yellow-600 dark:text-yellow-400" />
+    ),
     info: <Info className="h-6 w-6 text-blue-600 dark:text-blue-400" />,
     default: null,
   };
