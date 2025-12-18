@@ -10,11 +10,10 @@ import { cn } from "@/utils/helpers/classNames";
 import {
   buttonSizes,
   buttonVariants,
-  loadingSize,
   iconOnlySizes,
   elevationClasses,
 } from "./constants";
-import Loading from "../Loading";
+import JumpingDots from "../JumpingDots";
 
 const Button = forwardRef(
   <C extends ElementType = "button">(
@@ -125,9 +124,9 @@ const Button = forwardRef(
             }}
           />
         ))}
-        {isLoading && (
-          <Loading type="dots" size={loadingSize[size]} inline inheritColor />
-        )}
+        {/* {isLoading && ( */}
+        {/*   <Loading type="dots" size={loadingSize[size]} inline inheritColor /> */}
+        {/* )} */}
         {leftIcon && !iconOnly && (
           <span
             className={cn(
@@ -160,6 +159,7 @@ const Button = forwardRef(
             {rightIcon}
           </span>
         )}
+        {isLoading && <JumpingDots />}
       </Component>
     );
   },

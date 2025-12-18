@@ -298,7 +298,9 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
                       <div className="flex items-start flex-1 last:flex-none self-center">
                         {/* Label aligned with indicator */}
                         <div
-                          className={cn("flex flex-col items-center shrink-0")}
+                          className={cn(
+                            "flex flex-col items-center shrink-0  w-full",
+                          )}
                         >
                           <p
                             className="text-sm font-medium w-full text-center"
@@ -354,7 +356,8 @@ const Stepper = forwardRef<HTMLDivElement, StepperProps>(
 
           {/* Active step content */}
           {steps[activeStep]?.content && (
-            <div className="mt-8">
+            <div>
+              {/* className="mt-4" */}
               <StepperContent>{steps[activeStep].content}</StepperContent>
             </div>
           )}

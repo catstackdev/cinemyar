@@ -1,4 +1,8 @@
-import type { ModalPlacement, ModalAnimation, ModalScrollBehavior } from "./Modal.types";
+import type {
+  ModalPlacement,
+  ModalAnimation,
+  ModalScrollBehavior,
+} from "./Modal.types";
 
 export const ModalSizeClasses = {
   sm: "max-w-sm w-full mx-4",
@@ -16,14 +20,20 @@ export const ModalPlacementClasses: Record<ModalPlacement, string> = {
   right: "items-center justify-end",
 };
 
-export const ModalDrawerClasses: Record<"left" | "right" | "top" | "bottom", string> = {
+export const ModalDrawerClasses: Record<
+  "left" | "right" | "top" | "bottom",
+  string
+> = {
   left: "h-full rounded-none rounded-r-lg",
   right: "h-full rounded-none rounded-l-lg",
   top: "w-full rounded-none rounded-b-lg",
   bottom: "w-full rounded-none rounded-t-lg",
 };
 
-export const ModalAnimationClasses: Record<ModalAnimation, { enter: string; exit: string }> = {
+export const ModalAnimationClasses: Record<
+  ModalAnimation,
+  { enter: string; exit: string }
+> = {
   fade: {
     enter: "animate-fade-in",
     exit: "animate-fade-out",

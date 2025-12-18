@@ -34,7 +34,7 @@ const Select = ({
           "focus:border-primary focus:ring-2 focus:ring-primary focus:ring-offset-2",
           "focus:ring-offset-background",
           "disabled:cursor-not-allowed disabled:opacity-50",
-          error && "border-danger focus:border-danger focus:ring-danger"
+          error && "border-danger focus:border-danger focus:ring-danger",
         )}
         {...rest}
       >
@@ -53,9 +53,7 @@ const Select = ({
           </option>
         ))}
       </select>
-      {error && (
-        <p className="mt-1 text-sm text-danger">{error}</p>
-      )}
+      {error && <p className="mt-1 text-sm text-danger">{error}</p>}
     </div>
   );
 };

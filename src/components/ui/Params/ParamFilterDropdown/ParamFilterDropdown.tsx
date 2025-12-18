@@ -10,6 +10,7 @@ import { useDynamicPosition } from "@/hooks/useDynamicPosition";
 import Chip from "../../Chip";
 import Button from "../../Button";
 import JumpingDots from "../../JumpingDots";
+import { Filter, SlidersHorizontal } from "lucide-react";
 
 const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
   className,
@@ -98,9 +99,10 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
       <div ref={containerRef}>
         <Button
           variant="glass"
-          size="md"
+          size="sm"
           disabled={loading}
           rightIcon={loading ? <JumpingDots /> : null}
+          leftIcon={<SlidersHorizontal className="w-4 h-4" />}
           onClick={toggleDropdown}
         >
           Filter

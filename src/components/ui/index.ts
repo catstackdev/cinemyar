@@ -17,6 +17,7 @@ export {
   DropdownItem,
   DropdownSeparator,
 } from "./Dropdown";
+export { default as Dropzone } from "./Dropzone";
 export { default as EmptyState } from "./EmptyState";
 export { default as ErrorMessage } from "./ErrorMessage";
 export { FormField } from "./FormField";
@@ -84,6 +85,7 @@ export type {
   DropdownSeparatorProps,
   DropdownAlign,
 } from "./Dropdown/Dropdown.types";
+export type { DropzoneProps, DropzoneVariant, DropzoneSize } from "./Dropzone/Dropzone.types";
 export type { EmptyStateProps } from "./EmptyState/EmptyState.types";
 export type { ErrorMessageProps } from "./ErrorMessage/ErrorMessage.types";
 export type { FormFieldProps } from "./FormField/FormField.types";

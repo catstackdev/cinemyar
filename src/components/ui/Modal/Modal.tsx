@@ -139,12 +139,10 @@ const Modal = ({
         onClick={handleOverlayClick}
       >
         <div
-          className={cn(
-            "absolute inset-0 bg-background/80",
-            BackdropBlurClasses[backdropBlur],
-          )}
+          className={cn("absolute inset-0 ", BackdropBlurClasses[backdropBlur])}
           style={{ opacity: backdropOpacity / 100 }}
         />
+        {/* bg-background/80 */}
 
         <div
           ref={modalRef}
