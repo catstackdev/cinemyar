@@ -3,7 +3,7 @@ import type { GenreMetaDataStepProps } from "./GenreMetaDataStep.types";
 import { FormField, Stack } from "@/components/ui";
 import { GenresParentSelect } from "@/modules/domain/genres/components";
 import type { AddGenreFormData } from "@/schemas/movie.schema";
-import { formFields } from "../AddUpdateGenres.models";
+import { formFields } from "../../AddUpdateGenres.models";
 
 const GenreMetaDataStep: React.FC<GenreMetaDataStepProps> = ({
   register,

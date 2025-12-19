@@ -8,15 +8,10 @@ import {
   ModalBody,
   ModalFooter,
 } from "@/components/ui/Modal";
-import {
-  Button,
-  Stepper,
-  StepperContent,
-  StepperStep,
-} from "@/components/ui";
+import { Button, Stepper, StepperContent, StepperStep } from "@/components/ui";
 import { CheckCircle, FileText, Upload } from "lucide-react";
 import type { AdminGenreSerialized } from "@/shared/types/types";
-import { GenreMetaDataStep, useGenreMetaDataStep } from "./steps";
+import { GenreMetaDataStep, useGenreMetaDataStep } from "./steps/stepOne";
 
 const AddNewGenres: React.FC<AddNewGenresProps> = ({
   children,
@@ -160,9 +155,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
               color="secondary"
               variant="glass"
               disabled={
-                activeStep === 0 ||
-                step1.isPending ||
-                step1.isPendingUpdate
+                activeStep === 0 || step1.isPending || step1.isPendingUpdate
               }
               onClick={handleBack}
             >

@@ -3,12 +3,12 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddGenreSchema, type AddGenreFormData } from "@/schemas/movie.schema";
 import type { AdminGenreSerialized, ApiResponse } from "@/shared/types/types";
-import { slugify } from "../../../../utils/helpers";
+import { slugify } from "../../../../../utils/helpers";
 import { applyServerErrors } from "@/utils/helpers/applyServerError";
 import {
   useAdminAddGenre,
   useAdminUpdateGenre,
-} from "../../../../hooks/useAdminGenres";
+} from "../../../../../hooks/useAdminGenres";
 
 export interface UseGenreMetaDataStepProps {
   genre?: AdminGenreSerialized | null;
