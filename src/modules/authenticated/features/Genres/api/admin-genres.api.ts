@@ -9,6 +9,7 @@ import type {
   ApiResponse,
   GenrePaginationParams,
 } from "@/shared/types/types";
+import type { GenreDetailData } from "@/shared/types/types/genre/genre-admin-detail.type";
 
 // Centralized API handlers
 export const AdminGenresAPI = {
@@ -33,10 +34,12 @@ export const AdminGenresAPI = {
     return data;
   },
 
-  // getGenre: async (id: string): Promise<ApiResponse<AdminGenreSerialized>> => {
-  //   const { data } = await apiClient.get<ApiResponse<AdminGenreSerialized>>(`/genres/${id}`);
-  //   return data;
-  // },
+  getGenre: async (id: string): Promise<ApiResponse<GenreDetailData>> => {
+    const { data } = await apiClient.get<ApiResponse<GenreDetailData>>(
+      `admin/genres/${id}`,
+    );
+    return data;
+  },
   //
   //
   addGenre: async (

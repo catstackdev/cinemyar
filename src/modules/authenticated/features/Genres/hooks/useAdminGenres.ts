@@ -6,7 +6,10 @@ import {
 } from "@tanstack/react-query";
 
 import { AdminGenresAPI } from "@/modules/authenticated/features/Genres/api/admin-genres.api";
-import { AdminAllGenreQueryKey } from "./admin-genere.query.key";
+import {
+  AdminAllGenreQueryKey,
+  AdminGenreQueryKey,
+} from "./admin-genere.query.key";
 import { Time } from "@/shared/types/constants/time.const";
 import type { GenrePaginationParams } from "@/shared/types/types";
 import type { UpdateGenreFormData } from "@/schemas/movie.schema";
@@ -17,6 +20,15 @@ export const useAdminGenres = (params: GenrePaginationParams) => {
   return useQuery({
     queryKey: queryKey,
     queryFn: () => AdminGenresAPI.getGenres(params),
+    staleTime: 5 * Time.MINUTE,
+  });
+};
+export const useAdminGenre = (id?: string) => {
+  const queryKey = id ? AdminGenreQueryKey(id) : [];
+  return useQuery({
+    queryKey: queryKey,
+    queryFn: () => AdminGenresAPI.getGenre(id!),
+    enabled: Boolean(id),
     staleTime: 5 * Time.MINUTE,
   });
 };

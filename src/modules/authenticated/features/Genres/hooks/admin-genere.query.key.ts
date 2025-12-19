@@ -9,3 +9,4 @@ export const AdminAllGenreQueryKey = (params?: GenrePaginationParams) => [
 export const AdminAllDeletedGenreQueryKey = (
   params?: GenrePaginationParams,
 ) => ["admin", "genres", "deleted", params];
+export const AdminGenreQueryKey = (id: string) => ["admin", "genres", id];

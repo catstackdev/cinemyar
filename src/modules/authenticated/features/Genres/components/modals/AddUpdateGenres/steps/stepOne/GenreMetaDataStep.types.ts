@@ -8,6 +8,7 @@ export interface GenreMetaDataStepProps {
   errors: FieldErrors<AddGenreFormData>;
   touchedFields: Partial<Record<keyof AddGenreFormData, boolean>>;
   dirtyFields: Partial<Record<keyof AddGenreFormData, boolean>>;
+  isLoading?: boolean;
   isSubmitting: boolean;
   isPending: boolean;
   isPendingUpdate: boolean;

@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/validation/helpers.ts
-// Generated: 2025-12-17T07:26:43.473Z
+// Generated: 2025-12-19T17:03:52.543Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import { z } from 'zod';

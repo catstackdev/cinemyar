@@ -41,61 +41,81 @@ apiClient.interceptors.response.use(
     const requestUrl = originalRequest?.url || "";
 
     // Skip auto-refresh for auth endpoints (login/register should fail immediately)
-    const isAuthEndpoint = requestUrl.includes("/auth/login") || 
-                          requestUrl.includes("/auth/register") ||
-                          requestUrl.includes("/auth/refresh");
+    const isAuthEndpoint =
+      requestUrl.includes("/auth/login") ||
+      requestUrl.includes("/auth/register") ||
+      requestUrl.includes("/auth/refresh");
 
     // Handle 401 errors with automatic cookie refresh
-    if (error.response?.status === 401 && !originalRequest._retry && !isAuthEndpoint) {
+    if (
+      error.response?.status === 401 &&
+      !originalRequest._retry &&
+      !isAuthEndpoint
+    ) {
       originalRequest._retry = true;
 
       try {
-        console.log("🔄 Axios Interceptor: 401 detected, attempting token refresh");
-        
+        console.log(
+          "🔄 Axios Interceptor: 401 detected, attempting token refresh",
+        );
+
         // Call refresh endpoint (uses refresh_token cookie automatically)
-        const refreshResponse = await axios.create({ 
-          baseURL: API_URL,
-          withCredentials: true // Important for refresh request too
-        }).post("/auth/refresh");
+        const refreshResponse = await axios
+          .create({
+            baseURL: API_URL,
+            withCredentials: true, // Important for refresh request too
+          })
+          .post("/auth/refresh");
 
         // Update localStorage with new accessTokenExpiresAt
         if (refreshResponse.data?.data?.accessTokenExpiresAt) {
           localStorage.setItem(
             "accessTokenExpiresAt",
-            refreshResponse.data.data.accessTokenExpiresAt.toString()
+            refreshResponse.data.data.accessTokenExpiresAt.toString(),
           );
-          console.log("✅ Axios Interceptor: Token refreshed, updated localStorage");
+          console.log(
+            "✅ Axios Interceptor: Token refreshed, updated localStorage",
+          );
         }
 
         // Update Redux store with refreshed user data
         if (dispatchFn && refreshResponse.data?.data) {
-          const { updateAuthFromRefresh } = await import("@/state/auth/auth.slice");
-          dispatchFn(updateAuthFromRefresh({
-            user: refreshResponse.data.data.user,
-            accessTokenExpiresAt: refreshResponse.data.data.accessTokenExpiresAt,
-          }));
-          console.log("✅ Axios Interceptor: Redux state updated with refreshed user data");
+          const { updateAuthFromRefresh } =
+            await import("@/state/auth/auth.slice");
+          dispatchFn(
+            updateAuthFromRefresh({
+              user: refreshResponse.data.data.user,
+              accessTokenExpiresAt:
+                refreshResponse.data.data.accessTokenExpiresAt,
+            }),
+          );
+          console.log(
+            "✅ Axios Interceptor: Redux state updated with refreshed user data",
+          );
         }
 
         // Retry original request (new access_token cookie is now set)
         return apiClient(originalRequest);
       } catch (refreshError) {
-        console.error("❌ Axios Interceptor: Token refresh failed", refreshError);
-        
+        console.error(
+          "❌ Axios Interceptor: Token refresh failed",
+          refreshError,
+        );
+
         // Refresh failed - clear localStorage and redirect to login
         localStorage.removeItem("accessTokenExpiresAt");
-        
+
         if (!window.location.pathname.includes("/login")) {
-          window.location.href = "/login";
+          window.location.href = "/auth/login";
         }
         return Promise.reject(refreshError);
       }
     }
 
     const errorMessage =
-      error.response?.data?.message || 
-      error.response?.data?.error || 
-      error.message || 
+      error.response?.data?.message ||
+      error.response?.data?.error ||
+      error.message ||
       "Something went wrong";
 
     if (showToastFn) {
@@ -110,18 +130,34 @@ apiClient.interceptors.response.use(
  * Typed API client wrapper that ensures ResponseType<T> structure
  */
 export const api = {
-  get: <T = any>(url: string, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
-    apiClient.get(url, config),
-  
-  post: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
+  get: <T = any>(
+    url: string,
+    config?: any,
+  ): Promise<AxiosResponse<ResponseType<T>>> => apiClient.get(url, config),
+
+  post: <T = any>(
+    url: string,
+    data?: any,
+    config?: any,
+  ): Promise<AxiosResponse<ResponseType<T>>> =>
     apiClient.post(url, data, config),
-  
-  put: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
+
+  put: <T = any>(
+    url: string,
+    data?: any,
+    config?: any,
+  ): Promise<AxiosResponse<ResponseType<T>>> =>
     apiClient.put(url, data, config),
-  
-  patch: <T = any>(url: string, data?: any, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
+
+  patch: <T = any>(
+    url: string,
+    data?: any,
+    config?: any,
+  ): Promise<AxiosResponse<ResponseType<T>>> =>
     apiClient.patch(url, data, config),
-  
-  delete: <T = any>(url: string, config?: any): Promise<AxiosResponse<ResponseType<T>>> =>
-    apiClient.delete(url, config),
+
+  delete: <T = any>(
+    url: string,
+    config?: any,
+  ): Promise<AxiosResponse<ResponseType<T>>> => apiClient.delete(url, config),
 };

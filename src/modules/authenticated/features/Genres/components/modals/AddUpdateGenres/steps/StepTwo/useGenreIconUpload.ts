@@ -1,25 +1,10 @@
-import { useCallback, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AddGenreSchema, type AddGenreFormData } from "@/schemas/movie.schema";
-import type { AdminGenreSerialized, ApiResponse } from "@/shared/types/types";
-import { slugify } from "../../../../../utils/helpers";
-import { applyServerErrors } from "@/utils/helpers/applyServerError";
-import {
-  useAdminAddGenre,
-  useAdminUpdateGenre,
-} from "../../../../../hooks/useAdminGenres";
-import type { GenreDetailData } from "@/shared/types/types/genre";
-
 export interface UseGenreMetaDataStepProps {
-  open?: boolean;
-  genre?: GenreDetailData | null;
-  newGenre: GenreDetailData | null;
+  genre?: AdminGenreSerialized | null;
+  newGenre: AdminGenreSerialized | null;
   onSuccess?: (genre: AdminGenreSerialized) => void;
 }
 
-export const useGenreMetaDataStep = ({
-  open,
+export const useGenreIconUpload = ({
   genre,
   newGenre,
   onSuccess,
@@ -53,16 +38,6 @@ export const useGenreMetaDataStep = ({
       description: genre?.description ?? "",
     },
   });
-  useEffect(() => {
-    if (open) {
-      reset({
-        name: genre?.name ?? "",
-        slug: genre?.slug ?? "",
-        parentId: genre?.parentId ?? "",
-        description: genre?.description ?? "",
-      });
-    }
-  }, [open]);
 
   // Auto-generate slug from name on blur
   const handleNameBlur = useCallback(

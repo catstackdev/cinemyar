@@ -10,8 +10,10 @@ import {
 } from "@/components/ui/Modal";
 import { Button, Stepper, StepperContent, StepperStep } from "@/components/ui";
 import { CheckCircle, FileText, Upload } from "lucide-react";
-import type { AdminGenreSerialized } from "@/shared/types/types";
 import { GenreMetaDataStep, useGenreMetaDataStep } from "./steps/stepOne";
+import StepTwo from "./steps/StepTwo";
+import { useAdminGenre } from "../../../hooks/useAdminGenres";
+import type { GenreDetailData } from "@/shared/types/types/genre";
 
 const AddNewGenres: React.FC<AddNewGenresProps> = ({
   children,
@@ -19,33 +21,49 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   genre,
   onOpenChange,
 }) => {
-  const [newGenre, setNewGenre] = useState<AdminGenreSerialized | null>(
-    genre ?? null,
+  const { data: genreDetail, isLoading: isDetailLoading } = useAdminGenre(
+    genre?.id,
+  );
+  const [newGenre, setNewGenre] = useState<GenreDetailData | null>(
+    genreDetail?.data ?? null,
   );
   const [activeStep, setActiveStep] = useState(0);
 
   // ✨ Step 1: Meta Data Form Hook
   const step1 = useGenreMetaDataStep({
-    genre,
+    open,
+    genre: genreDetail?.data,
     newGenre,
     onSuccess: (savedGenre) => {
       console.log("Step 1 success:", savedGenre);
-      setNewGenre(savedGenre);
+      setNewGenre((prev) => {
+        if (!prev) return null;
+        return {
+          ...prev,
+          name: savedGenre.name,
+          slug: savedGenre.slug,
+          parentId: savedGenre.parentId,
+          description: savedGenre.description,
+          updatedAt: savedGenre.updatedAt,
+        };
+      });
       setActiveStep(1);
     },
   });
 
   // Reset form when genre changes (edit mode)
   useEffect(() => {
-    if (genre) {
+    const genreData = genreDetail?.data;
+    if (genreData) {
+      setNewGenre(genreData);
       step1.reset({
-        name: genre.name,
-        slug: genre.slug,
-        parentId: genre.parentId,
-        description: genre?.description ?? "",
+        name: genreData.name,
+        slug: genreData.slug,
+        parentId: genreData.parentId,
+        description: genreData?.description ?? "",
       });
     }
-  }, [genre, step1.reset]);
+  }, [genreDetail?.data, step1.reset]);
   const handleStep2Submit = async () => {
     if (!newGenre) return;
     // TODO: Implement file upload logic
@@ -107,28 +125,18 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
                   isPendingUpdate={step1.isPendingUpdate}
                   newGenre={newGenre}
                   onNameBlur={step1.handleNameBlur}
+                  isLoading={isDetailLoading && !newGenre}
                 />
               </StepperContent>
             </StepperStep>
 
             <StepperStep
-              label="Upload Files"
-              description="Icon and Banner (Optional)"
+              label="Upload Icon"
+              description="Icon(Optional)"
               icon={<Upload className="w-5 h-5" />}
             >
               <StepperContent>
-                <div className="p-6 bg-muted/50 rounded-lg">
-                  <h3 className="font-semibold mb-4">Shopping Cart</h3>
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Review your items
-                  </p>
-                  <button
-                    onClick={() => setActiveStep(2)}
-                    className="px-4 py-2 bg-primary text-primary-foreground rounded-md"
-                  >
-                    Proceed to Payment
-                  </button>
-                </div>
+                <StepTwo />
               </StepperContent>
             </StepperStep>
 
@@ -172,7 +180,9 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
                 (activeStep === 0 ? step1.isValid : false)
               }
               onClick={handleNext}
-              disabled={step1.isPending || step1.isPendingUpdate}
+              disabled={
+                step1.isPending || step1.isPendingUpdate || isDetailLoading
+              }
             >
               {activeStep === 0
                 ? newGenre

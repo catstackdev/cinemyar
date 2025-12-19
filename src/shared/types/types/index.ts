@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/index.ts
-// Generated: 2025-12-17T07:26:43.464Z
+// Generated: 2025-12-19T17:03:52.538Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 export * from './movie/movie.types';

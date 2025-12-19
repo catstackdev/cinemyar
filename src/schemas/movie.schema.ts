@@ -1,7 +1,7 @@
 import { z } from "zod";
 export const AddGenreSchema = z.object({
   name: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  description: z.string().optional(),
   slug: z
     .string()
     .min(1, "Slug is required")
@@ -17,7 +17,7 @@ export type AddGenreFormData = z.infer<typeof AddGenreSchema>;
 
 export const UpdateGenreSchema = z.object({
   name: z.string().min(1, "Title is required"),
-  description: z.string().min(1, "Description is required"),
+  description: z.string().optional(),
   parentId: z.string().nullable().optional(),
   order: z.number().min(0, "Order is required"),
   isActive: z.boolean(),
