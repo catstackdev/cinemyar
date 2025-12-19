@@ -33,8 +33,8 @@ export const AdminGenresAPI = {
     return data;
   },
 
-  // getGenre: async (id: string): Promise<ResponseType<Genre>> => {
-  //   const { data } = await apiClient.get<ResponseType<Genre>>(`/genres/${id}`);
+  // getGenre: async (id: string): Promise<ApiResponse<AdminGenreSerialized>> => {
+  //   const { data } = await apiClient.get<ApiResponse<AdminGenreSerialized>>(`/genres/${id}`);
   //   return data;
   // },
   //

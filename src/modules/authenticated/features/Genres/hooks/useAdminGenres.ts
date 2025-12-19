@@ -80,17 +80,31 @@ export const useDeletedGenreRestore = () => {
     },
   });
 };
+
+const GENRE_QUERY_KEYS = [
+  ["genres"],
+  ["public", "genres"],
+  ["admin", "genres"],
+];
+
 const refreshQueryClient = (queryClient: QueryClient) => {
-  // Return the promise so the caller can await it
-  return Promise.all([
-    queryClient.invalidateQueries({ queryKey: ["genres"], exact: false }),
-    queryClient.invalidateQueries({
-      queryKey: ["public", "genres"],
-      exact: false,
-    }),
-    queryClient.invalidateQueries({
-      queryKey: ["admin", "genres"],
-      exact: false,
-    }),
-  ]);
+  return Promise.all(
+    GENRE_QUERY_KEYS.map((key) =>
+      queryClient.invalidateQueries({ queryKey: key, exact: false }),
+    ),
+  );
 };
+// const refreshQueryClient = (queryClient: QueryClient) => {
+//   // Return the promise so the caller can await it
+//   return Promise.all([
+//     queryClient.invalidateQueries({ queryKey: ["genres"], exact: false }),
+//     queryClient.invalidateQueries({
+//       queryKey: ["public", "genres"],
+//       exact: false,
+//     }),
+//     queryClient.invalidateQueries({
+//       queryKey: ["admin", "genres"],
+//       exact: false,
+//     }),
+//   ]);
+// };

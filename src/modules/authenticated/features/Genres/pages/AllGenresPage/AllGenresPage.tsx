@@ -41,10 +41,7 @@ import {
   PermissionGuard,
   TableActionButtons,
 } from "@/components/common";
-import {
-  usePermanentDeleteGenre,
-  useSolfDeleteGenre,
-} from "../../hooks/useAdminGenres";
+import { useSolfDeleteGenre } from "../../hooks/useAdminGenres";
 import { useCrudPage, useModal } from "@/hooks";
 
 const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
@@ -52,7 +49,7 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   const initialData = useLoaderData<AdminGenresApiResponse>();
 
   const deleteModal = useModal<AdminGenreSerialized>();
-  const createModal = useModal<void>();
+  const createUpdateModal = useModal<void | AdminGenreSerialized>();
 
   // Permission checks
   const canCreate = useCan({
@@ -63,14 +60,15 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
     roles: ["ADMIN"],
     permissions: GENRE_PERMISSIONS.DELETE,
   });
+  const canUpdate = useCan({
+    roles: ["ADMIN"],
+    permissions: GENRE_PERMISSIONS.UPDATE,
+  });
 
   // Delete mutation
   const { mutate: solfDeleteGenre, isPending: isSolfDeleting } =
     useSolfDeleteGenre();
-  // const { mutate: permanentDeleteGenre, isPending: isPermanentDeleting } =
-  //   usePermanentDeleteGenre();
 
-  // CRUD Page Hook - combines pagination, sorting, and data fetching
   const {
     data,
     isLoading,
@@ -130,27 +128,34 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
     }
   }, [deleteModal.data]);
 
-  // const confirmPermanentDelete = useCallback(() => {
-  //   if (deleteModal.data) {
-  //     permanentDeleteGenre(deleteModal.data?.id, {
-  //       onSuccess: () => {
-  //         deleteModal.close();
-  //       },
-  //       onError: (error) => {
-  //         console.error("Failed to delete genre:", error);
-  //       },
-  //     });
-  //   }
-  // }, [deleteModal.data]);
   //eoc delete modal
+  const handleUpdateClick = useCallback(
+    (genre: AdminGenreSerialized, e: React.MouseEvent) => {
+      e.stopPropagation();
+      console.log("🔐 AllGenresPage: Opening update modal for", genre);
+      genre && createUpdateModal.open(genre);
+    },
+    [createUpdateModal],
+  );
+
+  const handleModalClose = useCallback(
+    (open: boolean) => {
+      if (!open) {
+        createUpdateModal.close();
+      }
+    },
+    [createUpdateModal],
+  );
 
   return (
     <Container size="full" className="relative p-4 min-h-full">
       {/* Modals with Permission Guards */}
       <PermissionGuard permissions={GENRE_PERMISSIONS.CREATE} roles={["ADMIN"]}>
         <AddNewGenres
-          open={createModal.isOpen}
-          onOpenChange={createModal.close}
+          key={createUpdateModal.data?.id ?? "create"}
+          open={createUpdateModal.isOpen}
+          onOpenChange={handleModalClose}
+          genre={createUpdateModal.data ?? null}
         />
       </PermissionGuard>
 
@@ -188,7 +193,7 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
                 size="sm"
                 variant="glass"
                 className="shadow-md hover:shadow-lg transition-shadow"
-                onClick={createModal.open}
+                onClick={() => createUpdateModal.open()}
               >
                 Add New Genre
               </Button>
@@ -280,6 +285,14 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
                         <TableActionButtons
                           item={genre}
                           actions={[
+                            {
+                              key: `update-${genre.id}`,
+                              label: "Update",
+                              icon: Edit,
+                              onClick: handleUpdateClick,
+                              visible: canUpdate,
+                              variant: "success",
+                            },
                             {
                               key: "delete",
                               label: "Delete",

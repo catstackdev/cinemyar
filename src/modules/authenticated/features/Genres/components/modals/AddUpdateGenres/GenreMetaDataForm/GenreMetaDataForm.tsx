@@ -1,7 +1,7 @@
 import React from "react";
 import type { GenreMetaDataFormProps } from "./GenreMetaDataForm.types";
 import { Stack, FormField } from "@/components/ui";
-import { formFields } from "../AddNewGenres.models";
+import { formFields } from "../AddUpdateGenres.models";
 import type { AddGenreFormData } from "@/schemas/movie.schema";
 import { GenresParentSelect } from "@/modules/domain/genres/components";
 

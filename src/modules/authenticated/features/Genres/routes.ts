@@ -1,6 +1,10 @@
 import type { GenrePaginationParams } from "@/shared/types/types";
-import { lazy } from "react";
-import { type LoaderFunctionArgs, type RouteObject } from "react-router-dom";
+import { createElement, lazy } from "react";
+import {
+  Navigate,
+  type LoaderFunctionArgs,
+  type RouteObject,
+} from "react-router-dom";
 import { allDeletedGenresLoader } from "./loaders/allDeletedGenresLoader";
 
 const ListPage = lazy(
@@ -19,6 +23,11 @@ const DeletedGenresPage = lazy(
 );
 
 export const AuthenticatedGenresRoutesConfig: RouteObject[] = [
+  // {
+  //   index: true,
+  //   Component: () =>
+  //     createElement(Navigate, { to: "list", replace: true }),
+  // },
   {
     index: true,
     Component: ListPage,

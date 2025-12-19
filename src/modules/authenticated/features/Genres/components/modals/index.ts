@@ -6,8 +6,7 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
-import AddNewGenres from './AddNewGenres';
-
+import AddNewGenres from "./AddUpdateGenres";
 
 // Type exports
 /* PLOP_INJECT_TYPE_EXPORT */
@@ -15,8 +14,7 @@ import AddNewGenres from './AddNewGenres';
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
-	AddNewGenres,
-
+  AddNewGenres,
 };
 
 // Default exports (if any)

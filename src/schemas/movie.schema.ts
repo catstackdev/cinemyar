@@ -11,14 +11,14 @@ export const AddGenreSchema = z.object({
       /^[a-z0-9-]+$/,
       "Slug can only contain letters, numbers, and hyphens (no spaces)",
     ),
-  parentId: z.any(),
+  parentId: z.string().nullable().optional(),
 });
 export type AddGenreFormData = z.infer<typeof AddGenreSchema>;
 
 export const UpdateGenreSchema = z.object({
   name: z.string().min(1, "Title is required"),
   description: z.string().min(1, "Description is required"),
-  parentId: z.any(),
+  parentId: z.string().nullable().optional(),
   order: z.number().min(0, "Order is required"),
   isActive: z.boolean(),
   isFeatured: z.boolean(),
