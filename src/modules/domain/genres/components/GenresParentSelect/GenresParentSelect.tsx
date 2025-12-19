@@ -8,8 +8,9 @@ import CustomSelect from "@/components/ui/CustomForm/CustomSelect";
 const GenresParentSelect: React.FC<GenresParentSelectProps> = ({
   control,
   name,
+  isDisabled,
 }) => {
-  const { data, isLoading, isError } = useGenreOption({ onlyParent: true });
+  const { data, isLoading } = useGenreOption({ onlyParent: true });
   const options: Option[] =
     data?.data?.map((g) => ({ label: g.name, value: g.id })) ?? [];
 
@@ -28,9 +29,10 @@ const GenresParentSelect: React.FC<GenresParentSelectProps> = ({
         //   classNames={tailwindSelectClasses}
         // />
         <CustomSelect
+          isDisabled={isDisabled}
           options={options}
           value={options?.find((o) => o.value === value) ?? null}
-          onChange={(opt) => onChange(opt?.value)}
+          onChange={(opt) => onChange((opt as Option | null)?.value ?? null)}
           isLoading={isLoading}
           placeholder="Select parent genre"
         />

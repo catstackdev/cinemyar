@@ -6,3 +6,9 @@ export const PublicGenresOptionsQueryKey = (params?: GenreOptionParams) => [
   "options",
   params,
 ];
+
+export const PublicGenresDetailQueryKey = (id: string) => [
+  "public",
+  "genres",
+  id,
+];

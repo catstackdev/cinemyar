@@ -1,5 +1,9 @@
 import { apiClient } from "@/lib/axios";
-import type { GenreOptionParams } from "@/shared/types/types";
+import type {
+  AdminGenreSerialized,
+  ApiResponse,
+  GenreOptionParams,
+} from "@/shared/types/types";
 import type { PublicGenresOptionsApiResponse } from "@/shared/types/types/genre";
 
 // Centralized API handlers
@@ -14,4 +18,16 @@ export const PublicGenresAPI = {
     );
     return data;
   },
+
+  getGenre: async (id: string): Promise<ApiResponse<AdminGenreSerialized>> => {
+    const { data } = await apiClient.get<ApiResponse<AdminGenreSerialized>>(
+      `/genres/${id}`,
+    );
+    return data;
+  },
+
+  // getGenres: async (flat: boolean = false): Promise<ApiResponse<AdminGenreSerialized>> => {
+  //   const { data } = await apiClient.get<ApiResponse<AdminGenreSerialized>>(`/genres/${id}`);
+  //   return data;
+  // },
 };
