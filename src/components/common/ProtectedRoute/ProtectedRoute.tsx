@@ -4,13 +4,15 @@ import RoleGuard from "@/components/common/RoleGuard";
 import type { ProtectedRouteProps } from "./ProtectedRoute.types";
 import { Navigate, useLocation } from "react-router-dom";
 
-const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ 
-  children, 
+const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
+  children,
   redirectTo = "/auth",
   fallback,
-  allowedRoles 
+  allowedRoles,
 }) => {
-  const { isAuthenticated, isLoading, accessTokenExpiresAt } = useAppSelector((state) => state.auth);
+  const { isAuthenticated, isLoading, accessTokenExpiresAt } = useAppSelector(
+    (state) => state.auth,
+  );
   const location = useLocation();
 
   // Show loading only if we're checking auth and have a token
@@ -26,11 +28,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   // If authenticated but roles are required, check roles
   if (isAuthenticated && allowedRoles) {
     return (
-      <RoleGuard
-        allowedRoles={allowedRoles}
-        fallback={fallback}
-        redirectTo="/"
-      >
+      <RoleGuard allowedRoles={allowedRoles} fallback={fallback} redirectTo="/">
         {children}
       </RoleGuard>
     );

@@ -56,4 +56,6 @@ export interface FormFieldInputProps
 export interface FormFieldTextareaProps
   extends Omit<React.TextareaHTMLAttributes<HTMLTextAreaElement>, "name"> {
   className?: string | undefined;
+  touched?: boolean;
+  dirty?: boolean;
 }

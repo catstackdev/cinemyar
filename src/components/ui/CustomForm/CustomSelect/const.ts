@@ -1,5 +1,6 @@
 import type { ClassNamesConfig } from "react-select";
 
+// disabled && "bg-muted cursor-not-allowed opacity-60",
 export const TAILWIND_SELECT_CLASSES: ClassNamesConfig = {
   // --- A1. Control (The main wrapper/input area) ---
   control: (state) =>
@@ -7,7 +8,11 @@ export const TAILWIND_SELECT_CLASSES: ClassNamesConfig = {
       state.isFocused
         ? "!border-primary !ring-2 !ring-primary !ring-offset-2 !ring-offset-background"
         : "!border-input"
-    } !bg-background !shadow-sm transition-colors`,
+    } ${
+      state.isDisabled
+        ? "!bg-muted !cursor-not-allowed !opacity-50" // Apply disabled styles here
+        : "!bg-background !shadow-sm"
+    }`,
 
   // --- A2. Menu (The dropdown box) ---
   menu: () =>
@@ -26,7 +31,7 @@ export const TAILWIND_SELECT_CLASSES: ClassNamesConfig = {
 
   // --- A4. Input/Placeholder ---
   placeholder: () => "!text-muted-foreground",
-  input: () => "!text-foreground",
+  input: () => "!text-foreground ",
 
   // --- A5. Value Display ---
   singleValue: () => "!text-foreground",

@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback } from "react";
 
 export interface UseModalOptions<T = unknown> {
   /**
@@ -6,17 +6,17 @@ export interface UseModalOptions<T = unknown> {
    * @default false
    */
   initialOpen?: boolean;
-  
+
   /**
    * Callback when modal opens
    */
   onOpen?: (data?: T) => void;
-  
+
   /**
    * Callback when modal closes
    */
   onClose?: () => void;
-  
+
   /**
    * Callback when data is set
    */
@@ -28,37 +28,37 @@ export interface UseModalReturn<T = unknown> {
    * Whether the modal is open
    */
   isOpen: boolean;
-  
+
   /**
    * Data associated with the modal
    */
   data: T | null;
-  
+
   /**
    * Open the modal
    */
   open: (data?: T) => void;
-  
+
   /**
    * Close the modal and clear data
    */
   close: () => void;
-  
+
   /**
    * Toggle modal state
    */
   toggle: () => void;
-  
+
   /**
    * Set modal data without opening
    */
   setData: (data: T | null) => void;
-  
+
   /**
    * Clear modal data without closing
    */
   clearData: () => void;
-  
+
   /**
    * Set open state directly (for controlled usage)
    */
@@ -67,24 +67,24 @@ export interface UseModalReturn<T = unknown> {
 
 /**
  * Generic hook for managing modal state
- * 
+ *
  * @example
  * // Simple usage
  * const modal = useModal();
  * <Modal open={modal.isOpen} onOpenChange={modal.setIsOpen}>
  *   <button onClick={modal.close}>Close</button>
  * </Modal>
- * 
+ *
  * @example
  * // With data
  * const editModal = useModal<User>();
  * <button onClick={() => editModal.open(user)}>Edit</button>
- * <EditUserModal 
- *   open={editModal.isOpen} 
+ * <EditUserModal
+ *   open={editModal.isOpen}
  *   user={editModal.data}
  *   onClose={editModal.close}
  * />
- * 
+ *
  * @example
  * // With callbacks
  * const deleteModal = useModal<Item>({
@@ -102,7 +102,7 @@ export function useModal<T = unknown>(
 
   const open = useCallback(
     (newData?: T) => {
-      if (newData !== undefined) {
+      if (newData !== undefined || newData != null) {
         setData(newData);
         onDataChange?.(newData);
       }
