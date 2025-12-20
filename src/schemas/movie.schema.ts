@@ -1,3 +1,8 @@
+import {
+  FileMimeType,
+  FileSize,
+  FileType,
+} from "@/shared/types/constants/file.const";
 import { z } from "zod";
 export const AddGenreSchema = z.object({
   name: z.string().min(1, "Title is required"),
@@ -33,3 +38,17 @@ export const DeleteGenreSchema = z.object({
 });
 
 export type DeleteGenreFormData = z.infer<typeof DeleteGenreSchema>;
+
+const MAX_FILE_SIZE = 5 * FileSize.MB;
+const isAcceptedType = (type: string, allowed: readonly string[]) =>
+  allowed.includes(type);
+export const GenreMediaSchema = z.object({
+  file: z
+    .instanceof(File)
+    .refine((file) => file.size <= MAX_FILE_SIZE, `Max image size is 5MB.`)
+    .refine(
+      (file) => isAcceptedType(file.type, FileMimeType.IMAGE),
+      "Only .jpg, .jpeg, .png and .webp formats are supported.",
+    ),
+});
+export type GenreMediaFormData = z.infer<typeof GenreMediaSchema>;

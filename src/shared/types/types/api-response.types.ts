@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/api-response.types.ts
-// Generated: 2025-12-19T17:03:52.537Z
+// Generated: 2025-12-20T14:39:43.567Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 export interface ApiResponse<T> {
