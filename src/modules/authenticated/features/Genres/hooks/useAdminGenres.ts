@@ -13,6 +13,8 @@ import {
 import { Time } from "@/shared/types/constants/time.const";
 import type { GenrePaginationParams } from "@/shared/types/types";
 import type { UpdateGenreFormData } from "@/schemas/movie.schema";
+import type { GenreMediaType } from "@/shared/types/types/genre";
+import { useState } from "react";
 
 //
 export const useAdminGenres = (params: GenrePaginationParams) => {
@@ -58,7 +60,6 @@ export const useAdminUpdateGenre = () => {
     },
   });
 };
-
 export const useSolfDeleteGenre = () => {
   const queryClient = useQueryClient();
   return useMutation({

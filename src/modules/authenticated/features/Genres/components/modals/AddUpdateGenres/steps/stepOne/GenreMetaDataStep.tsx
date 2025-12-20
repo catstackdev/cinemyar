@@ -20,7 +20,7 @@ const GenreMetaDataStep: React.FC<GenreMetaDataStepProps> = ({
 }) => {
   const isInitialLoading = isLoading && !newGenre;
   return (
-    <div className="p-4 bg-muted/50 rounded-lg overflow-auto max-h-[calc(100vh-400px)]">
+    <div className="p-4 bg-muted/50 rounded-lg overflow-auto max-h-[calc(100vh-330px)]">
       <h3 className="font-semibold mb-4">Fill Below</h3>
 
       <Stack spacing="lg">

@@ -6,8 +6,12 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
-import AdminGenresParamFilter from './AdminGenresParamFilter';
+import MediaListPreview from './MediaListPreview';
 
+import MediaItem from "./MediaItem";
+
+import AdminGenresParamFilter from "./AdminGenresParamFilter";
+import { GenreImageUpload } from "./modals/AddUpdateGenres/components/GenreImageUpload";
 
 // Type exports
 /* PLOP_INJECT_TYPE_EXPORT */
@@ -15,8 +19,11 @@ import AdminGenresParamFilter from './AdminGenresParamFilter';
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
-	AdminGenresParamFilter,
+	MediaListPreview,
 
+  MediaItem,
+  AdminGenresParamFilter,
+  GenreImageUpload,
 };
 
 // Default exports (if any)

@@ -9,6 +9,10 @@ import type {
   ApiResponse,
   GenrePaginationParams,
 } from "@/shared/types/types";
+import type {
+  GenreMediaItem,
+  GenreMediaType,
+} from "@/shared/types/types/genre";
 import type { GenreDetailData } from "@/shared/types/types/genre/genre-admin-detail.type";
 
 // Centralized API handlers
@@ -60,6 +64,41 @@ export const AdminGenresAPI = {
     >(`/admin/genres/${id}`, data);
     return res;
   },
+
+  // uploadMedia: async (
+  //   id: string,
+  //   type: GenreMediaType,
+  //   file: File,
+  //   onProgress?: (percent: number) => void,
+  // ): Promise<ApiResponse<GenreMediaItem>> => {
+  //   const formData = new FormData();
+  //   formData.append("file", file);
+  //
+  //   const { data: res } = await apiClient.post<ApiResponse<GenreMediaItem>>(
+  //     `/admin/genres/${id}/images/${type}`,
+  //     formData,
+  //     {
+  //       headers: { "Content-Type": "multipart/form-data" },
+  //       onUploadProgress: (progressEvent) => {
+  //         const percentCompleted = Math.round(
+  //           (progressEvent.loaded * 100) / (progressEvent.total ?? 1),
+  //         );
+  //         if (onProgress) onProgress(percentCompleted);
+  //       },
+  //     },
+  //   );
+  //   return res;
+  // },
+  // approveMedia: async (
+  //   id: string,
+  //   type: GenreMediaType,
+  //   version: number,
+  // ): Promise<ApiResponse<any>> => {
+  //   const { data } = await apiClient.post<ApiResponse<any>>(
+  //     `/admin/genres/${id}/images/${type}/${version}/approve`,
+  //   );
+  //   return data;
+  // },
   //
   solfDeleteGenre: async (id: string): Promise<ApiResponse<any>> => {
     const { data } = await apiClient.delete<ApiResponse<any>>(

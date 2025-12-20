@@ -9,11 +9,26 @@ import {
   ModalFooter,
 } from "@/components/ui/Modal";
 import { Button, Stepper, StepperContent, StepperStep } from "@/components/ui";
-import { CheckCircle, FileText, Upload } from "lucide-react";
+import {
+  CheckCircle,
+  FileText,
+  ImageIcon,
+  Image,
+  FileImage,
+} from "lucide-react";
 import { GenreMetaDataStep, useGenreMetaDataStep } from "./steps/stepOne";
-import StepTwo from "./steps/StepTwo";
+import { StepTwo } from "./steps/StepTwo";
+import { StepFour } from "./steps/StepFour";
+import { StepFive } from "./steps/StepFive";
 import { useAdminGenre } from "../../../hooks/useAdminGenres";
-import type { GenreDetailData } from "@/shared/types/types/genre";
+import type {
+  GenreDetailData,
+  GenreMediaItem,
+} from "@/shared/types/types/genre";
+import type { GenreMediaStatus } from "@/shared/types/types/genre";
+import { useGenreImageUpload } from "./hooks/useGenreImageUpload";
+import { cn } from "@/utils/helpers";
+import { GenreImageUpload } from "./components";
 
 const AddNewGenres: React.FC<AddNewGenresProps> = ({
   children,
@@ -27,6 +42,19 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   const [newGenre, setNewGenre] = useState<GenreDetailData | null>(
     genreDetail?.data ?? null,
   );
+
+  const [icons, setIcons] = useState<GenreMediaItem[]>(
+    genreDetail?.data?.icons ?? [],
+  );
+
+  const [banners, setBanners] = useState<GenreMediaItem[]>(
+    genreDetail?.data?.banners ?? [],
+  );
+
+  const [thumbnails, setThumbnails] = useState<GenreMediaItem[]>(
+    genreDetail?.data?.thumbnails ?? [],
+  );
+
   const [activeStep, setActiveStep] = useState(0);
 
   // ✨ Step 1: Meta Data Form Hook
@@ -51,6 +79,59 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
     },
   });
 
+  // Upload status tracking
+  const [iconStatus, setIconStatus] = useState<GenreMediaStatus | null>(null);
+  const [bannerStatus, setBannerStatus] = useState<GenreMediaStatus | null>(
+    null,
+  );
+  const [thumbnailStatus, setThumbnailStatus] =
+    useState<GenreMediaStatus | null>(null);
+
+  // Step 2: Icon Upload Hook
+  const step2 = useGenreImageUpload({
+    genreId: newGenre?.id ?? null,
+    imageType: "icon",
+    onSuccess: (data) => {
+      console.log("Step 2 icon success:", data);
+      setIconStatus(data.status);
+    },
+  });
+
+  // Step 3: Banner Upload Hook
+  const step3 = useGenreImageUpload({
+    genreId: newGenre?.id ?? null,
+    imageType: "banner",
+    onSuccess: (data) => {
+      console.log("Step 3 banner success:", data);
+      setBannerStatus(data.status);
+    },
+  });
+
+  // Step 4: Thumbnail Upload Hook
+  const step4 = useGenreImageUpload({
+    genreId: newGenre?.id ?? null,
+    imageType: "thumbnail",
+    onSuccess: (data) => {
+      console.log("Step 4 thumbnail success:", data);
+      setThumbnailStatus(data.status);
+    },
+  });
+
+  useEffect(() => {
+    setIcons(genreDetail?.data?.icons ?? []);
+    console.log("Icons:", icons);
+  }, [genreDetail?.data?.icons]);
+
+  useEffect(() => {
+    setBanners(genreDetail?.data?.banners ?? []);
+    console.log("banners:", banners);
+  }, [genreDetail?.data?.banners]);
+
+  useEffect(() => {
+    setThumbnails(genreDetail?.data?.thumbnails ?? []);
+    console.log("thumbnails:", thumbnails);
+  }, [genreDetail?.data?.thumbnails]);
+
   // Reset form when genre changes (edit mode)
   useEffect(() => {
     const genreData = genreDetail?.data;
@@ -62,26 +143,59 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
         parentId: genreData.parentId,
         description: genreData?.description ?? "",
       });
+
+      // Set existing media statuses from genre data
+      if (genreData.icons && genreData.icons.length > 0) {
+        setIconStatus(genreData?.icons?.[0]?.status ?? null);
+      }
+      if (genreData.banners && genreData.banners.length > 0) {
+        setBannerStatus(genreData?.banners?.[0]?.status ?? null);
+      }
+      if (genreData.thumbnails && genreData.thumbnails.length > 0) {
+        setThumbnailStatus(genreData?.thumbnails?.[0]?.status ?? null);
+      }
     }
   }, [genreDetail?.data, step1.reset]);
-  const handleStep2Submit = async () => {
-    if (!newGenre) return;
-    // TODO: Implement file upload logic
-    setActiveStep(2);
-  };
 
   const handleNext = async () => {
     if (activeStep === 0) {
       // Step 1: Submit meta data form
       step1.handleSubmit(step1.onSubmit)();
     } else if (activeStep === 1) {
-      // Step 2: Upload files
-      handleStep2Submit();
+      // Step 2: Icon Upload - upload if file selected, otherwise skip
+      // if (step2.canUpload) {
+      //   step2.handleUpload();
+      // }
+      setActiveStep(2);
     } else if (activeStep === 2) {
-      // Step 3: Close modal
-      step1.reset();
-      onOpenChange?.(false);
+      // Step 3: Banner Upload
+      // if (step3.canUpload) {
+      //   step3.handleUpload();
+      // }
+      setActiveStep(3);
+    } else if (activeStep === 3) {
+      // Step 4: Thumbnail Upload
+      // if (step4.canUpload) {
+      //   step4.handleUpload();
+      // }
+      setActiveStep(4);
+    } else if (activeStep === 4) {
+      // Step 5: Success - Close modal
+      handleClose();
     }
+  };
+
+  const handleClose = () => {
+    step1.reset();
+    step2.reset();
+    step3.reset();
+    step4.reset();
+    setIconStatus(null);
+    setBannerStatus(null);
+    setThumbnailStatus(null);
+    setActiveStep(0);
+    setNewGenre(null);
+    onOpenChange?.(false);
   };
 
   const handleBack = () => {
@@ -92,7 +206,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
 
   return (
     <ModalRoot open={open} onOpenChange={onOpenChange}>
-      <ModalContent className="border border-primary/50" size="xl">
+      <ModalContent className="border border-primary/50" size="3xl">
         {/* <form onSubmit={handleSubmit(onSubmit)}> */}
         <ModalHeader>
           <ModalTitle>{genre ? "Update Genre" : "Add New Genre"}</ModalTitle>
@@ -132,27 +246,97 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
 
             <StepperStep
               label="Upload Icon"
-              description="Icon(Optional)"
-              icon={<Upload className="w-5 h-5" />}
+              description="Icon (Optional)"
+              icon={<ImageIcon className="w-5 h-5" />}
+              isLoading={step2.isPending}
             >
               <StepperContent>
-                <StepTwo />
+                <GenreImageUpload
+                  activeVersion={newGenre?.activeIconVersion ?? null}
+                  className={cn(
+                    "p-4 bg-muted/50 rounded-lg overflow-auto max-h-[calc(100vh-330px)]",
+                  )}
+                  genreId={newGenre?.id ?? null}
+                  items={icons}
+                  imageType="icon"
+                  title="Upload Genre Icon"
+                  description="Upload an icon for this genre (optional). Recommended size: 256x256px"
+                  icon={<ImageIcon className="w-12 h-12" />}
+                  uploadStatus={iconStatus}
+                  currentImages={newGenre?.iconUrls}
+                  isPending={step2.isPending}
+                  uploadProgress={step2.uploadProgress}
+                  onFileDrop={step2.handleFileDrop}
+                />
+              </StepperContent>
+            </StepperStep>
+
+            <StepperStep
+              label="Upload Banner"
+              description="Banner (Optional)"
+              icon={<Image className="w-5 h-5" />}
+              isLoading={step3.isPending}
+            >
+              <StepperContent>
+                <GenreImageUpload
+                  activeIconVersion={newGenre?.activeBannerVersion ?? null}
+                  className={cn(
+                    "p-4 bg-muted/50 rounded-lg overflow-auto max-h-[calc(100vh-330px)]",
+                  )}
+                  genreId={newGenre?.id ?? null}
+                  items={banners}
+                  imageType="banner"
+                  title="Upload Genre Banner"
+                  description="Upload an banner for this genre (optional). Recommended size: 1920x480px"
+                  icon={<ImageIcon className="w-12 h-12" />}
+                  uploadStatus={bannerStatus}
+                  currentImages={newGenre?.bannerUrls}
+                  isPending={step3.isPending}
+                  uploadProgress={step3.uploadProgress}
+                  onFileDrop={step3.handleFileDrop}
+                />
+              </StepperContent>
+            </StepperStep>
+
+            <StepperStep
+              label="Upload Thumbnail"
+              description="Thumbnail (Optional)"
+              icon={<FileImage className="w-5 h-5" />}
+              isLoading={step4.isPending}
+            >
+              <StepperContent>
+                <GenreImageUpload
+                  activeVersion={newGenre?.activeThumbnailVersion ?? null}
+                  className={cn(
+                    "p-4 bg-muted/50 rounded-lg overflow-auto max-h-[calc(100vh-330px)]",
+                  )}
+                  genreId={newGenre?.id ?? null}
+                  items={thumbnails}
+                  imageType="banner"
+                  title="Upload Genre Thumbnail"
+                  description="Upload a thumbnail for this genre (optional). Recommended size: 1920x480px"
+                  icon={<ImageIcon className="w-12 h-12" />}
+                  uploadStatus={thumbnailStatus}
+                  currentImages={newGenre?.thumbnailUrls}
+                  isPending={step4.isPending}
+                  uploadProgress={step4.uploadProgress}
+                  onFileDrop={step4.handleFileDrop}
+                />
               </StepperContent>
             </StepperStep>
 
             <StepperStep
               label="Complete"
-              description="Order placed"
+              description="Review & Finish"
               icon={<CheckCircle className="w-5 h-5" />}
             >
               <StepperContent>
-                <div className="p-6 bg-success/10 border border-success/30 rounded-lg text-center">
-                  <CheckCircle className="w-12 h-12 text-success mx-auto mb-4" />
-                  <h3 className="font-semibold text-success mb-2">Success!</h3>
-                  <p className="text-sm text-muted-foreground">
-                    Your order has been placed successfully.
-                  </p>
-                </div>
+                <StepFive
+                  genreName={newGenre?.name ?? "Genre"}
+                  iconStatus={iconStatus}
+                  bannerStatus={bannerStatus}
+                  thumbnailStatus={thumbnailStatus}
+                />
               </StepperContent>
             </StepperStep>
           </Stepper>
@@ -163,14 +347,19 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
               color="secondary"
               variant="glass"
               disabled={
-                activeStep === 0 || step1.isPending || step1.isPendingUpdate
+                activeStep === 0 ||
+                step1.isPending ||
+                step1.isPendingUpdate ||
+                step2.isPending ||
+                step3.isPending ||
+                step4.isPending
               }
               onClick={handleBack}
             >
               Previous
             </Button>
           )}
-          {activeStep < 2 ? (
+          {activeStep < 4 ? (
             <Button
               type="button"
               variant="glass"
@@ -181,14 +370,29 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
               }
               onClick={handleNext}
               disabled={
-                step1.isPending || step1.isPendingUpdate || isDetailLoading
+                step1.isPending ||
+                step1.isPendingUpdate ||
+                step2.isPending ||
+                step3.isPending ||
+                step4.isPending ||
+                isDetailLoading
               }
             >
               {activeStep === 0
                 ? newGenre
                   ? "Update & Next"
                   : "Save & Next"
-                : "Complete Upload"}
+                : activeStep === 1
+                  ? step2.canUpload
+                    ? "Upload Icon & Next"
+                    : "Skip Icon"
+                  : activeStep === 2
+                    ? step3.canUpload
+                      ? "Upload Banner & Next"
+                      : "Skip Banner"
+                    : step4.canUpload
+                      ? "Upload Thumbnail & Next"
+                      : "Skip Thumbnail"}
             </Button>
           ) : (
             <Button

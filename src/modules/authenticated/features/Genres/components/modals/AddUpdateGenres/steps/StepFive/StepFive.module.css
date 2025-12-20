@@ -1,0 +1,4 @@
+@reference "../../../../../../../styles/globals.css";
+.root {
+  @apply p-4 bg-muted/50 rounded-lg overflow-auto max-h-[calc(100vh-400px)];
+}
