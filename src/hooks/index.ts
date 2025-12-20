@@ -20,8 +20,6 @@ export type {
   UseCrudModalsReturn,
 } from "./useCrudModals";
 export { useCrudPage } from "./useCrudPage";
-export type {
-  UseCrudPageOptions,
-  UseCrudPageReturn,
-  TablePaginationMeta as PaginationMeta,
-} from "./useCrudPage";
+export type { UseCrudPageOptions, UseCrudPageReturn } from "./useCrudPage";
+export { useCan } from "./useCan";
+export { useScrollTo } from "./useScrollTo";
