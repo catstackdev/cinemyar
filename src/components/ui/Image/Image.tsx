@@ -14,7 +14,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
       fit = "cover",
       aspectRatio = "auto",
       lazy = true,
-      showProgress = false,
+      showProgress = true,
       className,
       wrapperClassName,
       onError,
@@ -31,7 +31,7 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
     const [progress, setProgress] = useState(0);
     const [hasError, setHasError] = useState(false);
     const [showImage, setShowImage] = useState(true);
-    const xhrRef = useRef<XMLHttpRequest | null>(null);
+    const imgRef = useRef<HTMLImageElement | null>(null);
 
     useEffect(() => {
       if (!src) {
@@ -47,64 +47,39 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
       setHasError(false);
       setProgress(0);
       setShowImage(true);
-      setLoadingState("loading");
 
-      if (!showProgress) {
+      // Check if image is already cached/loaded
+      const img = imgRef.current;
+      if (img?.complete && img?.naturalHeight !== 0) {
+        // Image is already loaded (cached)
+        setLoadingState("loaded");
+        setProgress(100);
         return;
       }
 
-      const xhr = new XMLHttpRequest();
-      xhrRef.current = xhr;
+      setLoadingState("loading");
 
-      xhr.open("GET", src, true);
-      xhr.responseType = "blob";
+      if (!showProgress) return;
 
-      xhr.onprogress = (e: ProgressEvent) => {
-        if (e.lengthComputable) {
-          const percentComplete = (e.loaded / e.total) * 100;
-          setProgress(percentComplete);
-          onProgress?.(percentComplete);
-        }
-      };
-
-      xhr.onload = () => {
-        if (xhr.status === 200) {
-          setLoadingState("loaded");
-          setProgress(100);
-        } else {
-          setLoadingState("error");
-          if (fallback) {
-            setImgSrc(fallback);
-            setHasError(true);
+      // Simulated timer stops at 90%
+      const interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 90) {
+            clearInterval(interval);
+            return 90;
           }
-          onError?.();
-        }
-      };
+          return prev + 10;
+        });
+      }, 200);
 
-      xhr.onerror = () => {
-        setLoadingState("error");
-        if (fallback) {
-          setImgSrc(fallback);
-          setHasError(true);
-        }
-        onError?.();
-      };
-
-      xhr.send();
-
-      return () => {
-        if (xhrRef.current) {
-          xhrRef.current.abort();
-        }
-      };
-    }, [src, placeholder, fallback, showProgress, onError, onProgress]);
+      return () => clearInterval(interval);
+    }, [src, placeholder, showProgress]);
 
     const handleError = () => {
       setLoadingState("error");
       if (!hasError && fallback) {
         setImgSrc(fallback);
         setHasError(true);
-        setShowImage(true);
       } else {
         setShowImage(false);
       }
@@ -112,30 +87,20 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
     };
 
     const handleLoad = () => {
+      // THIS is what moves it from 90% to 100%
       setLoadingState("loaded");
       setProgress(100);
       onLoad?.();
     };
 
-    // if (!src && !placeholder) {
-    //   return (
-    //     <div
-    //       className={cn(
-    //         "flex items-center justify-center bg-gray-200 text-gray-500 text-sm",
-    //         imageAspectRatios[aspectRatio],
-    //         wrapperClassName,
-    //       )}
-    //     >
-    //       No image
-    //     </div>
-    //   );
-    // }
-
+    // --- Handling Null/Error States ---
     if (!src && !placeholder) {
-      const fallbackManualUi = (
+      return fallbackElement ? (
+        <div className="w-full h-full">{fallbackElement}</div>
+      ) : (
         <div
           className={cn(
-            "flex items-center justify-center bg-gray-200 text-gray-500 text-sm font-mono ",
+            "flex items-center justify-center bg-gray-200 text-gray-500",
             imageAspectRatios[aspectRatio],
             wrapperClassName,
           )}
@@ -143,80 +108,36 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
           No Image
         </div>
       );
-      if (fallbackElement) {
-        return (
-          <div className="relative w-full h-full">
-            {/* {fallbackManualUi} */}
-
-            {fallbackElement}
-          </div>
-        );
-      }
-      return fallbackManualUi;
     }
 
     if (loadingState === "error" && !fallback) {
-      const fallbackManualUi = (
+      return fallbackElement ? (
+        <div className="w-full h-full">{fallbackElement}</div>
+      ) : (
         <div
           className={cn(
-            "flex items-center justify-center bg-gray-200 text-gray-500 text-sm font-mono ",
+            "flex items-center justify-center bg-gray-200 text-gray-500",
             imageAspectRatios[aspectRatio],
             wrapperClassName,
           )}
         >
-          Failed to load image
+          Failed
         </div>
       );
-
-      if (fallbackElement) {
-        return (
-          <div className="relative w-full h-full">
-            {/* {fallbackManualUi} */}
-
-            {fallbackElement}
-          </div>
-        );
-      }
-
-      return fallbackManualUi;
     }
 
-    const imageElement = showImage ? (
-      <img
-        ref={ref}
-        src={imgSrc}
-        alt={fallback || placeholder ? "" : alt}
-        aria-label={alt}
-        loading={lazy ? "lazy" : "eager"}
-        onError={handleError}
-        onLoad={handleLoad}
-        className={cn(
-          "block",
-          imageFits[fit],
-          imageAspectRatios[aspectRatio],
-          className,
-        )}
-        {...props}
-      />
-    ) : (
+    return (
       <div
         className={cn(
-          "flex items-center justify-center bg-gray-300 text-gray-600 text-sm",
-          imageAspectRatios[aspectRatio],
+          "relative overflow-hidden w-full h-full",
           wrapperClassName,
         )}
       >
-        Failed to load image
-      </div>
-    );
-
-    // if (showProgress) {
-    if (showProgress && loadingState === "loading") {
-      return (
-        <div className={cn("relative w-full h-full", wrapperClassName)}>
+        {/* 1. THE PROGRESS UI: Overlayed on top */}
+        {showProgress && loadingState === "loading" && (
           <div
             className={cn(
-              "flex  items-center justify-center bg-gradient-to-br from-primary/20 to-warning/20 w-full h-full",
+              "absolute inset-0 z-10 flex items-center justify-center backdrop-blur",
               imageAspectRatios[aspectRatio],
             )}
           >
@@ -224,22 +145,45 @@ const Image = forwardRef<HTMLImageElement, ImageProps>(
               <div className="text-muted-foreground text-sm font-medium">
                 Loading {Math.round(progress)}%
               </div>
-              <div className="w-32 h-2 bg-muted/30 rounded-full overflow-hidden">
+              <div className="w-32 h-2  rounded-full overflow-hidden">
                 <div
-                  className="h-full bg-gradient-to-r from-primary to-info transition-all duration-200"
+                  className="h-full bg-primary transition-all duration-300"
                   style={{ width: `${progress}%` }}
                 />
               </div>
             </div>
           </div>
-        </div>
-      );
-    }
+        )}
 
-    return wrapperClassName ? (
-      <div className={wrapperClassName}>{imageElement}</div>
-    ) : (
-      imageElement
+        {/* 2. THE IMAGE: Always rendered, but hidden until loaded */}
+        {showImage && (
+          <img
+            ref={(node) => {
+              imgRef.current = node;
+              if (typeof ref === "function") {
+                ref(node);
+              } else if (ref) {
+                ref.current = node;
+              }
+            }}
+            src={imgSrc}
+            alt={alt}
+            loading={lazy ? "lazy" : "eager"}
+            onError={handleError}
+            onLoad={handleLoad} // Triggers the jump to 100%
+            className={cn(
+              "block w-full h-full",
+              imageFits[fit],
+              imageAspectRatios[aspectRatio],
+              loadingState === "loading"
+                ? "opacity-0"
+                : "opacity-100 transition-opacity duration-500",
+              className,
+            )}
+            {...props}
+          />
+        )}
+      </div>
     );
   },
 );

@@ -1,6 +1,17 @@
 import type { ReactNode } from "react";
 
-export type ModalSize = "sm" | "md" | "lg" | "xl" | "full";
+export type ModalSize =
+  | "sm"
+  | "md"
+  | "lg"
+  | "xl"
+  | "2xl"
+  | "3xl"
+  | "4xl"
+  // | "5xl"
+  // | "6xl"
+  // | "7xl"
+  | "full";
 export type ModalVariant = "default" | "drawer" | "alert";
 export type ModalPlacement = "center" | "top" | "bottom" | "left" | "right";
 export type ModalAnimation = "fade" | "scale" | "slide" | "none";

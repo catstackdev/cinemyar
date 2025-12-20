@@ -9,6 +9,9 @@ export const ModalSizeClasses = {
   md: "max-w-md w-full mx-4",
   lg: "max-w-lg w-full mx-4",
   xl: "max-w-2xl w-full mx-4",
+  "2xl": "max-w-3xl w-full mx-4",
+  "3xl": "max-w-4xl w-full mx-4",
+  "4xl": "max-w-5xl w-full mx-4",
   full: "w-full h-full max-w-none rounded-none m-0",
 };
 
@@ -75,8 +78,8 @@ export const ModalDrawerAnimationClasses: Record<
 };
 
 export const ModalScrollBehaviorClasses: Record<ModalScrollBehavior, string> = {
-  inside: "max-h-[90vh] flex flex-col",
-  outside: "max-h-[90vh] overflow-y-auto",
+  inside: "max-h-[95vh] flex flex-col",
+  outside: "max-h-[95vh] overflow-y-auto",
 };
 
 export const BackdropBlurClasses = {
