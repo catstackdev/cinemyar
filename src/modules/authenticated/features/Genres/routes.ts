@@ -53,27 +53,16 @@ export const AuthenticatedGenresRoutesConfig: RouteObject[] = [
       breadcrumb: { label: "All Genres", icon: "📄" },
     },
   },
-
   {
     path: ":id",
     Component: DetailPage,
+    loader: (args) =>
+      import("@/modules/authenticated/features/Genres/loaders/genreDetailLoader").then(
+        (m) => m.genresDetailLoader(args),
+      ),
     handle: {
-      breadcrumb: { label: "All Genres", icon: "📄" },
+      breadcrumb: { label: "Genre Details", icon: "📄" },
     },
   },
-  // {
-  //   path: ":id",
-  //   Component: DetailPage,
-  //   loader: ({ params }) =>
-  //     import("@/features/authenticated/Categories/loaders/categoryDetailLoader").then(
-  //       (m) => m.categoryDetailLoader({ params: params as { id: string } }),
-  //     ),
-  //   handle: {
-  //     breadcrumb: { label: "Category Detail", icon: "📄" },
-  //   },
-  // },
-  // {
-  //   path: "*",
-  //   Component: PageNotFound,
-  // },
+  ,
 ];
