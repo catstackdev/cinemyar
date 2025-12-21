@@ -17,8 +17,6 @@ import {
   FileImage,
 } from "lucide-react";
 import { GenreMetaDataStep, useGenreMetaDataStep } from "./steps/stepOne";
-import { StepTwo } from "./steps/StepTwo";
-import { StepFour } from "./steps/StepFour";
 import { StepFive } from "./steps/StepFive";
 import { useAdminGenre } from "../../../hooks/useAdminGenres";
 import type {
@@ -36,13 +34,13 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   genre,
   onOpenChange,
 }) => {
-  const { data: genreDetail, isLoading: isDetailLoading } = useAdminGenre(
-    genre?.id,
-  );
-  const [newGenre, setNewGenre] = useState<GenreDetailData | null>(
-    genreDetail?.data ?? null,
-  );
+  // genre?.id ,
+  const [newGenre, setNewGenre] = useState<GenreDetailData | null>();
+  // genreDetail?.data ?? null,
 
+  const { data: genreDetail, isLoading: isDetailLoading } = useAdminGenre(
+    genre?.id ?? newGenre?.id,
+  );
   const [icons, setIcons] = useState<GenreMediaItem[]>(
     genreDetail?.data?.icons ?? [],
   );
@@ -56,25 +54,19 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   );
 
   const [activeStep, setActiveStep] = useState(0);
+  useEffect(() => {
+    console.log("genreDetail", genreDetail);
+  }, [activeStep]);
 
   // ✨ Step 1: Meta Data Form Hook
   const step1 = useGenreMetaDataStep({
     open,
     genre: genreDetail?.data,
-    newGenre,
+    newGenre: newGenre ?? null,
     onSuccess: (savedGenre) => {
       console.log("Step 1 success:", savedGenre);
-      setNewGenre((prev) => {
-        if (!prev) return null;
-        return {
-          ...prev,
-          name: savedGenre.name,
-          slug: savedGenre.slug,
-          parentId: savedGenre.parentId,
-          description: savedGenre.description,
-          updatedAt: savedGenre.updatedAt,
-        };
-      });
+      setNewGenre(savedGenre as any);
+      console.log("newGenre", newGenre);
       setActiveStep(1);
     },
   });
@@ -279,7 +271,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
             >
               <StepperContent>
                 <GenreImageUpload
-                  activeIconVersion={newGenre?.activeBannerVersion ?? null}
+                  activeVersion={newGenre?.activeBannerVersion ?? null}
                   className={cn(
                     "p-4 bg-muted/50 rounded-lg overflow-auto max-h-[calc(100vh-330px)]",
                   )}
@@ -336,6 +328,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
                   iconStatus={iconStatus}
                   bannerStatus={bannerStatus}
                   thumbnailStatus={thumbnailStatus}
+                  newGenre={newGenre}
                 />
               </StepperContent>
             </StepperStep>

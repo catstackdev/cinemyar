@@ -84,10 +84,31 @@ export const usePermanentDeleteGenre = () => {
   });
 };
 
+export const usePermanentDeleteAllGenre = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: ({ reason }: { reason: string }) =>
+      AdminGenresAPI.permanentDeleteAllGenre(reason),
+    onSuccess: () => {
+      return refreshQueryClient(queryClient);
+    },
+  });
+};
+
 export const useDeletedGenreRestore = () => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: AdminGenresAPI.restoreDeletedGenre,
+    onSuccess: () => {
+      return refreshQueryClient(queryClient);
+    },
+  });
+};
+
+export const useDeletedGenreAllRestore = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: AdminGenresAPI.restoreAllDeletedGenre,
     onSuccess: () => {
       return refreshQueryClient(queryClient);
     },

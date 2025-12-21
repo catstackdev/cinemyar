@@ -1,4 +1,7 @@
-import type { GenreMediaStatus } from "@/shared/types/types/genre";
+import type {
+  AdminGenreSerialized,
+  GenreMediaStatus,
+} from "@/shared/types/types/genre";
 
 export interface StepFiveProps extends React.ComponentPropsWithoutRef<"div"> {
   genreName: string;
@@ -6,4 +9,5 @@ export interface StepFiveProps extends React.ComponentPropsWithoutRef<"div"> {
   bannerStatus?: GenreMediaStatus | null;
   thumbnailStatus?: GenreMediaStatus | null;
   className?: string;
+  newGenre?: AdminGenreSerialized | null;
 }

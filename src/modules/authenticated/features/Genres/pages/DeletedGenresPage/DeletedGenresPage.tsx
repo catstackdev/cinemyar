@@ -19,6 +19,7 @@ import {
   Container,
   Table,
   FormField,
+  Button,
 } from "@/components/ui";
 import {
   CardHeader,
@@ -34,14 +35,15 @@ import type {
   AdminGenreSerialized,
 } from "@/shared/types/types";
 import { formatDate } from "@/utils/helpers";
-import { GENRE_PERMISSIONS } from "@/utils/permissions/crud";
-import { Trash2, Upload } from "lucide-react";
+import { ArchiveRestore, Trash2 } from "lucide-react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { AdminGenresAPI } from "../../api/admin-genres.api";
 import { AdminGenresParamFilter } from "../../components";
 import { AdminAllDeletedGenreQueryKey } from "../../hooks/admin-genere.query.key";
 import {
+  useDeletedGenreAllRestore,
   useDeletedGenreRestore,
+  usePermanentDeleteAllGenre,
   usePermanentDeleteGenre,
 } from "../../hooks/useAdminGenres";
 import {
@@ -50,6 +52,7 @@ import {
 } from "@/schemas/movie.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
+import { GenrePermissions } from "@/shared/types/constants";
 
 const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
   const navigate = useNavigate();
@@ -66,26 +69,27 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
 
   const deleteModal = useModal<AdminGenreSerialized>();
   const restoreModal = useModal<AdminGenreSerialized>();
+  const restoreAllModal = useModal<AdminGenreSerialized>();
+  const permanentDeleteAllModal = useModal<void>();
 
-  // Permission checks
-  // const canDeletedView = useCan({
-  //   roles: ["ADMIN"],
-  //   permissions: GENRE_PERMISSIONS.DELETED_VIEW,
-  // });
   const canDeletedRestore = useCan({
     roles: ["ADMIN"],
-    permissions: GENRE_PERMISSIONS.DELETED_RESTORE,
+    permissions: GenrePermissions.RESTORE,
   });
   const canDeletePermanent = useCan({
     roles: ["ADMIN"],
-    permissions: GENRE_PERMISSIONS.DELETE_PERMANENT,
+    permissions: GenrePermissions.DELETE_PERMANENT,
   });
 
   // Delete mutation
   const { mutate: permanentDeleteGenre, isPending: isDeleting } =
     usePermanentDeleteGenre();
+  const { mutate: permanentDeleteAllGenre, isPending: isAllDeleting } =
+    usePermanentDeleteAllGenre();
   const { mutate: restoreGenre, isPending: isRestoring } =
     useDeletedGenreRestore();
+  const { mutate: restoreAllGenre, isPending: isRestoringAll } =
+    useDeletedGenreAllRestore();
   const {
     data,
     isLoading,
@@ -125,109 +129,162 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
   );
 
   //for delete modal
-  const handleDeleteClick = useCallback(
-    (genre: AdminGenreSerialized, e: React.MouseEvent) => {
-      e.stopPropagation();
-      deleteModal.open(genre);
-    },
-    [deleteModal],
-  );
-  const handleActualDelete = async (data: DeleteGenreFormData) => {
-    if (deleteModal.data) {
-      permanentDeleteGenre(
-        {
-          id: deleteModal.data?.id,
-          reason: data.reason,
-        },
-        {
-          onSuccess: () => {
-            reset();
-            deleteModal.close();
-          },
-          onError: (error) => {
-            console.error("Failed to delete genre:", error);
-          },
-        },
-      );
-    }
+  // const handleDeleteClick = useCallback(
+  //   (genre: AdminGenreSerialized, e: React.MouseEvent) => {
+  //     e.stopPropagation();
+  //     deleteModal.open(genre);
+  //   },
+  //   [deleteModal],
+  // );
+  // const handleActualDelete = async (data: DeleteGenreFormData) => {
+  //   if (deleteModal.data) {
+  //     permanentDeleteGenre(
+  //       {
+  //         id: deleteModal.data?.id,
+  //         reason: data.reason,
+  //       },
+  //       {
+  //         onSuccess: () => {
+  //           reset();
+  //           deleteModal.close();
+  //         },
+  //         onError: (error) => {
+  //           console.error("Failed to delete genre:", error);
+  //         },
+  //       },
+  //     );
+  //   }
+  // };
+
+  // const handleActualAllDelete = async (data: DeleteGenreFormData) => {
+  //   permanentDeleteAllGenre(
+  //     {
+  //       reason: data.reason,
+  //     },
+  //     {
+  //       onSuccess: () => {
+  //         reset();
+  //         permanentDeleteAllModal.close();
+  //       },
+  //     },
+  //   );
+  // };
+
+  // const handleRestoreClick = useCallback(
+  //   (genre: AdminGenreSerialized, e: React.MouseEvent) => {
+  //     e.stopPropagation();
+  //     restoreModal.open(genre);
+  //   },
+  //   [restoreModal],
+  // );
+  // const confirmRestore = useCallback(() => {
+  //   if (restoreModal.data) {
+  //     restoreGenre(restoreModal.data?.id, {
+  //       onSuccess: () => {
+  //         restoreModal.close();
+  //         console.log("restored");
+  //       },
+  //       onError: (error) => {
+  //         console.error("Failed to delete genre:", error);
+  //       },
+  //     });
+  //   }
+  // }, [restoreModal.data]);
+  const onRestore = () => {
+    const isBulk = restoreAllModal.isOpen;
+    const mutation = isBulk ? restoreAllGenre : restoreGenre;
+    const payload = isBulk ? undefined : restoreModal.data?.id;
+    mutation(payload, {
+      onSuccess: () => {
+        isBulk ? restoreAllModal.close() : restoreModal.close();
+        reset();
+      },
+    });
   };
 
-  const handleRestoreClick = useCallback(
-    (genre: AdminGenreSerialized, e: React.MouseEvent) => {
-      e.stopPropagation();
-      restoreModal.open(genre);
-    },
-    [restoreModal],
+  const onDelete = (formData: DeleteGenreFormData) => {
+    const isBulk = permanentDeleteAllModal.isOpen;
+    const mutation = isBulk ? permanentDeleteAllGenre : permanentDeleteGenre;
+    const payload = isBulk
+      ? { reason: formData.reason }
+      : { id: deleteModal.data?.id!, reason: formData.reason };
+
+    mutation(payload as any, {
+      onSuccess: () => {
+        reset();
+        isBulk ? permanentDeleteAllModal.close() : deleteModal.close();
+      },
+    });
+  };
+
+  // Reusable Reason Field for Modals
+  const ReasonField = (
+    <FormField.Root
+      name="reason"
+      layout="stacked"
+      error={errors.reason?.message}
+    >
+      <FormField.Label required>Reason for Delete</FormField.Label>
+      <FormField.Textarea
+        {...register("reason")}
+        placeholder="Why is this being removed?"
+        disabled={isSubmitting}
+      />
+    </FormField.Root>
   );
-  const confirmRestore = useCallback(() => {
-    if (restoreModal.data) {
-      restoreGenre(restoreModal.data?.id, {
-        onSuccess: () => {
-          restoreModal.close();
-          console.log("restored");
-        },
-        onError: (error) => {
-          console.error("Failed to delete genre:", error);
-        },
-      });
-    }
-  }, [restoreModal.data]);
   return (
     <Container size="full" className="relative p-4 min-h-full">
       {/* Modals with Permission Guards */}
-      <PermissionGuard
-        permissions={GENRE_PERMISSIONS.DELETED_RESTORE}
-        roles={["ADMIN"]}
-      >
+      <PermissionGuard permissions={GenrePermissions.RESTORE} roles={["ADMIN"]}>
         <ConfirmDialog
-          open={restoreModal.isOpen}
-          onOpenChange={restoreModal.close}
-          onConfirm={confirmRestore}
-          title="Restore Genre"
-          description={`Are you sure you want to restore "${restoreModal.data?.name}"?`}
-          confirmText="Restore"
-          cancelText="Cancel"
-          variant="default"
-          isLoading={isRestoring}
+          open={restoreModal.isOpen || restoreAllModal.isOpen}
+          onOpenChange={(open) => {
+            if (!open) {
+              restoreModal.close();
+              restoreAllModal.close();
+            }
+          }}
+          onConfirm={onRestore}
+          title={
+            permanentDeleteAllModal.isOpen
+              ? "Restore All Genres"
+              : ` Restore Genre`
+          }
+          description={
+            permanentDeleteAllModal.isOpen
+              ? "Restore All Genres"
+              : `Restore "${restoreModal.data?.name}"?`
+          }
+          isLoading={isRestoring || isRestoringAll}
         />
       </PermissionGuard>
 
-      <PermissionGuard permissions={GENRE_PERMISSIONS.DELETE} roles={["ADMIN"]}>
+      <PermissionGuard
+        permissions={GenrePermissions.DELETE_PERMANENT}
+        roles={["ADMIN"]}
+      >
         <ConfirmDialog
-          open={deleteModal.isOpen}
+          open={deleteModal.isOpen || permanentDeleteAllModal.isOpen}
           onOpenChange={(open) => {
             if (!open) {
               deleteModal.close();
-              reset(); // Clear the form when closing
+              permanentDeleteAllModal.close();
+              reset();
             }
           }}
-          onConfirm={handleSubmit(handleActualDelete)}
-          title="Delete Genre"
-          confirmText="Delete"
-          cancelText="Cancel"
+          onConfirm={handleSubmit(onDelete)}
+          title={
+            permanentDeleteAllModal.isOpen
+              ? "Delete All Genres"
+              : "Delete Genre"
+          }
           variant="danger"
-          isLoading={isDeleting}
+          isLoading={isDeleting || isAllDeleting}
         >
-          <FormField.Root
-            name="reason"
-            layout="stacked"
-            error={errors.reason?.message}
-          >
-            <FormField.Label required>Reason for Delete</FormField.Label>
-            <FormField.Textarea
-              {...register("reason")}
-              placeholder="Why is this genre being removed?"
-              disabled={isSubmitting}
-            />
-
-            {errors.reason && (
-              <FormField.Error icon>{errors.reason.message}</FormField.Error>
-            )}
-          </FormField.Root>
-
-          <p>
-            Are you sure you want to delete "${deleteModal.data?.name}"? This
-            action cannot be undone.
+          {ReasonField}
+          <p className="mt-4">
+            Are you sure? This action{" "}
+            <span className="font-bold text-danger">cannot be undone.</span>
           </p>
         </ConfirmDialog>
       </PermissionGuard>
@@ -257,6 +314,36 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
             />
 
             <AdminGenresParamFilter />
+
+            <PermissionGuard
+              permissions={GenrePermissions.RESTORE}
+              roles={["ADMIN"]}
+            >
+              <Button
+                className="pt-1"
+                variant="glass"
+                color="success"
+                onClick={() => restoreAllModal.open()}
+                size="sm"
+              >
+                <ArchiveRestore className="w-5 h-5" />
+              </Button>
+            </PermissionGuard>
+
+            <PermissionGuard
+              permissions={GenrePermissions.DELETE_PERMANENT}
+              roles={["ADMIN"]}
+            >
+              <Button
+                className="pt-1"
+                variant="glass"
+                color="danger"
+                onClick={() => permanentDeleteAllModal.open()}
+                size="sm"
+              >
+                <Trash2 className="w-5 h-5" />
+              </Button>
+            </PermissionGuard>
           </div>
         </CardHeader>
 
@@ -300,11 +387,7 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
                   </TableRow>
                 ) : data && data.length > 0 ? (
                   data.map((genre) => (
-                    <TableRow
-                      key={genre.id}
-                      onClick={() => handleRowClick(genre.id)}
-                      className="cursor-pointer"
-                    >
+                    <TableRow key={genre.id} className="cursor-pointer">
                       <TableCell className="font-semibold group-hover:text-primary">
                         {genre.name}
                       </TableCell>
@@ -327,7 +410,7 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
                         {formatDate(genre.createdAt)}
                       </TableCell>
                       <TableCell className="font-mono text-sm text-muted-foreground">
-                        {formatDate(genre.deletedAt)}
+                        {formatDate(genre.deletedAt!)}
                       </TableCell>
                       <TableCell className="text-right">
                         <TableActionButtons
@@ -336,8 +419,8 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
                             {
                               key: "restore",
                               label: "Restore",
-                              icon: Upload,
-                              onClick: handleRestoreClick,
+                              icon: ArchiveRestore,
+                              onClick: () => restoreModal.open(genre),
                               visible: canDeletedRestore,
                               loading:
                                 isRestoring &&
@@ -348,7 +431,7 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
                               key: "delete",
                               label: "Delete",
                               icon: Trash2,
-                              onClick: handleDeleteClick,
+                              onClick: () => deleteModal.open(genre),
                               visible: canDeletePermanent,
                               loading:
                                 isDeleting && deleteModal.data?.id === genre.id,

@@ -8,6 +8,7 @@ import {
   ImageIcon,
   Image,
   FileImage,
+  CircleX,
 } from "lucide-react";
 
 const StepFive: React.FC<StepFiveProps> = ({
@@ -16,53 +17,45 @@ const StepFive: React.FC<StepFiveProps> = ({
   bannerStatus,
   thumbnailStatus,
   className,
+  newGenre,
   ...rest
 }) => {
-  const getStatusIcon = (status: string | null | undefined) => {
-    if (!status) {
-      return <XCircle className="w-5 h-5 text-muted-foreground" />;
-    }
-    if (status === "READY" || status === "ACTIVE") {
+  const getStatusIcon = (isOk: boolean) => {
+    if (isOk) {
       return <CheckCircle className="w-5 h-5 text-success" />;
     }
-    if (status === "FAILED") {
-      return <XCircle className="w-5 h-5 text-danger" />;
-    }
-    return <XCircle className="w-5 h-5 text-muted-foreground" />;
+    return <XCircle className="w-5 h-5 text-danger" />;
   };
 
   const getStatusBadge = (status: string | null | undefined) => {
     if (!status) {
-      return (
-        <Badge variant="glass" color="secondary">
-          Not Uploaded
-        </Badge>
-      );
+      return <Badge variant="secondary">Not Uploaded</Badge>;
     }
     if (status === "READY" || status === "ACTIVE") {
-      return (
-        <Badge variant="glass" color="success">
-          Uploaded
-        </Badge>
-      );
+      return <Badge variant="success">Uploaded</Badge>;
     }
     if (status === "FAILED") {
-      return (
-        <Badge variant="glass" color="danger">
-          Failed
-        </Badge>
-      );
+      return <Badge variant="danger">Failed</Badge>;
     }
     if (status === "PROCESSING") {
+      return <Badge variant="info">Processing</Badge>;
+    }
+    return <Badge variant="secondary">{status}</Badge>;
+  };
+
+  const getCurrentMediaStatusBadge = (isPublished: boolean) => {
+    if (isPublished) {
       return (
-        <Badge variant="glass" color="info">
-          Processing
+        <Badge variant="success" className="gap-2">
+          <CheckCircle className="w-3 h-3" />
+          Published
         </Badge>
       );
     }
     return (
-      <Badge variant="glass" color="secondary">
-        {status}
+      <Badge variant="warning" className="gap-2">
+        <CircleX className="w-3 h-3 " />
+        Not published
       </Badge>
     );
   };
@@ -108,8 +101,9 @@ const StepFive: React.FC<StepFiveProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {getStatusIcon(iconStatus)}
             {getStatusBadge(iconStatus)}
+            {getCurrentMediaStatusBadge(!!newGenre?.activeIconVersion)}
+            {/* {getStatusIcon(!!newGenre?.activeIconVersion)} */}
           </div>
         </div>
 
@@ -125,8 +119,9 @@ const StepFive: React.FC<StepFiveProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {getStatusIcon(bannerStatus)}
             {getStatusBadge(bannerStatus)}
+            {getCurrentMediaStatusBadge(!!newGenre?.activeBannerVersion)}
+            {/* {getStatusIcon(!!newGenre?.activeBannerVersion)} */}
           </div>
         </div>
 
@@ -142,8 +137,9 @@ const StepFive: React.FC<StepFiveProps> = ({
             </div>
           </div>
           <div className="flex items-center gap-3">
-            {getStatusIcon(thumbnailStatus)}
             {getStatusBadge(thumbnailStatus)}
+            {getCurrentMediaStatusBadge(!!newGenre?.activeThumbnailVersion)}
+            {/* {getStatusIcon(!!newGenre?.activeThumbnailVersion)} */}
           </div>
         </div>
       </div>

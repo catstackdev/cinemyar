@@ -32,7 +32,7 @@ export const AdminGenresAPI = {
     params?: GenrePaginationParams,
   ): Promise<AdminGenresApiResponse> => {
     const { data } = await apiClient.get<AdminGenresApiResponse>(
-      "admin/genres/deleted",
+      "admin/genres/deleted/list",
       { params },
     );
     return data;
@@ -118,9 +118,27 @@ export const AdminGenresAPI = {
     );
     return data;
   },
+  permanentDeleteAllGenre: async (
+    reason?: string,
+  ): Promise<ApiResponse<any>> => {
+    const { data } = await apiClient.delete<ApiResponse<any>>(
+      `/admin/genres/deleted/all/permanent`,
+      {
+        data: reason ? { reason } : {},
+      },
+    );
+    return data;
+  },
   restoreDeletedGenre: async (id: string): Promise<ApiResponse<any>> => {
     const { data } = await apiClient.post<ApiResponse<any>>(
       `/admin/genres/deleted/${id}/restore`,
+    );
+    return data;
+  },
+
+  restoreAllDeletedGenre: async (): Promise<ApiResponse<any>> => {
+    const { data } = await apiClient.post<ApiResponse<any>>(
+      `/admin/genres/deleted/all/restore`,
     );
     return data;
   },

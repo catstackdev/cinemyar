@@ -2,10 +2,11 @@ import React, { useState } from "react";
 import { cn } from "@/utils/helpers/classNames";
 import type { GenreImageUploadProps } from "./GenreImageUpload.types";
 import { Dropzone, Progress, Badge, EmptyState } from "@/components/ui";
-import { CheckCircle, Upload, XCircle, Loader2 } from "lucide-react";
+import { CheckCircle, Upload, XCircle, Loader2, CircleX } from "lucide-react";
 import MediaItem from "../../../../MediaItem";
 import MediaListPreview from "../../../../MediaListPreview";
 import { useScrollTo } from "@/hooks";
+import { WarningIcon } from "@/components/ui/Alert/icons";
 
 const GenreImageUpload: React.FC<GenreImageUploadProps> = ({
   imageType,
@@ -54,7 +55,6 @@ const GenreImageUpload: React.FC<GenreImageUploadProps> = ({
         </Badge>
       );
     }
-
     if (uploadStatus === "READY" || uploadStatus === "ACTIVE") {
       return (
         <Badge variant="success" className="gap-2">
@@ -63,16 +63,14 @@ const GenreImageUpload: React.FC<GenreImageUploadProps> = ({
         </Badge>
       );
     }
-
     if (uploadStatus === "FAILED") {
       return (
-        <Badge variant="error" className="gap-2">
+        <Badge variant="danger" className="gap-2">
           <XCircle className="w-3 h-3" />
           Failed
         </Badge>
       );
     }
-
     if (uploadStatus === "PROCESSING") {
       return (
         <Badge variant="info" className="gap-2">
@@ -81,8 +79,34 @@ const GenreImageUpload: React.FC<GenreImageUploadProps> = ({
         </Badge>
       );
     }
-
     return null;
+  };
+
+  const getCurrentMediaStatusBadge = () => {
+    if (activeVersion) {
+      return (
+        <Badge variant="success" className="gap-2">
+          <CheckCircle className="w-3 h-3" />
+          Published
+        </Badge>
+      );
+    }
+
+    if (items?.length === 0) {
+      return (
+        <Badge variant="danger" className="gap-2">
+          <XCircle className="w-3 h-3" />
+          Upload & publish
+        </Badge>
+      );
+    }
+
+    return (
+      <Badge variant="warning" className="gap-2">
+        <CircleX className="w-3 h-3 " />
+        Not published
+      </Badge>
+    );
   };
 
   return (
@@ -96,6 +120,7 @@ const GenreImageUpload: React.FC<GenreImageUploadProps> = ({
           )}
         </div>
         {getStatusBadge()}
+        {getCurrentMediaStatusBadge()}
       </div>
       {/* Current Image Preview (if exists) */}
       <div className="p-4 bg-muted/30 rounded-lg border border-border">

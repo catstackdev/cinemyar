@@ -28,6 +28,7 @@ export const useGenreMetaDataStep = ({
   const { mutate: updateGenre, isPending: isPendingUpdate } =
     useAdminUpdateGenre();
 
+  const dataSource = newGenre || genre;
   const {
     register,
     handleSubmit,
@@ -47,22 +48,23 @@ export const useGenreMetaDataStep = ({
     mode: "onChange", // Mark as touched + validate on every change
     resolver: zodResolver(AddGenreSchema),
     defaultValues: {
-      name: genre?.name ?? "",
-      slug: genre?.slug ?? "",
-      parentId: genre?.parentId ?? "",
-      description: genre?.description ?? "",
+      name: dataSource?.name ?? "",
+      slug: dataSource?.slug ?? "",
+      parentId: dataSource?.parentId ?? "",
+      description: dataSource?.description ?? "",
     },
   });
   useEffect(() => {
     if (open) {
+      const dataSource = newGenre || genre;
       reset({
-        name: genre?.name ?? "",
-        slug: genre?.slug ?? "",
-        parentId: genre?.parentId ?? "",
-        description: genre?.description ?? "",
+        name: dataSource?.name ?? "",
+        slug: dataSource?.slug ?? "",
+        parentId: dataSource?.parentId ?? "",
+        description: dataSource?.description ?? "",
       });
     }
-  }, [open]);
+  }, [open, newGenre, genre]);
 
   // Auto-generate slug from name on blur
   const handleNameBlur = useCallback(
@@ -82,7 +84,6 @@ export const useGenreMetaDataStep = ({
 
   // Submit handler for Step 1
   const onSubmit = async (data: AddGenreFormData) => {
-    // Transform data: convert empty string parentId to null
     const payload = {
       ...data,
       parentId:
@@ -90,9 +91,7 @@ export const useGenreMetaDataStep = ({
     };
 
     if (newGenre) {
-      // UPDATE mode
       if (!isDirty) {
-        // No changes, just proceed to next step
         onSuccess?.(newGenre);
         return;
       }
@@ -113,7 +112,6 @@ export const useGenreMetaDataStep = ({
       // CREATE mode
       addGenre(payload, {
         onSuccess: (response: ApiResponse<AdminGenreSerialized>) => {
-          reset();
           onSuccess?.(response.data);
         },
         onError: (error: any) => {
