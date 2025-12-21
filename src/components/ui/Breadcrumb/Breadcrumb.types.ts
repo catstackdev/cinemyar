@@ -4,6 +4,7 @@ export interface BreadcrumbItem {
   label: string;
   href?: string;
   icon?: ReactNode;
+  iconUrl?: string;
 }
 
 export interface BreadcrumbProps extends React.ComponentPropsWithoutRef<"nav"> {

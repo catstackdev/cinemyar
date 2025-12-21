@@ -1,10 +1,15 @@
 import type { BreadcrumbProps } from "./Breadcrumb.types";
 import { cn } from "@/utils/helpers/classNames";
 import { Link } from "react-router-dom";
+import Image from "../Image";
 
 const ChevronIcon = () => (
   <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-    <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
+    <path
+      fillRule="evenodd"
+      d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+      clipRule="evenodd"
+    />
   </svg>
 );
 
@@ -27,9 +32,7 @@ const Breadcrumb = ({
           return (
             <li key={index} className="inline-flex items-center">
               {index > 0 && (
-                <span className="mx-2 text-muted-foreground">
-                  {separator}
-                </span>
+                <span className="mx-2 text-muted-foreground">{separator}</span>
               )}
               {item.href && !isLast ? (
                 <Link
@@ -37,7 +40,7 @@ const Breadcrumb = ({
                   className={cn(
                     "inline-flex items-center text-sm font-medium",
                     "text-foreground hover:text-primary",
-                    "transition-colors"
+                    "transition-colors",
                   )}
                 >
                   {item.icon && <span className="mr-2">{item.icon}</span>}
@@ -47,13 +50,19 @@ const Breadcrumb = ({
                 <span
                   className={cn(
                     "inline-flex items-center text-sm font-medium",
-                    isLast
-                      ? "text-muted-foreground"
-                      : "text-foreground"
+                    isLast ? "text-muted-foreground" : "text-foreground",
                   )}
                   aria-current={isLast ? "page" : undefined}
                 >
-                  {item.icon && <span className="mr-2">{item.icon}</span>}
+                  {item?.iconUrl ? (
+                    <Image
+                      src={item.iconUrl}
+                      alt={item.label}
+                      className="w-4 h-4"
+                    />
+                  ) : (
+                    item.icon && <span className="mr-2">{item.icon}</span>
+                  )}
                   {item.label}
                 </span>
               )}

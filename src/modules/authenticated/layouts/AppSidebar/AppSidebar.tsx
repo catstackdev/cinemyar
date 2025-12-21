@@ -44,15 +44,50 @@ const AppSidebar: React.FC<AppSidebarProps> = () => {
   const subMenuRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   // Check if the current path matches or is a child of the nav path
+  // const isActive = useCallback(
+  //   (path: string) => {
+  //     // Exact match
+  //     if (location.pathname === path) return true;
+  //
+  //     // For parent routes, check if current path starts with nav path
+  //     // But exclude root paths to avoid matching everything
+  //     if (path !== "/" && location.pathname.startsWith(path + "/")) {
+  //       return true;
+  //     }
+  //
+  //     return false;
+  //   },
+  //   [location.pathname],
+  // );
+  // 1. Update your isActive logic inside AppSidebar
   const isActive = useCallback(
-    (path: string) => {
-      // Exact match
-      if (location.pathname === path) return true;
+    (path: string, exact = false) => {
+      const currentPath = location.pathname;
 
-      // For parent routes, check if current path starts with nav path
-      // But exclude root paths to avoid matching everything
-      if (path !== "/" && location.pathname.startsWith(path + "/")) {
-        return true;
+      // If 'exact' is true (for Deleted/Staged), only match if strings are identical
+      if (exact) {
+        return currentPath === path;
+      }
+
+      // Exact match is always true
+      if (currentPath === path) return true;
+
+      // For the base route (All Genres), check if it's a child (Detail page)
+      // but ONLY if the current URL isn't actually matching another sibling
+      if (path !== "/" && currentPath.startsWith(path + "/")) {
+        // Check if we are in a sub-directory that is actually a sibling in the menu
+        // e.g., if path is /genres, and current is /genres/deleted
+        // This logic prevents "All Genres" from being active when "Deleted" is active
+        const remainingPath = currentPath.replace(path + "/", "");
+
+        // If the next part of the path is "deleted" or "staged-images",
+        // we consider this a sibling match, not a child match.
+        const siblings = ["deleted", "staged-images"];
+        const isSiblingMatch = siblings.some((s) =>
+          remainingPath.startsWith(s),
+        );
+
+        return !isSiblingMatch;
       }
 
       return false;

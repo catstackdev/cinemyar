@@ -418,7 +418,7 @@ const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
             </Stack>
 
             {/* Current Active Thumbnail Preview */}
-            {genre.thumbnailUrls && (
+            {genre?.thumbnailUrls && (
               <div className="mb-6 p-4 bg-muted/30 rounded-lg border border-border">
                 <p className="text-sm text-muted-foreground mb-4">
                   Current Active Thumbnail

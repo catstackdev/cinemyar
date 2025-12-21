@@ -1,21 +1,11 @@
-import type { GenrePaginationParams } from "@/shared/types/types";
-import { createElement, lazy } from "react";
-import {
-  Navigate,
-  type LoaderFunctionArgs,
-  type RouteObject,
-} from "react-router-dom";
-import { allDeletedGenresLoader } from "./loaders/allDeletedGenresLoader";
+import { lazy } from "react";
+import type { LoaderFunctionArgs, RouteObject } from "react-router-dom";
 
 const ListPage = lazy(
   () => import("@/modules/authenticated/features/Genres/pages/AllGenresPage"),
 );
 const DetailPage = lazy(
   () => import("@/modules/authenticated/features/Genres/pages/GenreDetailPage"),
-);
-const StageImagesPage = lazy(
-  () =>
-    import("@/modules/authenticated/features/Genres/pages/GenresStageImagePage"),
 );
 const DeletedGenresPage = lazy(
   () =>
@@ -25,11 +15,14 @@ const DeletedGenresPage = lazy(
 export const AuthenticatedGenresRoutesConfig: RouteObject[] = [
   // {
   //   index: true,
-  //   Component: () =>
-  //     createElement(Navigate, { to: "list", replace: true }),
+  //   Component: () => createElement(Navigate, { to: "list", replace: true }),
+  //   handle: {
+  //     breadcrumb: { label: "All Genres", icon: "📄" },
+  //   },
   // },
   {
     index: true,
+    // path: "list",
     Component: ListPage,
     loader: async (args: LoaderFunctionArgs) => {
       const { allGenresLoader } =
@@ -50,7 +43,7 @@ export const AuthenticatedGenresRoutesConfig: RouteObject[] = [
       return allDeletedGenresLoader(args);
     },
     handle: {
-      breadcrumb: { label: "All Genres", icon: "📄" },
+      breadcrumb: { label: "All Deleted Genres", icon: "📄" },
     },
   },
   {
@@ -61,8 +54,11 @@ export const AuthenticatedGenresRoutesConfig: RouteObject[] = [
         (m) => m.genresDetailLoader(args),
       ),
     handle: {
-      breadcrumb: { label: "Genre Details", icon: "📄" },
+      breadcrumb: {
+        label: (data: any) => data?.data?.name ?? "Genre Details",
+        icon: "📄",
+        // iconUrl: (data: any) => data?.data?.iconUrl ?? null,
+      },
     },
   },
-  ,
 ];
