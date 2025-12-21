@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/genre/genre-admin.types.ts
-// Generated: 2025-12-20T14:39:43.568Z
+// Generated: 2025-12-21T10:09:08.093Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import type { ApiResponse, PaginatedResponse } from '../api-response.types';
