@@ -12,6 +12,7 @@ import MediaItem from "./MediaItem";
 
 import AdminGenresParamFilter from "./AdminGenresParamFilter";
 import { GenreImageUpload } from "./modals/AddUpdateGenres/components/GenreImageUpload";
+import GenreImg from "./GenreImg";
 
 // Type exports
 /* PLOP_INJECT_TYPE_EXPORT */
@@ -24,6 +25,7 @@ export {
   MediaItem,
   AdminGenresParamFilter,
   GenreImageUpload,
+  GenreImg,
 };
 
 // Default exports (if any)

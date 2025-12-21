@@ -24,7 +24,8 @@ import {
 } from "lucide-react";
 import type { GenreMediaItem } from "@/shared/types/types/genre";
 import MediaItem from "../../components/MediaItem";
-import MediaListPreview from "../../components/MediaListPreview";
+import { GenreImg } from "../../components";
+import { MediaImage } from "@/components/ui/Image";
 
 const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
   children,
@@ -199,13 +200,67 @@ const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
             {/* Current Active Icon Preview */}
             {genre.iconUrls && (
               <div className="mb-6 p-4 bg-muted/30 rounded-lg border border-border">
-                <p className="text-sm text-muted-foreground mb-2">
+                <p className="text-sm text-muted-foreground mb-4">
                   Current Active Icon
                   {genre.activeIconVersion && (
                     <span> (Version: v{genre.activeIconVersion})</span>
                   )}
                 </p>
-                <MediaListPreview type="icon" currentImages={genre.iconUrls} />
+                <div className="grid grid-cols-3 md:grid-cols-5 gap-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Original
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.iconUrls}
+                      size="original"
+                      aspectRatio="square"
+                      alt={`${genre.name} icon (original)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Large (LG)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.iconUrls}
+                      size="lg"
+                      aspectRatio="square"
+                      alt={`${genre.name} icon (lg)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Medium (MD)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.iconUrls}
+                      size="md"
+                      aspectRatio="square"
+                      alt={`${genre.name} icon (md)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Small (SM)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.iconUrls}
+                      size="sm"
+                      aspectRatio="square"
+                      alt={`${genre.name} icon (sm)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">Auto</p>
+                    <GenreImg
+                      imageUrls={genre.iconUrls}
+                      size="auto"
+                      aspectRatio="square"
+                      alt={`${genre.name} icon (auto)`}
+                    />
+                  </div>
+                </div>
               </div>
             )}
 
@@ -259,16 +314,56 @@ const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
             {/* Current Active Banner Preview */}
             {genre.bannerUrls && (
               <div className="mb-6 p-4 bg-muted/30 rounded-lg border border-border">
-                <p className="text-sm text-muted-foreground mb-2">
+                <p className="text-sm text-muted-foreground mb-4">
                   Current Active Banner
                   {genre.activeBannerVersion && (
                     <span> (Version: v{genre.activeBannerVersion})</span>
                   )}
                 </p>
-                <MediaListPreview
-                  type="banner"
-                  currentImages={genre.bannerUrls}
-                />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Large (LG)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.bannerUrls}
+                      size="lg"
+                      aspectRatio="video"
+                      alt={`${genre.name} banner (lg)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Medium (MD)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.bannerUrls}
+                      size="md"
+                      aspectRatio="video"
+                      alt={`${genre.name} banner (md)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Small (SM)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.bannerUrls}
+                      size="sm"
+                      aspectRatio="video"
+                      alt={`${genre.name} banner (sm)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">Auto</p>
+                    <GenreImg
+                      imageUrls={genre.bannerUrls}
+                      size="auto"
+                      aspectRatio="video"
+                      alt={`${genre.name} banner (auto)`}
+                    />
+                  </div>
+                </div>
               </div>
             )}
 
@@ -325,16 +420,56 @@ const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
             {/* Current Active Thumbnail Preview */}
             {genre.thumbnailUrls && (
               <div className="mb-6 p-4 bg-muted/30 rounded-lg border border-border">
-                <p className="text-sm text-muted-foreground mb-2">
+                <p className="text-sm text-muted-foreground mb-4">
                   Current Active Thumbnail
                   {genre.activeThumbnailVersion && (
                     <span> (Version: v{genre.activeThumbnailVersion})</span>
                   )}
                 </p>
-                <MediaListPreview
-                  type="thumbnail"
-                  currentImages={genre.thumbnailUrls}
-                />
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Large (LG)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.thumbnailUrls}
+                      size="lg"
+                      aspectRatio="video"
+                      alt={`${genre.name} thumbnail (lg)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Medium (MD)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.thumbnailUrls}
+                      size="md"
+                      aspectRatio="video"
+                      alt={`${genre.name} thumbnail (md)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">
+                      Small (SM)
+                    </p>
+                    <GenreImg
+                      imageUrls={genre.thumbnailUrls}
+                      size="sm"
+                      aspectRatio="video"
+                      alt={`${genre.name} thumbnail (sm)`}
+                    />
+                  </div>
+                  <div>
+                    <p className="text-xs text-muted-foreground mb-2">Auto</p>
+                    <GenreImg
+                      imageUrls={genre.thumbnailUrls}
+                      size="auto"
+                      aspectRatio="video"
+                      alt={`${genre.name} thumbnail (auto)`}
+                    />
+                  </div>
+                </div>
               </div>
             )}
 
@@ -379,38 +514,95 @@ const GenreDetailPage: React.FC<GenreDetailPageProps> = ({
   }
 
   return (
-    <div className={clsx(styles.root, "p-4 relative", className)}>
-      {/* Header */}
-      <Card className="p-6 mb-6 sticky top-7">
-        <Stack direction="horizontal" justify="between" align="start">
-          <div>
-            <h1 className="text-3xl font-bold text-foreground mb-2">
-              {genre.name}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              Slug: <span className="font-mono">{genre.slug}</span> • Movies:{" "}
-              {genre._count?.movies ?? 0}
-            </p>
-            {genre.description && (
-              <p className="text-sm text-muted-foreground mt-2">
-                {genre.description}
-              </p>
-            )}
-          </div>
-          <Stack direction="vertical" spacing="xs" align="end">
-            <Badge
-              variant={genre.isActive ? "success" : "secondary"}
-              className="gap-2"
-            >
-              {genre.isActive ? "Active" : "Inactive"}
-            </Badge>
-            {genre.isFeatured && <Badge variant="info">Featured</Badge>}
-          </Stack>
-        </Stack>
-      </Card>
+    <div className={clsx(styles.root, "p-4 ", className)}>
+      {/* Sticky Header with Banner Background */}
+      <div className="sticky top-0 z-10 mb-6">
+        {/* Banner Background */}
+        <div className="relative h-48 overflow-hidden rounded-t-lg">
+          {/* Banner Image */}
+          {genre.bannerUrls ? (
+            <div className="absolute inset-0">
+              <MediaImage
+                imageUrls={genre.bannerUrls}
+                imageUrlsConfig={{
+                  imageClasses: {
+                    sm: "w-full h-full",
+                    md: "w-full h-full",
+                    lg: "w-full h-full",
+                    xl: "w-full h-full",
+                  },
+                  mapping: {
+                    sm: "sm",
+                    md: "md",
+                    lg: "lg",
+                    xl: "original",
+                  },
+                }}
+                fit="cover"
+                showProgress
+                alt={`${genre.name} banner`}
+              />
+              {/* Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-background/60 to-background"></div>
+            </div>
+          ) : (
+            <div className="absolute inset-0 bg-gradient-to-b from-primary/20 via-primary/40 to-background"></div>
+          )}
 
-      {/* Tabs for different sections */}
-      <Tabs items={tabItems} defaultTab="metadata" className="w-full" />
+          {/* Header Content */}
+          <div className="relative h-full flex items-end p-6">
+            <Stack direction="horizontal" spacing="md" align="center">
+              {/* Icon */}
+              {genre.iconUrls ? (
+                <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-background shadow-lg flex-shrink-0 bg-background">
+                  <GenreImg
+                    imageUrls={genre.iconUrls}
+                    size="auto"
+                    aspectRatio="square"
+                    alt={`${genre.name} icon`}
+                    showSize={false}
+                  />
+                </div>
+              ) : (
+                <div className="w-20 h-20 rounded-lg overflow-hidden border-2 border-background shadow-lg flex-shrink-0 bg-muted/30 flex items-center justify-center">
+                  <ImageIcon className="w-8 h-8 text-muted-foreground" />
+                </div>
+              )}
+
+              {/* Title and Info */}
+              <div className="flex-1">
+                <h1 className="text-3xl font-bold text-foreground drop-shadow-lg mb-1">
+                  {genre.name}
+                </h1>
+                <p className="text-sm text-foreground/90 drop-shadow">
+                  Slug: <span className="font-mono">{genre.slug}</span> •
+                  Movies: {genre._count?.movies ?? 0}
+                </p>
+              </div>
+
+              {/* Status Badges */}
+              <Stack direction="vertical" spacing="xs" align="end">
+                <Badge
+                  variant={genre.isActive ? "success" : "secondary"}
+                  className="gap-2 shadow-sm"
+                >
+                  {genre.isActive ? "Active" : "Inactive"}
+                </Badge>
+                {genre.isFeatured && (
+                  <Badge variant="info" className="shadow-sm">
+                    Featured
+                  </Badge>
+                )}
+              </Stack>
+            </Stack>
+          </div>
+        </div>
+
+        {/* Sticky Tabs */}
+        <div className="bg-background border-b border-border shadow-sm">
+          <Tabs items={tabItems} defaultTab="metadata" className="w-full" />
+        </div>
+      </div>
 
       {children}
     </div>
