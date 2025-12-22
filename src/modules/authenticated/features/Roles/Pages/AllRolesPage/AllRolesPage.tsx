@@ -1,7 +1,6 @@
 import React, { useCallback } from "react";
 import type { AllRolesPageProps } from "./AllRolesPage.types";
 import type {
-  AdminGenreSerialized,
   AdminRole,
   AdminRolesPaginatedResponse,
   AllAdminRoleParams,
@@ -38,8 +37,10 @@ import { formatDate } from "@/utils/helpers";
 import { PlusIcon, Edit, Trash2 } from "lucide-react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { AdminGenresAPI } from "../../../Genres/api/admin-genres.api";
-import { useAdminDeleteRole } from "../../hooks/useAdminroles";
 import { AdminAllRolesQueryKey } from "../../api/roles-query-key";
+import { useAdminDeleteRole } from "../../hooks/useAdminRoles";
+import { AddUpdateRole } from "../../components/modals";
+import { AdminRolesAPI } from "../../api/admin-roles.api";
 
 const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
   const navigate = useNavigate();
@@ -75,7 +76,7 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
     getSortDirection,
   } = useCrudPage<AllAdminRoleParams, AdminRole>({
     queryKey: AdminAllRolesQueryKey,
-    queryFn: AdminGenresAPI.getGenres,
+    queryFn: AdminRolesAPI.getRoles,
     initialData,
     defaultParams: {
       sortBy: "name",
@@ -146,12 +147,12 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
     <Container size="full" className="relative p-4 min-h-full">
       {/* Modals with Permission Guards */}
       <PermissionGuard permissions={RolePermissions.CREATE} roles={["ADMIN"]}>
-        {/* <AddNewGenres */}
-        {/*   key={createUpdateModal.data?.id ?? "create"} */}
-        {/*   open={createUpdateModal.isOpen} */}
-        {/*   onOpenChange={handleModalClose} */}
-        {/*   genre={createUpdateModal.data ?? null} */}
-        {/* /> */}
+        <AddUpdateRole
+          key={createUpdateModal.data?.id ?? "create"}
+          open={createUpdateModal.isOpen}
+          onOpenChange={handleModalClose}
+          item={createUpdateModal.data ?? null}
+        />
       </PermissionGuard>
 
       <PermissionGuard permissions={RolePermissions.DELETE} roles={["ADMIN"]}>
