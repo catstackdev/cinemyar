@@ -1,8 +1,4 @@
-import {
-  FileMimeType,
-  FileSize,
-  FileType,
-} from "@/shared/types/constants/file.const";
+import { FileMimeType, FileSize } from "@/shared/types/constants/file.const";
 import { z } from "zod";
 export const AddGenreSchema = z.object({
   name: z.string().min(1, "Title is required"),

@@ -9,6 +9,7 @@ import {
   VideoIcon,
 } from "@radix-ui/react-icons";
 import type { NavItem } from "./nav.types";
+import { RolePermissions } from "@/shared/types/constants";
 
 export const adminNav: NavItem[] = [
   {
@@ -33,20 +34,20 @@ export const adminNav: NavItem[] = [
       {
         id: "movies-pending",
         name: "Pending Approval",
-        path: "/dashboard/movies/pending",
+        path: "/authenticated/movies/pending",
         requiredPermissions: ["movie.review", "movie.approve"],
         requireAllPermissions: false, // Need any permission (OR logic)
       },
       {
         id: "movies-add",
         name: "Add Movie",
-        path: "/dashboard/movies/new",
+        path: "/authenticated/movies/new",
         requiredPermissions: ["movie.create"],
       },
       {
         id: "movies-deleted",
         name: "Deleted Movies",
-        path: "/dashboard/movies/deleted",
+        path: "/authenticated/movies/deleted",
         requiredPermissions: ["movie.view.deleted"],
       },
     ],
@@ -66,7 +67,7 @@ export const adminNav: NavItem[] = [
       // {
       //   id: "genres-add",
       //   name: "Add Genre",
-      //   path: "/dashboard/genres/new",
+      //   path: "/authenticated/genres/new",
       //   requiredPermissions: ["genre.create"],
       // },
       {
@@ -93,19 +94,19 @@ export const adminNav: NavItem[] = [
       {
         id: "users-all",
         name: "All Users",
-        path: "/dashboard/users",
+        path: "/authenticated/users",
         requiredPermissions: ["user.view"],
       },
       {
         id: "users-banned",
         name: "Banned Users",
-        path: "/dashboard/users/banned",
+        path: "/authenticated/users/banned",
         requiredPermissions: ["user.view"], // Just viewing, no need for ban permission
       },
       {
         id: "users-admins",
         name: "Admin Users",
-        path: "/dashboard/users/admins",
+        path: "/authenticated/users/admins",
         requiredPermissions: ["admin_user.view"],
       },
     ],
@@ -114,25 +115,25 @@ export const adminNav: NavItem[] = [
     id: "activity-logs",
     name: "Activity Logs",
     icon: <FileTextIcon />,
-    path: "/dashboard/logs",
+    path: "/authenticated/logs",
     requiredPermissions: ["activity_log.view"],
   },
   {
     id: "roles",
     name: "Roles & Permissions",
     icon: <CodeIcon />,
-    requiredPermissions: ["admin_role.view"],
+    requiredPermissions: [RolePermissions.VIEW],
     subItems: [
       {
         id: "roles-all",
         name: "All Roles",
-        path: "/dashboard/roles",
-        requiredPermissions: ["admin_role.view"],
+        path: "/authenticated/roles",
+        requiredPermissions: [RolePermissions.VIEW],
       },
       {
         id: "roles-assign",
         name: "Assign Roles",
-        path: "/dashboard/roles/assign",
+        path: "/authenticated/roles/assign",
         requiredPermissions: ["admin_role.assign"],
       },
     ],
@@ -141,7 +142,7 @@ export const adminNav: NavItem[] = [
     id: "analytics",
     name: "Analytics",
     icon: <BarChartIcon />,
-    path: "/dashboard/analytics",
+    path: "/authenticated/analytics",
     requiredRole: ["ADMIN", "SUPER_ADMIN"],
   },
 ];
@@ -156,18 +157,18 @@ export const adminSettings: NavItem[] = [
       {
         id: "settings-profile",
         name: "Profile",
-        path: "/dashboard/settings/profile",
+        path: "/authenticated/settings/profile",
       },
       {
         id: "settings-system",
         name: "System Settings",
-        path: "/dashboard/settings/system",
+        path: "/authenticated/settings/system",
         requiredPermissions: ["system.settings"],
       },
       {
         id: "settings-cache",
         name: "Cache Management",
-        path: "/dashboard/settings/cache",
+        path: "/authenticated/settings/cache",
         requiredPermissions: ["system.cache"],
       },
     ],

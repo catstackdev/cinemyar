@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
-// Source: backend/src/shared/constants/genre-permissions.const.ts
-// Generated: 2025-12-21T10:09:08.091Z
+// Source: backend/src/shared/constants/permission/genre-permissions.const.ts
+// Generated: 2025-12-22T11:37:56.565Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**

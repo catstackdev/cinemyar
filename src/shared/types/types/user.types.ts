@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/user.types.ts
-// Generated: 2025-12-21T10:09:08.094Z
+// Generated: 2025-12-22T11:37:56.577Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 export type UserRole = 'USER' | 'PREMIUM' | 'ADMIN' | 'SUPER_ADMIN';

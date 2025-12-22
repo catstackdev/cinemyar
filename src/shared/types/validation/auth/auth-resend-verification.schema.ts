@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/validation/auth/auth-resend-verification.schema.ts
-// Generated: 2025-12-21T10:09:08.095Z
+// Generated: 2025-12-22T11:37:56.582Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import { z } from 'zod';
