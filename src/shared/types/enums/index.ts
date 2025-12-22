@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/enums/index.ts
-// Generated: 2025-12-22T11:37:56.571Z
+// Generated: 2025-12-22T16:22:29.036Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 // Enums synced from Prisma schema (backend/prisma/schema.prisma)
