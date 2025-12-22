@@ -35,7 +35,6 @@ import { AdminGenresParamFilter } from "../../components";
 import { QueryParamSearch } from "@/components/common/queryParams";
 import { AddNewGenres } from "../../components/modals";
 import { useCan } from "@/hooks/useCan";
-import { GENRE_PERMISSIONS } from "@/utils/permissions/crud";
 import {
   ConfirmDialog,
   PermissionGuard,
@@ -43,6 +42,7 @@ import {
 } from "@/components/common";
 import { useSolfDeleteGenre } from "../../hooks/useAdminGenres";
 import { useCrudPage, useModal } from "@/hooks";
+import { GenrePermissions } from "@/shared/types/constants";
 
 const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   const navigate = useNavigate();
@@ -54,15 +54,15 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   // Permission checks
   const canCreate = useCan({
     roles: ["ADMIN"],
-    permissions: GENRE_PERMISSIONS.CREATE,
+    permissions: GenrePermissions.CREATE,
   });
   const canDelete = useCan({
     roles: ["ADMIN"],
-    permissions: GENRE_PERMISSIONS.DELETE,
+    permissions: GenrePermissions.DELETE,
   });
   const canUpdate = useCan({
     roles: ["ADMIN"],
-    permissions: GENRE_PERMISSIONS.UPDATE,
+    permissions: GenrePermissions.EDIT,
   });
 
   // Delete mutation
@@ -150,7 +150,7 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   return (
     <Container size="full" className="relative p-4 min-h-full">
       {/* Modals with Permission Guards */}
-      <PermissionGuard permissions={GENRE_PERMISSIONS.CREATE} roles={["ADMIN"]}>
+      <PermissionGuard permissions={GenrePermissions.CREATE} roles={["ADMIN"]}>
         <AddNewGenres
           key={createUpdateModal.data?.id ?? "create"}
           open={createUpdateModal.isOpen}
@@ -159,7 +159,7 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
         />
       </PermissionGuard>
 
-      <PermissionGuard permissions={GENRE_PERMISSIONS.DELETE} roles={["ADMIN"]}>
+      <PermissionGuard permissions={GenrePermissions.DELETE} roles={["ADMIN"]}>
         <ConfirmDialog
           open={deleteModal.isOpen}
           onOpenChange={deleteModal.close}

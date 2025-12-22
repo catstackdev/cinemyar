@@ -9,10 +9,6 @@ import type {
   ApiResponse,
   GenrePaginationParams,
 } from "@/shared/types/types";
-import type {
-  GenreMediaItem,
-  GenreMediaType,
-} from "@/shared/types/types/genre";
 import type { GenreDetailData } from "@/shared/types/types/genre/genre-admin-detail.type";
 
 // Centralized API handlers
