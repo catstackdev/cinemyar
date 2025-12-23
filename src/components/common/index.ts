@@ -8,6 +8,8 @@ export { VideoPlayer } from "./VideoPlayer";
 export { AppAuthGuard } from "./AppAuthGuard";
 export { PermissionGuard } from "./PermissionGuard";
 export { TableActionButtons } from "./TableActionButtons";
+export { PermissionBadges } from "./PermissionBadges";
+export { TruncatedText } from "./TruncatedText";
 
 export type { ErrorBoundaryProps, ErrorFallbackProps } from "./ErrorBoundary";
 export type { LoadingScreenProps } from "./LoadingScreen";
@@ -23,3 +25,5 @@ export type {
 } from "./VideoPlayer";
 export type { PermissionGuardProps } from "./PermissionGuard";
 export type { TableActionButtonsProps } from "./TableActionButtons";
+export type { PermissionBadgesProps } from "./PermissionBadges";
+export type { TruncatedTextProps } from "./TruncatedText";
