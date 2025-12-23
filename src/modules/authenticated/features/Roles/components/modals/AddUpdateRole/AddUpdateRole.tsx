@@ -184,19 +184,25 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
         if (isSelected) {
           // Unchecking - check if other permissions depend on this
           const dependents = getDependentPermissions(permissionKey, prev);
-          
+
           if (dependents.length > 0) {
             // Auto-uncheck dependents as well
             const newPermissions = prev.filter(
               (p) => p !== permissionKey && !dependents.includes(p),
             );
-            setValue("permissions", newPermissions, { shouldDirty: true, shouldValidate: true });
+            setValue("permissions", newPermissions, {
+              shouldDirty: true,
+              shouldValidate: true,
+            });
             return newPermissions;
           }
 
           // No dependents, just uncheck this one
           const newPermissions = prev.filter((p) => p !== permissionKey);
-          setValue("permissions", newPermissions, { shouldDirty: true, shouldValidate: true });
+          setValue("permissions", newPermissions, {
+            shouldDirty: true,
+            shouldValidate: true,
+          });
           return newPermissions;
         } else {
           // Checking - verify dependencies are met
@@ -205,7 +211,10 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
           if (unmetDeps.length > 0) {
             // Auto-select dependencies
             const newPermissions = [...prev, ...unmetDeps, permissionKey];
-            setValue("permissions", newPermissions, { shouldDirty: true, shouldValidate: true });
+            setValue("permissions", newPermissions, {
+              shouldDirty: true,
+              shouldValidate: true,
+            });
             // Clear errors when permissions are added
             if (newPermissions.length > 0) {
               clearErrors("permissions");
@@ -215,7 +224,10 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
 
           // Dependencies met, just check this one
           const newPermissions = [...prev, permissionKey];
-          setValue("permissions", newPermissions, { shouldDirty: true, shouldValidate: true });
+          setValue("permissions", newPermissions, {
+            shouldDirty: true,
+            shouldValidate: true,
+          });
           // Clear errors when permissions are added
           if (newPermissions.length > 0) {
             clearErrors("permissions");
@@ -235,9 +247,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
       const entity = permissionResData.data.permissions[entityKey];
       if (!entity) return;
 
-      const entityPermissions = entity.actions.map(
-        (action) => `${entityKey}.${action.key}`,
-      );
+      const entityPermissions = entity.actions.map((action) => `${action.key}`);
       const allSelected = entityPermissions.every((p) =>
         selectedPermissions.includes(p),
       );
@@ -255,7 +265,10 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
             (p) => !p.startsWith(`${entityKey}.`) && !allDependents.includes(p),
           );
 
-          setValue("permissions", newPermissions, { shouldDirty: true, shouldValidate: true });
+          setValue("permissions", newPermissions, {
+            shouldDirty: true,
+            shouldValidate: true,
+          });
           return newPermissions;
         } else {
           // Selecting all - include dependencies from other entities
@@ -271,7 +284,10 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
             ...allDependencies.filter((dep) => !prev.includes(dep)),
           ];
 
-          setValue("permissions", newPermissions, { shouldDirty: true, shouldValidate: true });
+          setValue("permissions", newPermissions, {
+            shouldDirty: true,
+            shouldValidate: true,
+          });
           // Clear errors when permissions are added
           if (newPermissions.length > 0) {
             clearErrors("permissions");
@@ -280,7 +296,14 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
         }
       });
     },
-    [permissionResData?.data, selectedPermissions, setValue, getUnmetDependencies, getDependentPermissions, clearErrors],
+    [
+      permissionResData?.data,
+      selectedPermissions,
+      setValue,
+      getUnmetDependencies,
+      getDependentPermissions,
+      clearErrors,
+    ],
   );
 
   // Form submission
@@ -410,7 +433,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                       Role Information
                     </h3>
 
-                    <div className="grid grid-cols-2 gap-4">
+                    <div className="p-4 space-y-4">
                       <FormField.Root
                         name="name"
                         error={errors.name?.message}
@@ -623,11 +646,11 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                           </span>
                         </div>
                       )}
-                      
+
                       <div className="p-6">
-                        <div className="bg-white rounded-lg border border-slate-200 shadow-sm">
+                        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
                           {/* Entity Header */}
-                          <div className="p-4 border-b flex items-center justify-between bg-white">
+                          <div className="p-4 border-b flex items-center justify-between bg-white ">
                             <div>
                               <h3 className="text-lg font-bold text-slate-900">
                                 {activeEntityData.label}
@@ -655,7 +678,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                           </div>
 
                           {/* Permissions List */}
-                          <div className="p-4 space-y-2">
+                          <div className="grid gap-2 p-4 grid-cols-1  lg:grid-cols-2">
                             {activeEntityData.actions.map(
                               (action: PermissionAction) => {
                                 const permissionKey = action.key;
@@ -759,8 +782,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                                           <span>{dep}</span>
                                                           {!isDepMet && (
                                                             <span className="text-amber-500 italic">
-                                                              (will be
-                                                              auto-selected)
+                                                              (auto-selected)
                                                             </span>
                                                           )}
                                                         </div>
@@ -795,8 +817,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                                 )}
                                               </div>
                                               <p className="text-blue-600 italic mt-1">
-                                                (will be auto-deselected if
-                                                unchecked)
+                                                (auto-deselected if unchecked)
                                               </p>
                                             </div>
                                           </div>
@@ -860,8 +881,10 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                     <AlertCircle className="w-4 h-4" />
                     <span>
                       {Array.isArray(errors.permissions)
-                        ? errors.permissions[0]?.message || "At least one permission must be selected"
-                        : errors.permissions.message || "At least one permission must be selected"}
+                        ? errors.permissions[0]?.message ||
+                          "At least one permission must be selected"
+                        : errors.permissions.message ||
+                          "At least one permission must be selected"}
                     </span>
                   </div>
                 )}

@@ -5,12 +5,11 @@ import { z } from "zod";
  * This can be expanded to include all 14 modules.
  * Using z.enum ensures autocomplete and validation.
  */
-export const PermissionKeySchema = z
-  .string()
-  .regex(
-    /^[a-z_]+\.[a-z_*]+$/,
-    "Permission must follow 'entity.action' or 'entity.*' format",
-  );
+export const PermissionKeySchema = z.string().regex(
+  // Allows entity.action, entity.action.sub, and entity.*
+  /^[a-z_]+(\.[a-z_]+)*(\.\*)?$/,
+  "Permission must follow 'entity.action', 'entity.sub.action' or 'entity.*' format",
+);
 
 /**
  * 2. Define the Role Template Schema

@@ -9,6 +9,8 @@ import {
   PermissionGuard,
   ConfirmDialog,
   TableActionButtons,
+  PermissionBadges,
+  TruncatedText,
 } from "@/components/common";
 import { QueryParamSearch } from "@/components/common/queryParams";
 import {
@@ -36,7 +38,6 @@ import { RolePermissions } from "@/shared/types/constants";
 import { formatDate } from "@/utils/helpers";
 import { PlusIcon, Edit, Trash2 } from "lucide-react";
 import { useNavigate, useLoaderData } from "react-router-dom";
-import { AdminGenresAPI } from "../../../Genres/api/admin-genres.api";
 import { AdminAllRolesQueryKey } from "../../api/roles-query-key";
 import { useAdminDeleteRole } from "../../hooks/useAdminRoles";
 import { AddUpdateRole } from "../../components/modals";
@@ -160,7 +161,7 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
           open={deleteModal.isOpen}
           onOpenChange={deleteModal.close}
           onConfirm={confirmDelete}
-          title="Delete Genre"
+          title="Delete Role"
           description={`Are you sure you want to delete "${deleteModal.data?.name}"? This action cannot be undone.`}
           confirmText="Delete"
           cancelText="Cancel"
@@ -212,12 +213,12 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableSortableHead
-                    sortDirection={getSortDirection("name")}
-                    onSort={() => requestSort("name")}
-                  >
-                    Name
-                  </TableSortableHead>
+                  {/* <TableSortableHead */}
+                  {/*   sortDirection={getSortDirection("name")} */}
+                  {/*   onSort={() => requestSort("name")} */}
+                  {/* > */}
+                  {/*   Name */}
+                  {/* </TableSortableHead> */}
 
                   <TableSortableHead
                     sortDirection={getSortDirection("displayName")}
@@ -226,6 +227,7 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
                     Display Name
                   </TableSortableHead>
                   <TableHead>Description</TableHead>
+                  <TableHead>Permissions</TableHead>
                   <TableSortableHead
                     sortDirection={getSortDirection("createdAt")}
                     onSort={() => requestSort("createdAt")}
@@ -244,7 +246,7 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
               <TableBody>
                 {isLoading ? (
                   <TableRow className="hover:bg-transparent">
-                    <TableCell colSpan={7} className="h-32 text-center">
+                    <TableCell colSpan={8} className="h-32 text-center">
                       <div className="flex items-center justify-center">
                         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary" />
                       </div>
@@ -257,15 +259,22 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
                       onClick={() => handleRowClick(item.id)}
                       className="cursor-pointer"
                     >
-                      <TableCell className="font-semibold group-hover:text-primary">
-                        {item.name}
-                      </TableCell>
+                      {/* <TableCell className="font-semibold group-hover:text-primary"> */}
+                      {/*   {item.name} */}
+                      {/* </TableCell> */}
 
                       <TableCell className="max-w-xs truncate text-muted-foreground group-hover:text-foreground">
                         {item.displayName}
                       </TableCell>
-                      <TableCell className="max-w-xs truncate text-muted-foreground group-hover:text-foreground">
-                        {item.description}
+                      <TableCell className="max-w-md text-muted-foreground group-hover:text-foreground">
+                        <TruncatedText text={item.description} maxLength={30} />
+                      </TableCell>
+                      <TableCell className="min-w-[200px]">
+                        <PermissionBadges
+                          permissions={item.permissions}
+                          maxDisplay={4}
+                          size="sm"
+                        />
                       </TableCell>
 
                       <TableCell className="font-mono text-sm text-muted-foreground">
@@ -304,8 +313,8 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
                   ))
                 ) : (
                   <TableRow className="hover:bg-transparent">
-                    <TableCell colSpan={7} className="h-32">
-                      <EmptyState title="No genres found" />
+                    <TableCell colSpan={8} className="h-32">
+                      <EmptyState title="No roles found" />
                     </TableCell>
                   </TableRow>
                 )}
@@ -318,7 +327,7 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
             <div className="flex items-center justify-between px-6 py-4 border-t border-border">
               <div className="text-sm text-muted-foreground">
                 Showing page {pagination.page} of {pagination.totalPages} (
-                {pagination.total} total genres)
+                {pagination.total} total roles)
               </div>
               <Pagination
                 currentPage={pagination.page}
