@@ -1,4 +1,4 @@
-import type { PermissionResponseData } from "@/shared/types/types";
+import type { PermissionResponseData } from "@/shared/types";
 
 export interface RolesSidebarProps extends React.ComponentPropsWithoutRef<"aside "> {
   children?: React.ReactNode;

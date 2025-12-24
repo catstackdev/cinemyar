@@ -1,4 +1,4 @@
-import type { AdminRole } from "@/shared/types/types";
+import type { AdminRole } from "@/shared/types";
 
 export interface AddUpdateRoleProps extends React.ComponentPropsWithoutRef<"div"> {
   children?: React.ReactNode;

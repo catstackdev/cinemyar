@@ -1,12 +1,12 @@
 import { apiClient } from "@/lib/axios";
 import type {
-  AdminGenreSerialized,
   AdminRole,
   AdminRoleDetail,
+  AdminRoleOptionsResponse,
   AdminRolesPaginatedResponse,
   AllAdminRoleParams,
   ApiResponse,
-} from "@/shared/types/types";
+} from "@/shared/types";
 import type { AdminCreateRoleFormData } from "../schemas/roles.schemas";
 
 // Centralized API handlers
@@ -18,6 +18,13 @@ export const AdminRolesAPI = {
       `admin/roles`,
       { params },
     );
+    return data;
+  },
+  getRolesOptions: async (): Promise<ApiResponse<AdminRoleOptionsResponse>> => {
+    const { data } =
+      await apiClient.get<ApiResponse<AdminRoleOptionsResponse>>(
+        `admin/roles/options`,
+      );
     return data;
   },
   getRole: async (id: string): Promise<ApiResponse<AdminRoleDetail>> => {

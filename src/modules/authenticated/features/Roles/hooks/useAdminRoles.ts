@@ -1,11 +1,12 @@
-import type { AllAdminRoleParams } from "@/shared/types/types";
+import type { AllAdminRoleParams } from "@/shared/types";
 import {
+  AdminAllRolesOptionsQueryKey,
   AdminAllRolesQueryKey,
   AdminRolesQueryKey,
 } from "../api/roles-query-key";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { AdminRolesAPI } from "../api/admin-roles.api";
-import { Time } from "@/shared/types/constants";
+import { Time } from "@/shared/constants";
 import type { AdminCreateRoleFormData } from "../schemas/roles.schemas";
 import { refreshQueryClient } from "@/modules/domain/media/hooks/useMedia";
 
@@ -15,6 +16,14 @@ export const useAdminRoles = (params: AllAdminRoleParams) => {
     queryKey: queryKey,
     queryFn: () => AdminRolesAPI.getRoles(params),
     staleTime: 5 * Time.MINUTE,
+  });
+};
+export const useAdminRoleOptions = (options?: { enabled?: boolean }) => {
+  return useQuery({
+    queryKey: AdminAllRolesOptionsQueryKey(),
+    queryFn: () => AdminRolesAPI.getRolesOptions(),
+    staleTime: 5 * Time.MINUTE,
+    ...options,
   });
 };
 

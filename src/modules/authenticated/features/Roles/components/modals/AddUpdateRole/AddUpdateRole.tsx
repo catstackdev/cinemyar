@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { AddUpdateRoleProps } from "./AddUpdateRole.types";
@@ -28,7 +28,7 @@ import {
   useAdminUpdateRole,
   useAdminRole,
 } from "../../../hooks/useAdminRoles";
-import type { PermissionAction, PermissionGroup } from "@/shared/types/types";
+import type { PermissionAction, PermissionGroup } from "@/shared/types";
 import {
   Check,
   AlertCircle,
@@ -36,6 +36,7 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
+import { watch } from "fs";
 
 const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
   onOpenChange,
@@ -64,7 +65,9 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors, isValid },
+    watch,
+    getValues,
     setValue,
     trigger,
     clearErrors,
@@ -78,6 +81,17 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
       permissions: [],
     },
   });
+  const watchStepOne = watch(["name", "displayName", "description"]);
+
+  const isStepOneValid = useMemo(() => {
+    const { name, displayName } = getValues();
+    // Check if fields have values and no errors exist for them
+    const hasNoStepOneErrors =
+      !errors.name && !errors.displayName && !errors.description;
+    const hasRequiredValues = !!name && !!displayName;
+
+    return hasNoStepOneErrors && hasRequiredValues;
+  }, [errors.name, errors.displayName, errors.description, watchStepOne]);
 
   // Step state (0 = metadata, 1 = permissions)
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -382,16 +396,16 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                   className={cn(
                     "flex items-center gap-2 px-3 py-1 rounded-full",
                     currentStep === 0
-                      ? "bg-blue-100 text-blue-700 font-semibold"
-                      : "bg-slate-100 text-slate-500",
+                      ? "bg-primary-100 text-primary-700 font-semibold"
+                      : "bg-foreground/10 text-foreground",
                   )}
                 >
                   <span
                     className={cn(
                       "w-6 h-6 rounded-full flex items-center justify-center text-xs",
                       currentStep === 0
-                        ? "bg-blue-500 text-white"
-                        : "bg-slate-300 text-slate-600",
+                        ? "bg-primary-500 text-background"
+                        : "bg-primary-300 text-foreground-600",
                     )}
                   >
                     1
@@ -403,16 +417,16 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                   className={cn(
                     "flex items-center gap-2 px-3 py-1 rounded-full",
                     currentStep === 1
-                      ? "bg-blue-100 text-blue-700 font-semibold"
-                      : "bg-slate-100 text-slate-500",
+                      ? "bg-primary-100 text-primary-700 font-semibold"
+                      : "bg-foreground/10 text-foreground",
                   )}
                 >
                   <span
                     className={cn(
                       "w-6 h-6 rounded-full flex items-center justify-center text-xs",
                       currentStep === 1
-                        ? "bg-blue-500 text-white"
-                        : "bg-slate-300 text-slate-600",
+                        ? "bg-primary-500 text-background"
+                        : "bg-primary-300 text-foreground-600",
                     )}
                   >
                     2
@@ -429,7 +443,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                 /* STEP 1: Metadata Form */
                 <div className="p-6 space-y-4 overflow-y-auto flex-1">
                   <div className="max-w-3xl mx-auto">
-                    <h3 className="text-lg font-bold text-slate-900 mb-4">
+                    <h3 className="text-lg font-bold  mb-4">
                       Role Information
                     </h3>
 
@@ -505,7 +519,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                     </FormField.Root>
 
                     {selectedPermissions.length > 0 && (
-                      <div className="flex items-center gap-2 text-sm text-blue-600 bg-blue-50 p-3 rounded-lg">
+                      <div className="flex items-center gap-2 text-sm text-primary-600 bg-primary-50 p-3 rounded-lg">
                         <Info className="w-4 h-4" />
                         <span className="font-medium">
                           {selectedPermissions.length} permission(s) selected
@@ -519,9 +533,9 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                 <div className="flex gap-0 flex-1 overflow-hidden">
                   {/* Expandable Sidebar */}
                   {permissionResData?.data ? (
-                    <aside className="w-72 bg-slate-50 border-r border-slate-200 flex flex-col shrink-0">
-                      <div className="p-4 border-b bg-white shrink-0">
-                        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-tight">
+                    <aside className="w-72  border-r border-slate-200 flex flex-col shrink-0">
+                      <div className="p-4 border-b  shrink-0">
+                        <h2 className="text-sm font-bold  uppercase tracking-tight">
                           Navigation
                         </h2>
                       </div>
@@ -536,33 +550,33 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                 <button
                                   type="button"
                                   onClick={() => toggleGroup(groupKey)}
-                                  className="w-full mb-2 px-3 py-2 rounded-lg hover:bg-slate-200/50 transition-colors"
+                                  className="w-full mb-2 px-3 py-2 rounded-lg hover:bg-primary/50 transition-colors"
                                 >
                                   <div className="flex items-center justify-between">
                                     <div className="flex items-center gap-2">
                                       {expandedGroups[groupKey] ? (
-                                        <ChevronDown className="w-4 h-4 text-slate-600" />
+                                        <ChevronDown className="w-4 h-4 " />
                                       ) : (
-                                        <ChevronRight className="w-4 h-4 text-slate-600" />
+                                        <ChevronRight className="w-4 h-4 " />
                                       )}
                                       <h3
                                         className={cn(
                                           "text-[11px] font-bold tracking-widest uppercase text-left",
                                           typedGroup.restricted
-                                            ? "text-amber-600"
-                                            : "text-slate-600",
+                                            ? "text-warning-600"
+                                            : "text-foreground/80",
                                         )}
                                       >
                                         {typedGroup.label}
                                       </h3>
                                       {typedGroup.restricted && (
-                                        <span className="text-[10px] bg-amber-100 text-amber-700 px-1 rounded font-bold">
+                                        <span className="text-[10px] bg-danger text-background px-2 rounded font-bold">
                                           SECURE
                                         </span>
                                       )}
                                     </div>
                                   </div>
-                                  <p className="text-[10px] text-slate-500 leading-tight mt-0.5 text-left">
+                                  <p className="text-[10px] text-foreground/40 leading-tight mt-0.5 text-left">
                                     {typedGroup.description}
                                   </p>
                                 </button>
@@ -595,8 +609,8 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                           className={cn(
                                             "w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group",
                                             isActive
-                                              ? "bg-white shadow-sm border border-slate-200 ring-1 ring-black/5 text-blue-600"
-                                              : "text-slate-600 hover:bg-slate-200/50 border border-transparent",
+                                              ? "bg-primary/40 shadow-sm border border-primary ring-1 ring-black/5 text-primary"
+                                              : "text-foreground/70 hover:bg-primary-200/50 border border-transparent",
                                           )}
                                         >
                                           <div className="flex items-center gap-2 min-w-0">
@@ -609,7 +623,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                             className={cn(
                                               "text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border flex-shrink-0",
                                               selected > 0
-                                                ? "bg-blue-50 border-blue-100 text-blue-700"
+                                                ? "bg-primary/50 border-primary/50 text-foreground"
                                                 : "bg-slate-100 border-slate-200 text-slate-400",
                                             )}
                                           >
@@ -627,19 +641,19 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                       </nav>
                     </aside>
                   ) : (
-                    <div className="w-72 border-r bg-slate-50 animate-pulse flex flex-col gap-4 p-4">
-                      <div className="h-4 w-24 bg-slate-200 rounded" />
-                      <div className="h-10 w-full bg-slate-200 rounded" />
-                      <div className="h-10 w-full bg-slate-200 rounded" />
+                    <div className="w-72 border-r bg-foreground/5 animate-pulse flex flex-col gap-4 p-4">
+                      <div className="h-4 w-24 bg-foreground/20 rounded" />
+                      <div className="h-10 w-full bg-foreground/20 rounded" />
+                      <div className="h-10 w-full bg-foreground/20 rounded" />
                     </div>
                   )}
 
                   {/* Permissions Panel - Scrollable */}
                   {activeEntityData ? (
-                    <div className="flex-1 overflow-y-auto bg-slate-50 min-w-0">
+                    <div className="flex-1 overflow-y-auto  min-w-0">
                       {/* Real-time Validation Warning */}
                       {selectedPermissions.length === 0 && (
-                        <div className="m-6 mb-0 flex items-center gap-2 text-sm text-red-600 bg-red-50 p-3 rounded-lg border border-red-200">
+                        <div className="m-6 mb-0 flex items-center gap-2 text-sm text-red-600 bg-danger/10 p-3 rounded-lg border border-red-200">
                           <AlertCircle className="w-4 h-4 shrink-0" />
                           <span className="font-medium">
                             At least one permission must be selected
@@ -648,9 +662,9 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                       )}
 
                       <div className="p-6">
-                        <div className="bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden">
+                        <div className=" rounded-lg border border-foreground/90 shadow-sm overflow-hidden">
                           {/* Entity Header */}
-                          <div className="p-4 border-b flex items-center justify-between bg-white ">
+                          <div className="p-4 border-b flex items-center justify-between  ">
                             <div>
                               <h3 className="text-lg font-bold text-slate-900">
                                 {activeEntityData.label}
@@ -846,7 +860,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
             </ModalBody>
           </LoadingOverlay>
 
-          <ModalFooter className="border-t bg-slate-50">
+          <ModalFooter className="border-t">
             {currentStep === 0 ? (
               <>
                 <Button
@@ -862,6 +876,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                   variant="glass"
                   onClick={handleNextStep}
                   disabled={!!errors.name || !!errors.displayName}
+                  withPulse={isStepOneValid}
                 >
                   Next: Select Permissions
                 </Button>

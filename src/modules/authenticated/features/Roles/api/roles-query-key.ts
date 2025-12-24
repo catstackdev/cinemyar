@@ -1,4 +1,4 @@
-import type { AllAdminRoleParams } from "@/shared/types/types";
+import type { AllAdminRoleParams } from "@/shared/types";
 
 export const AdminAllRolesQueryKey = (params?: AllAdminRoleParams) => [
   "admin",
@@ -6,3 +6,5 @@ export const AdminAllRolesQueryKey = (params?: AllAdminRoleParams) => [
   params,
 ];
 export const AdminRolesQueryKey = (id: string) => ["admin", "roles", id];
+
+export const AdminAllRolesOptionsQueryKey = () => ["admin", "roles", "options"];

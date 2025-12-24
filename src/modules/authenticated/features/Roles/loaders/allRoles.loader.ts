@@ -1,9 +1,9 @@
 import type { LoaderFunctionArgs } from "react-router-dom";
-import { Time } from "@/shared/types/constants/time.const";
+import { Time } from "@/shared/constants/time.const";
 import { queryClient } from "@/contexts/AppProviders";
 import { AdminRolesAPI } from "../api/admin-roles.api";
 import { AdminAllRolesQueryKey } from "../api/roles-query-key";
-import type { AllAdminRoleParams } from "@/shared/types/types/role";
+import type { AllAdminRoleParams } from "@/shared/types/role";
 
 export const allRolesLoader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);

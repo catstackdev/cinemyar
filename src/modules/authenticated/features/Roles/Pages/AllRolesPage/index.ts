@@ -1,3 +1,3 @@
-import AllRolesPage from './AllRolesPage';
+import AllRolesPage from "./AllRolesPage";
 
 export default AllRolesPage;

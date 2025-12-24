@@ -4,7 +4,7 @@ import type {
   AdminRole,
   AdminRolesPaginatedResponse,
   AllAdminRoleParams,
-} from "@/shared/types/types";
+} from "@/shared/types";
 import {
   PermissionGuard,
   ConfirmDialog,
@@ -34,7 +34,7 @@ import {
   CardContent,
 } from "@/components/ui/Card";
 import { useModal, useCan, useCrudPage } from "@/hooks";
-import { RolePermissions } from "@/shared/types/constants";
+import { RolePermissions } from "@/shared/constants";
 import { formatDate } from "@/utils/helpers";
 import { PlusIcon, Edit, Trash2 } from "lucide-react";
 import { useNavigate, useLoaderData } from "react-router-dom";
@@ -147,7 +147,7 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
   return (
     <Container size="full" className="relative p-4 min-h-full">
       {/* Modals with Permission Guards */}
-      <PermissionGuard permissions={RolePermissions.CREATE} roles={["ADMIN"]}>
+      <PermissionGuard permissions={RolePermissions.EDIT} roles={["ADMIN"]}>
         <AddUpdateRole
           key={createUpdateModal.data?.id ?? "create"}
           open={createUpdateModal.isOpen}
