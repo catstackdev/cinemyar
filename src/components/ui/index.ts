@@ -30,6 +30,16 @@ export { default as Container } from "./Container";
 export { default as DatePicker } from "./DatePicker";
 export { default as Divider } from "./Divider";
 export {
+  DrawerRoot,
+  DrawerContent,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  DrawerTitle,
+  DrawerDescription,
+  DrawerClose,
+} from "./Drawer";
+export {
   Dropdown,
   DropdownTrigger,
   DropdownMenu,
@@ -106,6 +116,18 @@ export type {
   ContainerSize,
 } from "./Container/Container.types";
 export type { DividerProps, DividerOrientation } from "./Divider/Divider.types";
+export type {
+  DrawerRootProps,
+  DrawerContentProps,
+  DrawerHeaderProps,
+  DrawerBodyProps,
+  DrawerFooterProps,
+  DrawerTitleProps,
+  DrawerDescriptionProps,
+  DrawerCloseProps,
+  DrawerSide,
+  DrawerSize,
+} from "./Drawer";
 export type {
   DropdownProps,
   DropdownTriggerProps,

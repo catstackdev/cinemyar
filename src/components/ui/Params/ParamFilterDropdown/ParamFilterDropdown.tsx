@@ -10,7 +10,8 @@ import { useDynamicPosition } from "@/hooks/useDynamicPosition";
 import Chip from "../../Chip";
 import Button from "../../Button";
 import JumpingDots from "../../JumpingDots";
-import { Filter, SlidersHorizontal } from "lucide-react";
+import { SlidersHorizontal } from "lucide-react";
+import LoadingOverlay from "../../LoadingOverlay";
 
 const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
   className,
@@ -113,49 +114,61 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
             <div
               ref={portalRef}
               // Use 'fixed' positioning so the coordinates work relative to viewport
-              className="fixed z-50 min-w-64 backdrop-blur-xs border rounded-lg  border-primary/50 shadow-lg p-3 flex flex-col gap-3 "
+              // z-[60] ensures it appears above Drawer (z-50) and Modal backdrops
+              className="fixed z-[60] min-w-64 max-w-sm max-h-[80vh]   overflow-hidden backdrop-blur-xs border rounded-lg border-primary/50 shadow-lg flex flex-col  bg-background/60"
               style={{ top, left }} // Apply dynamic styles
               onClick={(e) => e.stopPropagation()}
             >
-              {filters.map((group: FilterGroup) => (
-                <fieldset key={group.name} className="flex flex-col gap-2">
-                  <legend className="text-sm font-medium py-2">
-                    {group.title}
-                  </legend>
-                  <div className="flex flex-col gap-1 max-h-30 overflow-auto">
-                    {group.options.map((option) => (
-                      <div
-                        key={option.value}
-                        className={cn(
-                          "flex items-center gap-2 px-2 py-2 rounded hover:bg-primary/10 hover:border hover:border-primary/20",
-                          selectedValues[group.name] === option.value
-                            ? "bg-primary/20 font-semibold border border-primary/30"
-                            : "",
-                        )}
-                        onClick={() => handleSelect(group.name, option.value)}
-                      >
-                        <Radio
-                          className="w-full"
-                          size="sm"
-                          labelClass={cn(
-                            "w-full",
-                            selectedValues[group.name] === option.value
-                              ? "text-primary"
-                              : "",
-                          )}
-                          name={group.name}
-                          label={option.label}
-                          value={option.value}
-                          checked={selectedValues[group.name] == option.value}
-                          onChange={() =>
-                            handleSelect(group.name, option.value)
-                          }
-                        />
+              <div className="overflow-y-auto flex-1  flex flex-col gap-3 ">
+                {filters.map((group: FilterGroup) => (
+                  <fieldset key={group.name} className="flex flex-col gap-2">
+                    {/* <legend className="text-sm font-medium py-2 sticky w-full top-0 backdrop-blur-3xl  z-10"> */}
+                    {/*   {group.title} */}
+                    {/* </legend> */}
+                    <legend className="sticky top-0 z-10 py-3 px-5  w-full text-sm font-semibold backdrop-blur-md bg-background/80 border-b border-border/40 shadow-sm">
+                      {group.title}
+                    </legend>
+                    <LoadingOverlay isLoading={group.loading}>
+                      <div className="flex flex-col gap-1 px-3">
+                        {group.options.map((option) => (
+                          <div
+                            key={option.value}
+                            className={cn(
+                              "flex items-center gap-2 px-2 py-2 rounded hover:bg-primary/10 hover:border hover:border-primary/20",
+                              selectedValues[group.name] === option.value
+                                ? "bg-primary/20 font-semibold border border-primary/30"
+                                : "",
+                            )}
+                            onClick={() =>
+                              handleSelect(group.name, option.value)
+                            }
+                          >
+                            <Radio
+                              className="w-full"
+                              size="sm"
+                              labelClass={cn(
+                                "w-full",
+                                selectedValues[group.name] === option.value
+                                  ? "text-primary"
+                                  : "",
+                              )}
+                              name={group.name}
+                              label={option.label}
+                              value={option.value}
+                              checked={
+                                selectedValues[group.name] == option.value
+                              }
+                              onChange={() =>
+                                handleSelect(group.name, option.value)
+                              }
+                            />
+                          </div>
+                        ))}
                       </div>
-                    ))}
-                  </div>
-                </fieldset>
-              ))}
+                    </LoadingOverlay>
+                  </fieldset>
+                ))}
+              </div>
             </div>,
             document.body,
           )}

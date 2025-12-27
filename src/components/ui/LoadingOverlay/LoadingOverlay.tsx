@@ -15,7 +15,7 @@ const LoadingOverlay: React.FC<LoadingOverlayProps> = ({
   return (
     <div className={cn("relative", className)} {...rest}>
       {children}
-      <div className="absolute inset-0 z-10 flex items-center justify-center bg-white/70 backdrop-blur-sm">
+      <div className="absolute inset-0 z-10 flex items-center justify-center bg-background/20 backdrop-blur">
         <Loading {...loadingProps} />
       </div>
     </div>

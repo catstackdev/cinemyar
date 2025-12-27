@@ -1,4 +1,4 @@
-import type { ImageUrls, ImageVariantSize } from "@/shared/types/types";
+import type { ImageUrls, ImageVariantSize } from "@/shared/types";
 import type { ImageProps } from "../Image.types";
 
 // export interface MediaImageProps extends ImageProps {

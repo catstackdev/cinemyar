@@ -1,6 +1,6 @@
 import { useMemo } from "react";
 import { useBreakpoint } from "@/hooks/useMediaQuery";
-import type { ImageUrls } from "@/shared/types/types/genre";
+import type { ImageUrls } from "@/shared/types/genre";
 
 interface UseResponsiveImageProps {
   imageUrls?: ImageUrls | null;

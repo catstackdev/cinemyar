@@ -12,6 +12,8 @@ export interface ParamFilterDropdownProps extends React.ComponentPropsWithoutRef
 export interface FilterGroup {
   name: string; // as primary key // param key
   title: string; // header
-  options: Option[];
+  options: Option<string | undefined>[];
   notShowChip?: boolean;
+  defaultValue?: string;
+  loading?: boolean;
 }
