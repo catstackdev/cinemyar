@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/axios";
-import type { ApiResponse, PermissionResponseData } from "@/shared/types/types";
+import type { ApiResponse, PermissionResponseData } from "@/shared/types";
 
 // Centralized API handlers
 export const AdminPermissionAPI = {

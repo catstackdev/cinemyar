@@ -3,8 +3,8 @@ import type {
   AdminGenreSerialized,
   ApiResponse,
   GenreOptionParams,
-} from "@/shared/types/types";
-import type { PublicGenresOptionsApiResponse } from "@/shared/types/types/genre";
+} from "@/shared/types";
+import type { PublicGenresOptionsApiResponse } from "@/shared/types/genre";
 
 // Centralized API handlers
 export const PublicGenresAPI = {

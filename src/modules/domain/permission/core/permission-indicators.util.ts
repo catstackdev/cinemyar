@@ -1,4 +1,4 @@
-import type { PermissionResponseData } from "@/shared/types/types";
+import type { PermissionResponseData } from "@/shared/types";
 
 /**
  * Permission indicator utility for displaying permission badges

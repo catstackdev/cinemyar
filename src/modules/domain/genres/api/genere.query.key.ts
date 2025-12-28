@@ -1,4 +1,4 @@
-import type { GenreOptionParams } from "@/shared/types/types";
+import type { GenreOptionParams } from "@/shared/types";
 
 export const PublicGenresOptionsQueryKey = (params?: GenreOptionParams) => [
   "public",

@@ -17,7 +17,7 @@ import type {
   APiDelEntityVersionActionType,
   APiPostEntityVersionActionType,
   ApiResponse,
-} from "@/shared/types/types";
+} from "@/shared/types";
 
 export const useUploadMedia = () => {
   const queryClient = useQueryClient();

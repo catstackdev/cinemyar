@@ -3,8 +3,8 @@ import type {
   APIEntityType,
   APiGetEntityVersionActionType,
   APiPostEntityVersionActionType,
-} from "@/shared/types/types";
-import type { APIMediaType } from "@/shared/types/types/media/media.types";
+} from "@/shared/types";
+import type { APIMediaType } from "@/shared/types/media/media.types";
 
 export interface MediaUploadParams {
   entityType: APIEntityType;

@@ -2,10 +2,10 @@ import {
   PublicGenresDetailQueryKey,
   PublicGenresOptionsQueryKey,
 } from "../api/genere.query.key";
-import type { GenreOptionParams } from "@/shared/types/types";
+import type { GenreOptionParams } from "@/shared/types";
 import { PublicGenresAPI } from "../api/genres.api";
 import { useQuery } from "@tanstack/react-query";
-import { Time } from "@/shared/types/constants/time.const";
+import { Time } from "@/shared/constants/time.const";
 
 //
 export const useGenreOption = (params: GenreOptionParams) => {

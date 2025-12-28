@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/axios";
-import type { ApiResponse } from "@/shared/types/types";
+import type { ApiResponse } from "@/shared/types";
 import type {
   ApiMediaDelParam,
   ApiMediaGetParam,
