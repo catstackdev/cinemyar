@@ -10,6 +10,7 @@ export { PermissionGuard } from "./PermissionGuard";
 export { TableActionButtons } from "./TableActionButtons";
 export { PermissionBadges } from "./PermissionBadges";
 export { TruncatedText } from "./TruncatedText";
+export { UserChip } from "./UserChip";
 
 export type { ErrorBoundaryProps, ErrorFallbackProps } from "./ErrorBoundary";
 export type { LoadingScreenProps } from "./LoadingScreen";
@@ -27,3 +28,4 @@ export type { PermissionGuardProps } from "./PermissionGuard";
 export type { TableActionButtonsProps } from "./TableActionButtons";
 export type { PermissionBadgesProps } from "./PermissionBadges";
 export type { TruncatedTextProps } from "./TruncatedText";
+export type { UserChipProps, UserInfo } from "./UserChip";
