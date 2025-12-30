@@ -1,11 +1,11 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/genre/genre-admin-detail.type.ts
-// Generated: 2025-12-23T11:53:07.630Z
+// Generated: 2025-12-30T04:21:52.070Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
+import type { MediaVersionStatus } from '@/shared/constants';
 import type { UserAudit } from '../user';
 import type { ImageUrls } from './genre-admin.types';
-import type { GenreMediaStatus } from './genre-media.types';
 
 export interface GenreDetailData {
   id: string;
@@ -51,7 +51,7 @@ export interface GenreDetailData {
 
 export interface MediaItem {
   version: number;
-  status: GenreMediaStatus;
+  status: MediaVersionStatus;
   urls: ImageUrls;
   uploadedAt?: string;
   uploadedBy?: UserAudit | null;

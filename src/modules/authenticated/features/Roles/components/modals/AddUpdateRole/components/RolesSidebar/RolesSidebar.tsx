@@ -25,11 +25,11 @@ const RolesSidebar: React.FC<RolesSidebarProps> = ({
 
   return (
     <aside
-      className="w-72 bg-slate-50 border-r border-slate-200 h-full flex flex-col overflow-hidden"
+      className="w-72 bg-muted/30 border-r border-border h-full flex flex-col overflow-hidden"
       {...rest}
     >
-      <div className="p-4 border-b bg-white">
-        <h2 className="text-sm font-bold text-slate-800 uppercase tracking-tight">
+      <div className="p-4 border-b bg-card">
+        <h2 className="text-sm font-bold text-card-foreground uppercase tracking-tight">
           Navigation
         </h2>
       </div>
@@ -43,18 +43,18 @@ const RolesSidebar: React.FC<RolesSidebarProps> = ({
                 <h3
                   className={cn(
                     "text-[11px] font-bold tracking-widest uppercase",
-                    group.restricted ? "text-amber-600" : "text-slate-400",
+                    group.restricted ? "text-warning-600" : "text-muted-foreground",
                   )}
                 >
                   {group.label}
                 </h3>
                 {group.restricted && (
-                  <span className="text-[10px] bg-amber-100 text-amber-700 px-1 rounded font-bold">
+                  <span className="text-[10px] bg-warning-100 text-warning-700 px-1 rounded font-bold">
                     SECURE
                   </span>
                 )}
               </div>
-              <p className="text-[10px] text-slate-500 leading-tight mt-0.5">
+              <p className="text-[10px] text-muted-foreground leading-tight mt-0.5">
                 {group.description}
               </p>
             </div>
@@ -75,8 +75,8 @@ const RolesSidebar: React.FC<RolesSidebarProps> = ({
                     className={cn(
                       "w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group",
                       isActive
-                        ? "bg-white shadow-sm border border-slate-200 ring-1 ring-black/5 text-blue-600"
-                        : "text-slate-600 hover:bg-slate-200/50 border border-transparent",
+                        ? "bg-card shadow-sm border border-border ring-1 ring-primary/10 text-primary"
+                        : "text-foreground hover:bg-accent border border-transparent",
                     )}
                   >
                     <div className="flex items-center gap-3">
@@ -86,15 +86,15 @@ const RolesSidebar: React.FC<RolesSidebarProps> = ({
                         className={cn(
                           "transition-colors",
                           isActive
-                            ? "text-blue-600"
-                            : "text-slate-400 group-hover:text-slate-600",
+                            ? "text-primary"
+                            : "text-muted-foreground group-hover:text-foreground",
                         )}
                       />
                       <div className="flex flex-col items-start leading-none">
                         <span className="text-sm font-semibold">
                           {entity.label}
                         </span>
-                        <span className="text-[10px] text-slate-400 mt-1 uppercase">
+                        <span className="text-[10px] text-muted-foreground mt-1 uppercase">
                           Code: {entity.shortCode}
                         </span>
                       </div>
@@ -105,8 +105,8 @@ const RolesSidebar: React.FC<RolesSidebarProps> = ({
                       className={cn(
                         "text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border",
                         selected > 0
-                          ? "bg-blue-50 border-blue-100 text-blue-700"
-                          : "bg-slate-100 border-slate-200 text-slate-400",
+                          ? "bg-primary-50 border-primary-200 text-primary-700"
+                          : "bg-muted border-border text-muted-foreground",
                       )}
                     >
                       {selected}/{total}

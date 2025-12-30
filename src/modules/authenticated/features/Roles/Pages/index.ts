@@ -6,6 +6,7 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
+import RoleDetailPage from './RoleDetailPage';
 import AllRolesPage from './AllRolesPage';
 
 // Type exports
@@ -14,6 +15,7 @@ import AllRolesPage from './AllRolesPage';
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
+	RoleDetailPage,
 	AllRolesPage,
 };
 

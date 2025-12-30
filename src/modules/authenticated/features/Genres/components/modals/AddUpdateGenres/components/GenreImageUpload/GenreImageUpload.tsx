@@ -6,7 +6,6 @@ import { CheckCircle, Upload, XCircle, Loader2, CircleX } from "lucide-react";
 import MediaItem from "../../../../MediaItem";
 import MediaListPreview from "../../../../MediaListPreview";
 import { useScrollTo } from "@/hooks";
-import { WarningIcon } from "@/components/ui/Alert/icons";
 
 const GenreImageUpload: React.FC<GenreImageUploadProps> = ({
   imageType,
@@ -139,7 +138,7 @@ const GenreImageUpload: React.FC<GenreImageUploadProps> = ({
                 "group-hover:text-primary transition-colors duration-200",
             )}
           >
-            Current {imageType}
+            Current {imageType?.toLowerCase()}
             {!!activeVersion && <span> (Version: v{activeVersion})</span>}
           </p>
           {/* ... MediaListPreview ... */}

@@ -6,11 +6,13 @@ import {
   type MutateOptions,
 } from "@tanstack/react-query";
 import { mediaAPI } from "../api/media.api";
-import { useState } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import type {
   ApiMediaDelParam,
   ApiMediaPostParam,
   MediaUploadParams,
+  MediaRegenerateParams,
+  MediaRegenerateResponse,
 } from "../api/media.types";
 import { queryClient } from "@/contexts/AppProviders";
 import type {
@@ -18,6 +20,8 @@ import type {
   APiPostEntityVersionActionType,
   ApiResponse,
 } from "@/shared/types";
+import { useJobProgress } from "@/hooks/useJobProgress";
+import type { ProgressEvent } from "@/shared/types/progress.types";
 
 export const useUploadMedia = () => {
   const queryClient = useQueryClient();
@@ -96,22 +100,15 @@ const createMediaPostActionHook = (action: APiPostEntityVersionActionType) => {
       params: Omit<ApiMediaPostParam, "action">,
       options?: MutateOptions<ApiResponse<any>, Error, ApiMediaPostParam>,
     ) => {
-      if (action === "reject" && !params.reason) {
-        console.error("A reason is required to reject media.");
-        return;
-      }
       return mutation.mutate({ ...params, action }, options);
     };
-
     return { ...mutation, mutate: execute };
   };
 };
 
-export const useApproveMedia = createMediaPostActionHook("approve");
-export const useRejectMedia = createMediaPostActionHook("reject");
 export const usePublishMedia = createMediaPostActionHook("publish");
-export const useRollbackMedia = createMediaPostActionHook("rollback");
-export const useRecoverbackMedia = createMediaPostActionHook("recover");
+export const useUnpublishMedia = createMediaPostActionHook("unpublish");
+export const useRecoverMedia = createMediaPostActionHook("recover");
 
 const createMediaDeleteActionHook = (action: APiDelEntityVersionActionType) => {
   return () => {
@@ -133,6 +130,151 @@ const createMediaDeleteActionHook = (action: APiDelEntityVersionActionType) => {
 
 export const useSofDeleteMedia = createMediaDeleteActionHook("staged");
 export const usePermanentDeleteMedia = createMediaDeleteActionHook("permanent");
+
+/**
+ * Hook for regenerating media with job progress tracking
+ * Combines mutation with useJobProgress for real-time progress updates
+ *
+ * @example
+ * ```tsx
+ * const { regenerate, isRegenerating, progress, jobProgress } = useMediaRegenerate({
+ *   onComplete: () => toast.success('Regeneration complete!'),
+ * });
+ *
+ * const handleClick = async () => {
+ *   await regenerate({
+ *     entityType: 'genres',
+ *     entityId: 'uuid',
+ *     mediaType: 'images',
+ *     subType: 'ICON',
+ *     version: 1
+ *   });
+ * };
+ *
+ * {isRegenerating && <Progress value={jobProgress?.progress || 0} />}
+ * ```
+ */
+export const useMediaRegenerate = (options?: {
+  mode?: "sse" | "polling";
+  onProgress?: (event: ProgressEvent) => void;
+  onComplete?: (event: ProgressEvent) => void;
+  onError?: (event: ProgressEvent) => void;
+}) => {
+  const [jobId, setJobId] = useState<string | null>(null);
+
+  // Use refs to keep callbacks stable without causing re-renders
+  const onProgressRef = useRef(options?.onProgress);
+  const onCompleteRef = useRef(options?.onComplete);
+  const onErrorRef = useRef(options?.onError);
+
+  // Update refs when callbacks change
+  useEffect(() => {
+    onProgressRef.current = options?.onProgress;
+    onCompleteRef.current = options?.onComplete;
+    onErrorRef.current = options?.onError;
+  }, [options?.onProgress, options?.onComplete, options?.onError]);
+
+  // Stable callbacks
+  const handleProgress = useCallback((event: ProgressEvent) => {
+    onProgressRef.current?.(event);
+  }, []);
+
+  const handleComplete = useCallback((event: ProgressEvent) => {
+    onCompleteRef.current?.(event);
+    setJobId(null);
+  }, []);
+
+  const handleError = useCallback((event: ProgressEvent) => {
+    onErrorRef.current?.(event);
+    setJobId(null); // Clear jobId after error
+  }, []);
+
+  // Job progress tracking hook
+  const {
+    progress: jobProgress,
+    isLoading: isTrackingJob,
+    reset: resetJobProgress,
+  } = useJobProgress({
+    jobId: jobId || "",
+    mode: options?.mode || "sse",
+    autoStart: !!jobId,
+    onProgress: handleProgress,
+    onComplete: handleComplete,
+    onError: handleError,
+  });
+
+  // Regenerate mutation
+  const mutation = useMutation({
+    mutationFn: (params: MediaRegenerateParams) =>
+      mediaAPI.regenerateMedia(params),
+    onSuccess: (response, variables) => {
+      if (response.data.jobId) {
+        setJobId(response.data.jobId);
+      } else {
+        const completeEvent: ProgressEvent = {
+          jobId: "sync",
+          step: "completed",
+          progress: 100,
+          message: response.data.message || "Regeneration completed",
+          status: "completed",
+          timestamp: new Date().toISOString(),
+          metadata: response.data,
+        };
+        handleComplete(completeEvent);
+      }
+
+      // Refresh cache
+      // return refreshQueryClient(
+      //   queryClient,
+      //   variables.entityType,
+      //   variables.entityId,
+      //   true,
+      // );
+    },
+    onError: (error) => {
+      setJobId(null);
+      resetJobProgress();
+    },
+  });
+
+  // Regenerate function with proper typing
+  const regenerate = useCallback(
+    (
+      params: MediaRegenerateParams,
+      mutationOptions?: MutateOptions<
+        ApiResponse<MediaRegenerateResponse>,
+        Error,
+        MediaRegenerateParams
+      >,
+    ) => {
+      // Reset previous job progress
+      resetJobProgress();
+      return mutation.mutate(params, mutationOptions);
+    },
+    [mutation, resetJobProgress],
+  );
+
+  // Debug logging
+  // if (jobProgress) {
+  // console.log("[useMediaRegenerate] Job progress update:", {
+  //   progress: jobProgress.progress,
+  //   step: jobProgress.step,
+  //   message: jobProgress.message,
+  //   status: jobProgress.status,
+  //   jobProgress,
+  // });
+  // }
+
+  return {
+    ...mutation,
+    regenerate,
+    isRegenerating: mutation.isPending || isTrackingJob,
+    progress: jobProgress?.progress || 0,
+    jobProgress,
+    currentStep: jobProgress?.step,
+    jobMessage: jobProgress?.message,
+  };
+};
 
 const invalidate = (
   queryClient: QueryClient,

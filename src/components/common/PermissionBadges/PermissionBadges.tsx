@@ -112,6 +112,7 @@ const PermissionBadges = ({
               position="top"
               maxWidth={350}
               contentClassName="text-xs"
+              zIndex={100}
             >
               {badge}
             </Tooltip>
@@ -141,6 +142,7 @@ const PermissionBadges = ({
           }
           position="top"
           maxWidth={250}
+          zIndex={100}
         >
           <Badge variant="default" size={size} className="cursor-default">
             +{remainingCount}

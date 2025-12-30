@@ -1,5 +1,5 @@
 import { apiClient } from "@/lib/axios";
-import type { LoginDto, RegisterDto } from "@/shared/types/validation";
+import type { LoginDto, RegisterDto } from "@/shared/validation";
 
 /**
  * Cookie-based Auth Response

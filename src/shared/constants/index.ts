@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/index.ts
-// Generated: 2025-12-23T11:53:07.628Z
+// Generated: 2025-12-30T04:21:52.057Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 // Re-export all constants from split files
@@ -13,3 +13,4 @@ export * from './media-permissions.const';
 export * from './permission/index';
 export * from './time.const';
 export * from './file.const';
+export * from './prisma-enums.const';

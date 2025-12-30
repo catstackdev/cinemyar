@@ -36,7 +36,6 @@ import {
   ChevronDown,
   ChevronRight,
 } from "lucide-react";
-import { watch } from "fs";
 
 const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
   onOpenChange,
@@ -65,7 +64,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
     register,
     handleSubmit,
     reset,
-    formState: { errors, isValid },
+    formState: { errors },
     watch,
     getValues,
     setValue,
@@ -412,7 +411,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                   </span>
                   <span>Metadata</span>
                 </div>
-                <ChevronRight className="w-4 h-4 text-slate-400" />
+                <ChevronRight className="w-4 h-4 text-muted-foreground" />
                 <div
                   className={cn(
                     "flex items-center gap-2 px-3 py-1 rounded-full",
@@ -455,7 +454,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                       >
                         <FormField.Label>
                           Internal Name
-                          <span className="text-red-500 ml-1">*</span>
+                          <span className="text-danger ml-1">*</span>
                         </FormField.Label>
                         <FormField.Input
                           {...register("name")}
@@ -467,7 +466,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                             {errors.name.message}
                           </FormField.Error>
                         ) : (
-                          <p className="text-xs text-slate-500 mt-1">
+                          <p className="text-xs text-muted-foreground mt-1">
                             snake_case only. Used in code.
                           </p>
                         )}
@@ -480,7 +479,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                       >
                         <FormField.Label>
                           Display Name
-                          <span className="text-red-500 ml-1">*</span>
+                          <span className="text-danger ml-1">*</span>
                         </FormField.Label>
                         <FormField.Input
                           {...register("displayName")}
@@ -492,7 +491,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                             {errors.displayName.message}
                           </FormField.Error>
                         ) : (
-                          <p className="text-xs text-slate-500 mt-1">
+                          <p className="text-xs text-muted-foreground mt-1">
                             Human-friendly name shown in UI.
                           </p>
                         )}
@@ -533,7 +532,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                 <div className="flex gap-0 flex-1 overflow-hidden">
                   {/* Expandable Sidebar */}
                   {permissionResData?.data ? (
-                    <aside className="w-72  border-r border-slate-200 flex flex-col shrink-0">
+                    <aside className="w-72  border-r border-border flex flex-col shrink-0">
                       <div className="p-4 border-b  shrink-0">
                         <h2 className="text-sm font-bold  uppercase tracking-tight">
                           Navigation
@@ -624,7 +623,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                               "text-[10px] font-mono font-bold px-1.5 py-0.5 rounded border flex-shrink-0",
                                               selected > 0
                                                 ? "bg-primary/50 border-primary/50 text-foreground"
-                                                : "bg-slate-100 border-slate-200 text-slate-400",
+                                                : "bg-muted border-border text-muted-foreground",
                                             )}
                                           >
                                             {selected}/{total}
@@ -653,7 +652,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                     <div className="flex-1 overflow-y-auto  min-w-0">
                       {/* Real-time Validation Warning */}
                       {selectedPermissions.length === 0 && (
-                        <div className="m-6 mb-0 flex items-center gap-2 text-sm text-red-600 bg-danger/10 p-3 rounded-lg border border-red-200">
+                        <div className="m-6 mb-0 flex items-center gap-2 text-sm text-danger-foreground bg-danger/10 p-3 rounded-lg border border-danger/30">
                           <AlertCircle className="w-4 h-4 shrink-0" />
                           <span className="font-medium">
                             At least one permission must be selected
@@ -666,10 +665,10 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                           {/* Entity Header */}
                           <div className="p-4 border-b flex items-center justify-between  ">
                             <div>
-                              <h3 className="text-lg font-bold text-slate-900">
+                              <h3 className="text-lg font-bold text-foreground">
                                 {activeEntityData.label}
                               </h3>
-                              <p className="text-sm text-slate-600">
+                              <p className="text-sm text-muted-foreground">
                                 {activeEntityData.description}
                               </p>
                             </div>
@@ -718,10 +717,10 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                     className={cn(
                                       "flex items-start gap-3 p-3 rounded-lg border transition-all cursor-pointer hover:shadow-sm",
                                       isSelected
-                                        ? "bg-blue-50 border-blue-200"
+                                        ? "bg-primary-50 border-primary-200"
                                         : hasDependencyIssue
-                                          ? "bg-amber-50 border-amber-200"
-                                          : "bg-white border-slate-200 hover:border-slate-300",
+                                          ? "bg-warning-50 border-warning-200"
+                                          : "bg-card border-border hover:border-primary/30",
                                       action.danger &&
                                         "border-l-4 border-l-red-500",
                                     )}
@@ -736,7 +735,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
 
                                     <div className="flex-1 min-w-0">
                                       <div className="flex items-center gap-2 mb-1 flex-wrap">
-                                        <span className="font-mono text-sm font-semibold text-slate-900">
+                                        <span className="font-mono text-sm font-semibold text-foreground">
                                           {permissionKey}
                                         </span>
                                         {action.superAdminOnly && (
@@ -757,7 +756,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                             </Badge>
                                           )}
                                       </div>
-                                      <p className="text-sm text-slate-600">
+                                      <p className="text-sm text-muted-foreground">
                                         {action.description}
                                       </p>
 
@@ -766,9 +765,9 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                         action.dependencies.length > 0 && (
                                           <div className="mt-2 text-xs">
                                             <div className="flex items-start gap-1">
-                                              <Info className="w-3 h-3 text-amber-600 mt-0.5 shrink-0" />
+                                              <Info className="w-3 h-3 text-warning-600 mt-0.5 shrink-0" />
                                               <div>
-                                                <span className="text-amber-700 font-semibold">
+                                                <span className="text-warning-700 font-semibold">
                                                   Requires:
                                                 </span>
                                                 <div className="mt-1 space-y-1">
@@ -785,7 +784,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                                             "flex items-center gap-1 font-mono",
                                                             isDepMet
                                                               ? "text-green-600"
-                                                              : "text-amber-600",
+                                                              : "text-warning-600",
                                                           )}
                                                         >
                                                           {isDepMet ? (
@@ -795,7 +794,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                                           )}
                                                           <span>{dep}</span>
                                                           {!isDepMet && (
-                                                            <span className="text-amber-500 italic">
+                                                            <span className="text-warning-500 italic">
                                                               (auto-selected)
                                                             </span>
                                                           )}
@@ -813,9 +812,9 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                       {dependents.length > 0 && isSelected && (
                                         <div className="mt-2 text-xs">
                                           <div className="flex items-start gap-1">
-                                            <AlertCircle className="w-3 h-3 text-blue-600 mt-0.5 shrink-0" />
+                                            <AlertCircle className="w-3 h-3 text-primary-600 mt-0.5 shrink-0" />
                                             <div>
-                                              <span className="text-blue-700 font-semibold">
+                                              <span className="text-primary-700 font-semibold">
                                                 Used by:
                                               </span>
                                               <div className="mt-1 space-y-1">
@@ -823,14 +822,14 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                                   (dep: string) => (
                                                     <div
                                                       key={dep}
-                                                      className="flex items-center gap-1 font-mono text-blue-600"
+                                                      className="flex items-center gap-1 font-mono text-primary-600"
                                                     >
                                                       <span>→ {dep}</span>
                                                     </div>
                                                   ),
                                                 )}
                                               </div>
-                                              <p className="text-blue-600 italic mt-1">
+                                              <p className="text-primary-600 italic mt-1">
                                                 (auto-deselected if unchecked)
                                               </p>
                                             </div>
@@ -840,7 +839,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                     </div>
 
                                     {isSelected && (
-                                      <Check className="w-5 h-5 text-blue-600 mt-0.5 shrink-0" />
+                                      <Check className="w-5 h-5 text-primary-600 mt-0.5 shrink-0" />
                                     )}
                                   </label>
                                 );
@@ -851,7 +850,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                       </div>
                     </div>
                   ) : (
-                    <div className="flex-1 flex items-center justify-center text-slate-400">
+                    <div className="flex-1 flex items-center justify-center text-muted-foreground">
                       Select an entity from the sidebar to manage permissions
                     </div>
                   )}
@@ -892,7 +891,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                   Back
                 </Button>
                 {errors.permissions && (
-                  <div className="flex items-center gap-2 text-sm text-red-600 mr-auto">
+                  <div className="flex items-center gap-2 text-sm text-danger-foreground mr-auto">
                     <AlertCircle className="w-4 h-4" />
                     <span>
                       {Array.isArray(errors.permissions)

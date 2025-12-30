@@ -4,7 +4,7 @@ import type {
   GenreMediaStatus,
   MediaItem,
   ImageUrls,
-} from "@/shared/types/types/genre";
+} from "@/shared/types/genre";
 
 export interface GenreImageUploadProps {
   items?: MediaItem[];

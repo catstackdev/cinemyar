@@ -6,6 +6,12 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
+import AssignedAdminRoleModal from './AssignedAdminRoleModal';
+
+import AssignAdminRoleModal from './AssignAdminRoleModal';
+
+import { AssignAdminRoleDrawer } from './AssignAdminRoleDrawer';
+
 import AddUpdateRole from './AddUpdateRole';
 
 
@@ -15,6 +21,12 @@ import AddUpdateRole from './AddUpdateRole';
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
+	AssignedAdminRoleModal,
+
+	AssignAdminRoleModal,
+
+	AssignAdminRoleDrawer,
+
 	AddUpdateRole,
 
 };

@@ -2,8 +2,7 @@ import React from "react";
 import { cn } from "@/utils/helpers/classNames";
 import styles from "./MediaListPreview.module.css";
 import type { MediaListPreviewProps } from "./MediaListPreview.types";
-import MediaItemPreview from "./MediaItemPreview";
-import { GenreImageSizes } from "@/shared/types/config/media/genre/genre-image-sizes.config";
+import { GenreImageSizes } from "@/shared/config/media/genre/genre-image-sizes.config";
 import GenreImg from "../GenreImg";
 
 const MediaListPreview: React.FC<MediaListPreviewProps> = ({
@@ -16,7 +15,9 @@ const MediaListPreview: React.FC<MediaListPreviewProps> = ({
   const getDim = (s: { width: number | null; height: number | null }) =>
     s.width ? `${s.width}x${s.height}` : "Original";
 
-  const sizeConfig = GenreImageSizes[type] ?? null;
+  // Convert type to lowercase to match GenreImageSizes keys (e.g., "ICON" -> "icon")
+  const normalizedType = type.toLowerCase() as 'icon' | 'banner' | 'thumbnail';
+  const sizeConfig = GenreImageSizes[normalizedType] ?? null;
 
   const previewSizes = [
     { key: "original", label: "Original" },
@@ -43,7 +44,7 @@ const MediaListPreview: React.FC<MediaListPreviewProps> = ({
             <GenreImg
               imageUrls={currentImages}
               size={key} // Passes 'sm', 'md', etc.
-              aspectRatio={type === "icon" ? "square" : "auto"}
+              aspectRatio={normalizedType === "icon" ? "square" : "auto"}
               alt={`${type} image (${key})`}
               // Ensure preview images don't download everything
             />

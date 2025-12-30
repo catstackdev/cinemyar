@@ -1,5 +1,5 @@
 import type { ImageAspectRatio } from "@/components/ui";
-import type { ImageUrls } from "@/shared/types/types/genre";
+import type { ImageUrls } from "@/shared/types/genre";
 
 export type GenreImgSize = "sm" | "md" | "lg" | "original" | "auto";
 

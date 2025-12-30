@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/user/user-admin-api.types.ts
-// Generated: 2025-12-23T11:53:07.631Z
+// Generated: 2025-12-30T04:21:52.075Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**
@@ -31,10 +31,13 @@ import type { BasePaginationParams } from '../params';
  * Used in GET /admin/admins
  */
 export interface AdminUserListParams extends BasePaginationParams {
+  /** Filter by ban status (true = banned only, false = non-banned only) */
   isBanned?: boolean;
+  /** Sort field */
   sortBy?: 'username' | 'email' | 'createdAt' | 'isBanned';
-  dynamicRoleId?: string; //filter by dynamic role id
-  //filter by entity type
+  /** Filter by admin role ID */
+  adminRoleId?: string;
+  exceptAdminRoleId?: string;
 }
 
 // ==========================================
@@ -42,9 +45,9 @@ export interface AdminUserListParams extends BasePaginationParams {
 // ==========================================
 
 /**
- * Dynamic role information for admin users
+ * Admin role information for admin users
  */
-export interface AdminDynamicRole {
+export interface AdminRoleInfo {
   id: string;
   name: string;
   displayName: string;
@@ -55,11 +58,11 @@ export interface AdminDynamicRole {
 /**
  * User-Role junction info
  */
-export interface AdminUserDynamicRole {
+export interface UserAdminRoleInfo {
   roleId: string;
   userId: string;
   assignedAt: Date | string;
-  role: AdminDynamicRole;
+  role: AdminRoleInfo;
 }
 
 // ==========================================
@@ -81,13 +84,14 @@ export interface AdminUserListItem {
   bannedReason: string | null;
   createdAt: string;
   updatedAt: string;
-  /** Assigned dynamic roles with full role info */
-  dynamicRoles: AdminUserDynamicRole[];
+  /** Assigned admin roles with full role info */
+  adminRoles: UserAdminRoleInfo[];
   /** Counts for related entities */
   _count: {
     deviceSessions: number;
-    dynamicRoles: number;
+    adminRoles: number;
   };
+  permissions: string[];
 }
 
 /**
@@ -130,14 +134,14 @@ export interface AdminUserDetail {
   bannedBy: string | null;
   createdAt: string;
   updatedAt: string;
-  /** Assigned dynamic roles with full role info */
-  dynamicRoles: AdminUserDynamicRole[];
+  /** Assigned admin roles with full role info */
+  adminRoles: UserAdminRoleInfo[];
   /** Active device sessions */
   deviceSessions?: AdminUserDeviceSession[];
   /** Counts for related entities */
   _count: {
     deviceSessions: number;
-    dynamicRoles: number;
+    adminRoles: number;
   };
 }
 

@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router-dom";
 import { useTableSortParams } from "@/components/ui/Table";
 import { useParamUpdate } from "./useParamUpdate";
-import type { PaginationMeta } from "@/shared/types/types";
+import type { PaginationMeta } from "@/shared/types";
 
 export interface UseCrudPageOptions<TParams, TData> {
   /**

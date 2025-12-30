@@ -5,6 +5,8 @@ import type {
   ApiMediaGetParam,
   ApiMediaPostParam,
   MediaUploadApiParams,
+  MediaRegenerateParams,
+  MediaRegenerateResponse,
 } from "./media.types";
 
 export const mediaAPI = {
@@ -86,6 +88,33 @@ export const mediaAPI = {
       {
         data: payload,
       },
+    );
+    return data;
+  },
+
+  /**
+   * Regenerate media (creates new version from existing)
+   * POST /admin/:entityType/:entityId/images/:subType/:version/regenerate
+   * 
+   * @example
+   * regenerateMedia({
+   *   entityType: 'genres',
+   *   entityId: 'uuid',
+   *   mediaType: 'images',
+   *   subType: 'ICON',
+   *   version: 1
+   * })
+   */
+  regenerateMedia: async ({
+    entityType,
+    entityId,
+    mediaType,
+    subType,
+    version,
+  }: MediaRegenerateParams): Promise<ApiResponse<MediaRegenerateResponse>> => {
+    const resource = entityType.toLowerCase();
+    const { data } = await apiClient.post<ApiResponse<MediaRegenerateResponse>>(
+      `/admin/${resource}/${entityId}/${mediaType}/${subType}/${version}/regenerate`
     );
     return data;
   },

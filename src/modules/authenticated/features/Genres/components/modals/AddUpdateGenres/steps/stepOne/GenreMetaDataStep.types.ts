@@ -1,6 +1,6 @@
 import type { Control, FieldErrors, UseFormRegister } from "react-hook-form";
 import type { AddGenreFormData } from "@/schemas/movie.schema";
-import type { AdminGenreSerialized } from "@/shared/types/types";
+import type { AdminGenreSerialized } from "@/shared/types";
 
 export interface GenreMetaDataStepProps {
   register: UseFormRegister<AddGenreFormData>;

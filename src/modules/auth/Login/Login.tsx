@@ -14,7 +14,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "@/store/hooks";
 import { login as loginAction } from "@/state/auth";
 import { cn } from "@/utils/helpers/classNames";
-import { loginSchema, type LoginDto } from "@/shared/types/validation";
+import { loginSchema, type LoginDto } from "@/shared/validation";
 
 const Login: React.FC = () => {
   const dispatch = useAppDispatch();

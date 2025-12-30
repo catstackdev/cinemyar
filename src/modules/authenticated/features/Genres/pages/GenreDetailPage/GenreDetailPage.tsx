@@ -3,7 +3,7 @@ import clsx from "clsx";
 import styles from "./GenreDetailPage.module.css";
 import type { GenreDetailPageProps } from "./GenreDetailPage.types";
 import { useLoaderData, useParams } from "react-router-dom";
-import type { ApiResponse, GenreDetailData } from "@/shared/types/types";
+import type { ApiResponse, GenreDetailData } from "@/shared/types";
 import { useAdminGenre } from "../../hooks/useAdminGenres";
 import type { TabItem } from "@/components/ui";
 import {
@@ -22,7 +22,7 @@ import {
   XCircle,
   CircleX,
 } from "lucide-react";
-import type { GenreMediaItem } from "@/shared/types/types/genre";
+import type { GenreMediaItem } from "@/shared/types/genre";
 import MediaItem from "../../components/MediaItem";
 import { GenreImg } from "../../components";
 import { MediaImage } from "@/components/ui/Image";

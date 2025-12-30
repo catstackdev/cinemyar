@@ -4,6 +4,7 @@ import { type RouteObject, Navigate } from "react-router-dom";
 import { AuthenticatedMoviesRoutesConfig } from "./features/Movies/routes";
 import { AuthenticatedGenresRoutesConfig } from "./features/Genres/routes";
 import { AuthenticatedRolesRoutesConfig } from "./features/Roles/routes";
+import { AuthenticatedUsersRoutesConfig } from "./features/Users/routes";
 
 const AuthenticatedDashboardPage = lazy(
   () => import("@/modules/authenticated/features/Dashboard"),
@@ -49,6 +50,14 @@ export const AuthenticatedRoutesConfig: RouteObject[] = [
       breadcrumb: { label: "Roles", icon: "👤" },
     },
     children: AuthenticatedRolesRoutesConfig,
+  },
+
+  {
+    path: "users",
+    handle: {
+      breadcrumb: { label: "Roles", icon: "👤" },
+    },
+    children: AuthenticatedUsersRoutesConfig,
   },
   // {
   //   path: "categories",

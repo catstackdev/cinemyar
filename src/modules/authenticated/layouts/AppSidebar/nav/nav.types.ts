@@ -1,4 +1,4 @@
-import type { UserRole } from "@/shared/types/types";
+import type { UserRole } from "@/shared/types";
 import type { ReactNode } from "react";
 
 export type NavChildItem = {

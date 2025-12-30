@@ -1,15 +1,13 @@
 import { useState } from "react";
-import type {
-  GenreMediaType,
-  GenreMediaStatus,
-} from "@/shared/types/types/genre";
-import type { ApiResponse } from "@/shared/types/types";
-import type { GenreMediaItem } from "@/shared/types/types/genre";
+import type { GenreMediaStatus } from "@/shared/types/genre";
+import type { ApiResponse } from "@/shared/types";
+import type { GenreMediaItem } from "@/shared/types/genre";
 import { useUploadMedia } from "@/modules/domain/media/hooks/useMedia";
+import type { GenreImageType } from "@/shared/constants";
 
 export interface UseGenreImageUploadProps {
   genreId?: string | null;
-  imageType: GenreMediaType;
+  imageType: GenreImageType;
   onSuccess?: (data: GenreMediaItem) => void;
   onError?: (error: any) => void;
 }

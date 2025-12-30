@@ -4,6 +4,9 @@ import type { LoaderFunctionArgs, RouteObject } from "react-router-dom";
 const ListPage = lazy(
   () => import("@/modules/authenticated/features/Roles/pages/AllRolesPage"),
 );
+const DetailPage = lazy(
+  () => import("@/modules/authenticated/features/Roles/pages/RoleDetailPage"),
+);
 
 export const AuthenticatedRolesRoutesConfig: RouteObject[] = [
   {
@@ -16,6 +19,18 @@ export const AuthenticatedRolesRoutesConfig: RouteObject[] = [
     },
     handle: {
       breadcrumb: { label: "All Roles", icon: "📄" },
+    },
+  },
+  {
+    path: ":id",
+    Component: ListPage,
+    loader: async (args: LoaderFunctionArgs) => {
+      const { roleDetailLoader } =
+        await import("@/modules/authenticated/features/Roles/loaders/roleDetail.loader");
+      return roleDetailLoader(args);
+    },
+    handle: {
+      breadcrumb: { label: "Role Detail", icon: "📄" },
     },
   },
 ];

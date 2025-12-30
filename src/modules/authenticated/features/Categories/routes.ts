@@ -33,8 +33,14 @@ export const AuthenticatedCategoriesRoutesConfig: RouteObject[] = [
       import("@/modules/authenticated/features/Categories/loaders/categoryDetailLoader").then(
         (m) => m.categoryDetailLoader({ params: params as { id: string } }),
       ),
+    // handle: {
+    //   breadcrumb: { label: "Category Detail", icon: "📄" },
+    // },
     handle: {
-      breadcrumb: { label: "Category Detail", icon: "📄" },
+      breadcrumb: {
+        label: (data: any) => data?.data?.name ?? "Genre Detail", // ✅ Dynamic!
+        icon: "📄",
+      },
     },
   },
   // {

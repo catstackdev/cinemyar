@@ -8,8 +8,8 @@ import type {
   AdminGenreSerialized,
   ApiResponse,
   GenrePaginationParams,
-} from "@/shared/types/types";
-import type { GenreDetailData } from "@/shared/types/types/genre/genre-admin-detail.type";
+} from "@/shared/types";
+import type { GenreDetailData } from "@/shared/types/genre/genre-admin-detail.type";
 
 // Centralized API handlers
 export const AdminGenresAPI = {

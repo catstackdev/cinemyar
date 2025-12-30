@@ -1,4 +1,4 @@
-import type { ApiError } from "@/shared/types/types";
+import type { ApiError } from "@/shared/types";
 import type { AxiosError } from "axios";
 import type { FieldValues, Path, UseFormSetError } from "react-hook-form";
 

@@ -9,7 +9,7 @@ import {
   VideoIcon,
 } from "@radix-ui/react-icons";
 import type { NavItem } from "./nav.types";
-import { RolePermissions } from "@/shared/types/constants";
+import { RolePermissions } from "@/shared/constants";
 
 export const adminNav: NavItem[] = [
   {

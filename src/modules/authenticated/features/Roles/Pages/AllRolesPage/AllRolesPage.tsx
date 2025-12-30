@@ -12,7 +12,10 @@ import {
   PermissionBadges,
   TruncatedText,
 } from "@/components/common";
-import { QueryParamSearch } from "@/components/common/queryParams";
+import {
+  QueryParamFilter,
+  QueryParamSearch,
+} from "@/components/common/queryParams";
 import {
   Button,
   TableHeader,
@@ -34,14 +37,27 @@ import {
   CardContent,
 } from "@/components/ui/Card";
 import { useModal, useCan, useCrudPage } from "@/hooks";
-import { RolePermissions } from "@/shared/constants";
+import { AdminUserPermissions, RolePermissions } from "@/shared/constants";
 import { formatDate } from "@/utils/helpers";
-import { PlusIcon, Edit, Trash2 } from "lucide-react";
+import {
+  PlusIcon,
+  Edit,
+  Trash2,
+  AtSignIcon,
+  UserPlus,
+  Users,
+} from "lucide-react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { AdminAllRolesQueryKey } from "../../api/roles-query-key";
 import { useAdminDeleteRole } from "../../hooks/useAdminRoles";
-import { AddUpdateRole } from "../../components/modals";
+import {
+  AddUpdateRole,
+  AssignAdminRoleModal,
+  AssignedAdminRoleModal,
+} from "../../components/modals";
 import { AdminRolesAPI } from "../../api/admin-roles.api";
+import { defaultParams } from "../../../Genres/components/AdminGenresParamFilter/AdminGenresParamFilter.types";
+import { filters } from "./filter.const";
 
 const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
   const navigate = useNavigate();
@@ -49,6 +65,8 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
 
   const deleteModal = useModal<AdminRole>();
   const createUpdateModal = useModal<void | AdminRole>();
+  const assignModal = useModal<void | AdminRole>();
+  const assignedModal = useModal<void | AdminRole>();
 
   // Permission checks
   const canCreate = useCan({
@@ -62,6 +80,15 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
   const canUpdate = useCan({
     roles: ["ADMIN"],
     permissions: RolePermissions.EDIT,
+  });
+
+  const canAssign = useCan({
+    roles: ["ADMIN"],
+    permissions: RolePermissions.ASSIGN,
+  });
+  const canViewAssigned = useCan({
+    roles: ["ADMIN"],
+    permissions: [RolePermissions.VIEW, AdminUserPermissions?.VIEW],
   });
 
   // Delete mutation
@@ -135,6 +162,23 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
     [createUpdateModal],
   );
 
+  const handleAssignClick = useCallback(
+    (item: AdminRole, e: React.MouseEvent) => {
+      e.stopPropagation();
+      console.log("🔐 AllGenresPage: Opening update modal for", item);
+      item && assignModal.open(item);
+    },
+    [assignModal],
+  );
+  const handleViewAssigned = useCallback(
+    (item: AdminRole, e: React.MouseEvent) => {
+      e.stopPropagation();
+      console.log("🔐 AllGenresPage: Opening assigned modal for", item);
+      item && assignedModal.open(item);
+    },
+    [assignedModal],
+  );
+
   const handleModalClose = useCallback(
     (open: boolean) => {
       if (!open) {
@@ -167,6 +211,27 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
           cancelText="Cancel"
           variant="danger"
           isLoading={isSolfDeleting}
+        />
+      </PermissionGuard>
+
+      <PermissionGuard permissions={RolePermissions.ASSIGN} roles={["ADMIN"]}>
+        <AssignAdminRoleModal
+          key={`assign-${assignModal.data?.id ?? "assign"}`}
+          open={assignModal.isOpen}
+          onOpenChange={assignModal.close}
+          item={assignModal.data ?? null}
+        />
+      </PermissionGuard>
+
+      <PermissionGuard
+        permissions={[RolePermissions.ASSIGN, AdminUserPermissions?.VIEW]}
+        roles={["ADMIN"]}
+      >
+        <AssignedAdminRoleModal
+          key={`assigned-${assignedModal.data?.id ?? "assigned"}`}
+          open={assignedModal.isOpen}
+          onOpenChange={assignedModal.close}
+          item={assignedModal.data ?? null}
         />
       </PermissionGuard>
 
@@ -205,6 +270,12 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
               placeholder="Search roles..."
             />
             {/* <AdminGenresParamFilter /> */}
+
+            <QueryParamFilter
+              filters={filters}
+              className="w-full"
+              defaultParams={defaultParams}
+            />
           </div>
         </CardHeader>
 
@@ -287,6 +358,22 @@ const AllRolesPage: React.FC<AllRolesPageProps> = ({ children }) => {
                         <TableActionButtons
                           item={item}
                           actions={[
+                            {
+                              key: `assign-${item.id}`,
+                              label: "Assign",
+                              icon: UserPlus,
+                              onClick: handleAssignClick,
+                              visible: canAssign,
+                              variant: "primary",
+                            },
+
+                            {
+                              key: `assigned-${item.id}`,
+                              label: "View Assigned Users",
+                              icon: Users,
+                              onClick: handleViewAssigned,
+                              visible: canViewAssigned,
+                            },
                             {
                               key: `update-${item.id}`,
                               label: "Update",

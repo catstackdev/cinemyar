@@ -1,4 +1,4 @@
-import type { ImageUrls } from "@/shared/types/types";
+import type { ImageUrls } from "@/shared/types";
 
 export const getSrcSet = (urls?: ImageUrls) => {
   if (!urls) return { src: "", srcSet: "" };

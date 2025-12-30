@@ -1,22 +1,16 @@
-import type { MediaItem } from "@/shared/types/types/genre";
-import {
-  Loader2,
-  Check,
-  Send,
-  RefreshCw,
-  Archive,
-  Trash2,
-  AlertCircle,
-  Activity,
-} from "lucide-react";
-import { GenrePermissions } from "@/shared/types/constants";
+import type { MediaItem } from "@/shared/types/genre";
+import { Check, Send, Archive, AlertCircle, Activity } from "lucide-react";
+import { GenreImageType, GenrePermissions } from "@/shared/constants";
+import type { JSX } from "react";
 
 export type MediaActionType =
-  | "approve"
   | "publish"
-  | "reject"
-  | "rollback"
-  | "recover";
+  | "unpublish"
+  | "recover"
+  | "delete"
+  | "permanentDelete"
+  | "regenerate"
+  | "errorReport"; // Future improvement
 
 export interface MediaActionConfig {
   label: string;
@@ -29,89 +23,85 @@ export interface MediaActionConfig {
   permission?: string;
 }
 
+const commonActions: Record<string, MediaActionConfig> = {
+  regenerate: {
+    label: "Regenerate",
+    color: "info",
+    icon: <Activity className="h-4 w-4" />,
+    show: true,
+    variant: "ghost",
+    action: "regenerate",
+    permission: GenrePermissions.PUBLISH,
+  },
+  rollback: {
+    label: "Unpublish",
+    color: "warning",
+    icon: <Archive className="h-4 w-4" />,
+    show: true,
+    variant: "ghost",
+    action: "unpublish",
+    permission: GenrePermissions.PUBLISH,
+  },
+  recover: {
+    label: "Recover",
+    color: "success",
+    icon: <Check className="h-4 w-4" />,
+    show: true,
+    variant: "ghost",
+    action: "recover",
+    permission: GenrePermissions.PUBLISH,
+  },
+  delete: {
+    label: "Delete",
+    color: "secondary",
+    icon: <Archive className="h-4 w-4" />,
+    show: true,
+    variant: "ghost",
+    action: "delete",
+    permission: GenrePermissions.UPLOAD,
+  },
+  permanentDelete: {
+    label: "Permanent Delete",
+    color: "danger",
+    icon: <AlertCircle className="h-4 w-4" />,
+    show: true,
+    variant: "ghost",
+    action: "permanentDelete",
+    permission: GenrePermissions.DELETE,
+  },
+};
+
 export const getMediaActions = (
   status: MediaItem["status"],
-): MediaActionConfig => {
+): MediaActionConfig[] => {
   switch (status) {
-    case "PROCESSING":
-      return {
-        label: "Processing",
-        color: "info" as const,
-        icon: <Loader2 className="h-4 w-4 animate-spin" />,
-        show: true,
-        disabled: true,
-        variant: "outline" as const,
-      };
+    case "DRAFT":
+      return [
+        {
+          label: "Publish",
+          color: "primary",
+          icon: <Send className="h-4 w-4" />,
+          show: true,
+          variant: "ghost",
+          action: "publish",
+          permission: GenrePermissions.PUBLISH,
+        },
+        commonActions.regenerate,
+        commonActions.delete,
+        commonActions.permanentDelete,
+      ];
 
-    case "PENDING":
-      return {
-        label: "Approve",
-        color: "success" as const,
-        icon: <Check className="h-4 w-4" />,
-        show: true,
-        variant: "ghost" as const,
-        action: "approve",
-        permission: GenrePermissions.APPROVE,
-      };
-
-    case "READY":
-      return {
-        label: "Publish",
-        color: "primary" as const,
-        icon: <Send className="h-4 w-4" />,
-        show: true,
-        variant: "ghost" as const,
-        action: "publish",
-        permission: GenrePermissions.PUBLISH,
-      };
-
-    case "ACTIVE": // now Published
-      return {
-        label: "Active",
-        color: "success" as const,
-        icon: <Activity className="h-4 w-4" />,
-        show: true,
-        disabled: true,
-        variant: "subtle" as const, // Or keep ghost
-      };
-
-    case "FAILED": // TODO: BE need action .. think about it
-      return {
-        label: "Retry",
-        color: "danger" as const,
-        icon: <RefreshCw className="h-4 w-4" />,
-        show: true,
-        variant: "ghost" as const,
-        // action: // no action "rollback",
-        permission: GenrePermissions.UPLOAD,
-      };
+    case "PUBLISHED":
+      return [
+        commonActions.regenerate,
+        commonActions.rollback,
+        commonActions.permanentDelete,
+      ];
 
     case "ARCHIVED":
-      return {
-        label: "Restore",
-        color: "secondary" as const,
-        icon: <Archive className="h-4 w-4" />,
-        show: true,
-        variant: "ghost" as const,
-        action: "rollback",
-        permission: GenrePermissions.UPLOAD,
-      };
-
-    case "DELETED":
-      return {
-        label: "Deleted",
-        color: "danger" as const,
-        icon: <Trash2 className="h-4 w-4" />,
-        show: true,
-        disabled: true,
-        variant: "outline" as const,
-      };
+      return [commonActions.recover, commonActions.permanentDelete];
 
     default:
-      return {
-        label: "Unknown",
-        icon: <AlertCircle className="h-4 w-4" />,
-        show: false,
-      };
+      return [];
   }
 };

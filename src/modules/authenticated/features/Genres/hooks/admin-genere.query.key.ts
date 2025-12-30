@@ -1,4 +1,4 @@
-import type { GenrePaginationParams } from "@/shared/types/types";
+import type { GenrePaginationParams } from "@/shared/types";
 
 export const AdminAllGenreQueryKey = (params?: GenrePaginationParams) => [
   "admin",

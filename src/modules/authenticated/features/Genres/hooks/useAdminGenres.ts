@@ -10,8 +10,8 @@ import {
   AdminAllGenreQueryKey,
   AdminGenreQueryKey,
 } from "./admin-genere.query.key";
-import { Time } from "@/shared/types/constants/time.const";
-import type { GenrePaginationParams } from "@/shared/types/types";
+import { Time } from "@/shared/constants/time.const";
+import type { GenrePaginationParams } from "@/shared/types";
 import type { UpdateGenreFormData } from "@/schemas/movie.schema";
 
 //

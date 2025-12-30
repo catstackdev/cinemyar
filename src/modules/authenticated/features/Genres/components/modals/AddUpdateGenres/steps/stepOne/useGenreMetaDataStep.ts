@@ -2,14 +2,14 @@ import { useCallback, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AddGenreSchema, type AddGenreFormData } from "@/schemas/movie.schema";
-import type { AdminGenreSerialized, ApiResponse } from "@/shared/types/types";
+import type { AdminGenreSerialized, ApiResponse } from "@/shared/types";
 import { slugify } from "../../../../../utils/helpers";
 import { applyServerErrors } from "@/utils/helpers/applyServerError";
 import {
   useAdminAddGenre,
   useAdminUpdateGenre,
 } from "../../../../../hooks/useAdminGenres";
-import type { GenreDetailData } from "@/shared/types/types/genre";
+import type { GenreDetailData } from "@/shared/types/genre";
 
 export interface UseGenreMetaDataStepProps {
   open?: boolean;

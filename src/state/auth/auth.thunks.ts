@@ -2,7 +2,7 @@ import type { RegisterFormData } from "@/modules/auth/Register/schemas/auth.sche
 import { api } from "@/lib/axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import type { RefreshAuthResponse } from "./auth.types";
-import type { LoginDto } from "@/shared/types/validation";
+import type { LoginDto } from "@/shared/validation";
 
 export const login = createAsyncThunk(
   "auth/login",

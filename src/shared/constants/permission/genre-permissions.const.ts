@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/permission/genre-permissions.const.ts
-// Generated: 2025-12-23T11:53:07.628Z
+// Generated: 2025-12-30T04:21:52.059Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**
@@ -24,10 +24,15 @@ export const GenrePermissions = {
   // Media Management (Images)
   UPLOAD: 'genre.upload',
   APPROVE: 'genre.approve',
-  PUBLISH: 'genre.publish',
   REJECT: 'genre.reject',
+  PUBLISH: 'genre.publish',
+  UNPUBLISH: 'genre.unpublish',
+  REPORT_ERROR: 'genre.reportError', //for error //  only admin ..
+  REGENERATE: 'genre.regenerate', // genreate photo by Admin
+  RECOVER: 'genre.recover', // Recover archived image to draft
 
   // Recovery & Soft Delete
+
   VIEW_DELETED: 'genre.view.deleted',
   RESTORE: 'genre.restore',
   DELETE_PERMANENT: 'genre.delete.permanent',
@@ -75,6 +80,9 @@ export const GenrePermissionGroups = {
     GenrePermissions.VIEW,
     GenrePermissions.APPROVE,
     GenrePermissions.PUBLISH,
+    GenrePermissions.UNPUBLISH,
+    GenrePermissions.REGENERATE,
+    GenrePermissions.RECOVER,
   ] as string[],
 
   // Admin - Full control except permanent delete
@@ -86,7 +94,11 @@ export const GenrePermissionGroups = {
     GenrePermissions.UPLOAD,
     GenrePermissions.APPROVE,
     GenrePermissions.PUBLISH,
+    GenrePermissions.UNPUBLISH,
+    GenrePermissions.REGENERATE,
+    GenrePermissions.RECOVER,
     GenrePermissions.REJECT,
+    GenrePermissions.REPORT_ERROR,
     GenrePermissions.VIEW_DELETED,
     GenrePermissions.RESTORE,
   ] as string[],
@@ -100,7 +112,11 @@ export const GenrePermissionGroups = {
     GenrePermissions.UPLOAD,
     GenrePermissions.APPROVE,
     GenrePermissions.PUBLISH,
+    GenrePermissions.UNPUBLISH,
+    GenrePermissions.REGENERATE,
+    GenrePermissions.RECOVER,
     GenrePermissions.REJECT,
+    GenrePermissions.REPORT_ERROR,
     GenrePermissions.VIEW_DELETED,
     GenrePermissions.RESTORE,
     GenrePermissions.DELETE_PERMANENT,
@@ -166,9 +182,14 @@ export const GenrePermissionDescriptions: Record<string, string> = {
   [GenrePermissions.DELETE]: 'Soft delete genres (recoverable)',
 
   [GenrePermissions.UPLOAD]: 'Upload genre images (icon, banner, thumbnail)',
-  [GenrePermissions.APPROVE]: 'Approve staged images (PENDING → READY)',
-  [GenrePermissions.PUBLISH]: 'Publish approved images (READY → ACTIVE)',
-  [GenrePermissions.REJECT]: 'Reject staged images with reason',
+  [GenrePermissions.APPROVE]: 'Approve staged images (legacy, unused)',
+  [GenrePermissions.PUBLISH]: 'Publish draft images (DRAFT → PUBLISHED)',
+  [GenrePermissions.UNPUBLISH]: 'Unpublish images (PUBLISHED → ARCHIVED)',
+  [GenrePermissions.REGENERATE]: 'Regenerate image variants from original file',
+  [GenrePermissions.RECOVER]:
+    'Recover archived images back to draft (ARCHIVED → DRAFT)',
+  [GenrePermissions.REJECT]: 'Reject staged images with reason (legacy)',
+  [GenrePermissions.REPORT_ERROR]: 'Report image processing errors',
 
   [GenrePermissions.VIEW_DELETED]: 'View soft-deleted genres',
   [GenrePermissions.RESTORE]: 'Restore soft-deleted genres',

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 import type { DeletedGenresPageProps } from "./DeletedGenresPage.types";
 import {
   PermissionGuard,
@@ -33,10 +33,10 @@ import type {
   AdminGenresApiResponse,
   GenrePaginationParams,
   AdminGenreSerialized,
-} from "@/shared/types/types";
+} from "@/shared/types";
 import { formatDate } from "@/utils/helpers";
 import { ArchiveRestore, Trash2 } from "lucide-react";
-import { useNavigate, useLoaderData } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 import { AdminGenresAPI } from "../../api/admin-genres.api";
 import { AdminGenresParamFilter } from "../../components";
 import { AdminAllDeletedGenreQueryKey } from "../../hooks/admin-genere.query.key";
@@ -52,10 +52,10 @@ import {
 } from "@/schemas/movie.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { GenrePermissions } from "@/shared/types/constants";
+import { GenrePermissions } from "@/shared/constants";
 
 const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const initialData = useLoaderData<AdminGenresApiResponse>();
   const {
@@ -121,75 +121,13 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
     }),
   });
 
-  const handleRowClick = useCallback(
-    (genreId: string) => {
-      navigate(`/authenticated/genres/${genreId}`);
-    },
-    [navigate],
-  );
-
-  //for delete modal
-  // const handleDeleteClick = useCallback(
-  //   (genre: AdminGenreSerialized, e: React.MouseEvent) => {
-  //     e.stopPropagation();
-  //     deleteModal.open(genre);
+  // const handleRowClick = useCallback(
+  //   (genreId: string) => {
+  //     navigate(`/authenticated/genres/${genreId}`);
   //   },
-  //   [deleteModal],
+  //   [navigate],
   // );
-  // const handleActualDelete = async (data: DeleteGenreFormData) => {
-  //   if (deleteModal.data) {
-  //     permanentDeleteGenre(
-  //       {
-  //         id: deleteModal.data?.id,
-  //         reason: data.reason,
-  //       },
-  //       {
-  //         onSuccess: () => {
-  //           reset();
-  //           deleteModal.close();
-  //         },
-  //         onError: (error) => {
-  //           console.error("Failed to delete genre:", error);
-  //         },
-  //       },
-  //     );
-  //   }
-  // };
 
-  // const handleActualAllDelete = async (data: DeleteGenreFormData) => {
-  //   permanentDeleteAllGenre(
-  //     {
-  //       reason: data.reason,
-  //     },
-  //     {
-  //       onSuccess: () => {
-  //         reset();
-  //         permanentDeleteAllModal.close();
-  //       },
-  //     },
-  //   );
-  // };
-
-  // const handleRestoreClick = useCallback(
-  //   (genre: AdminGenreSerialized, e: React.MouseEvent) => {
-  //     e.stopPropagation();
-  //     restoreModal.open(genre);
-  //   },
-  //   [restoreModal],
-  // );
-  // const confirmRestore = useCallback(() => {
-  //   if (restoreModal.data) {
-  //     restoreGenre(restoreModal.data?.id, {
-  //       onSuccess: () => {
-  //         restoreModal.close();
-  //         console.log("restored");
-  //       },
-  //       onError: (error) => {
-  //         console.error("Failed to delete genre:", error);
-  //       },
-  //     });
-  //   }
-  // }, [restoreModal.data]);
   const onRestore = () => {
     const isBulk = restoreAllModal.isOpen;
     const mutation = isBulk ? restoreAllGenre : restoreGenre;
@@ -246,12 +184,10 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
           }}
           onConfirm={onRestore}
           title={
-            permanentDeleteAllModal.isOpen
-              ? "Restore All Genres"
-              : ` Restore Genre`
+            restoreAllModal.isOpen ? "Restore All Genres" : ` Restore Genre`
           }
           description={
-            permanentDeleteAllModal.isOpen
+            restoreAllModal.isOpen
               ? "Restore All Genres"
               : `Restore "${restoreModal.data?.name}"?`
           }
@@ -297,7 +233,7 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
           <div className="flex flex-row items-center justify-between w-full">
             <div className="space-y-2">
               <CardTitle className="text-2xl font-bold bg-gradient-to-r from-primary to-info bg-clip-text text-transparent">
-                Genres Management
+                Deleted Genres Management
               </CardTitle>
               <CardDescription className="text-muted-foreground">
                 Manage and organize your movie genres
@@ -315,35 +251,39 @@ const DeletedGenresPage: React.FC<DeletedGenresPageProps> = ({ children }) => {
 
             <AdminGenresParamFilter />
 
-            <PermissionGuard
-              permissions={GenrePermissions.RESTORE}
-              roles={["ADMIN"]}
-            >
-              <Button
-                className="pt-1"
-                variant="glass"
-                color="success"
-                onClick={() => restoreAllModal.open()}
-                size="sm"
+            {data?.length > 0 && (
+              <PermissionGuard
+                permissions={GenrePermissions.RESTORE}
+                roles={["ADMIN"]}
               >
-                <ArchiveRestore className="w-5 h-5" />
-              </Button>
-            </PermissionGuard>
+                <Button
+                  className="pt-1"
+                  variant="glass"
+                  color="success"
+                  onClick={() => restoreAllModal.open()}
+                  size="sm"
+                >
+                  <ArchiveRestore className="w-5 h-5" />
+                </Button>
+              </PermissionGuard>
+            )}
 
-            <PermissionGuard
-              permissions={GenrePermissions.DELETE_PERMANENT}
-              roles={["ADMIN"]}
-            >
-              <Button
-                className="pt-1"
-                variant="glass"
-                color="danger"
-                onClick={() => permanentDeleteAllModal.open()}
-                size="sm"
+            {data?.length > 0 && (
+              <PermissionGuard
+                permissions={GenrePermissions.DELETE_PERMANENT}
+                roles={["ADMIN"]}
               >
-                <Trash2 className="w-5 h-5" />
-              </Button>
-            </PermissionGuard>
+                <Button
+                  className="pt-1"
+                  variant="glass"
+                  color="danger"
+                  onClick={() => permanentDeleteAllModal.open()}
+                  size="sm"
+                >
+                  <Trash2 className="w-5 h-5" />
+                </Button>
+              </PermissionGuard>
+            )}
           </div>
         </CardHeader>
 

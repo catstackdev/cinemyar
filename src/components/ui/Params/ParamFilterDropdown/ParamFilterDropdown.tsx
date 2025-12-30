@@ -20,6 +20,7 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
   onFilterChange,
   children,
   loading,
+  zIndex = 60,
   ...rest
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -36,6 +37,16 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
 
   const toggleDropdown = () => setIsOpen((prev) => !prev);
 
+  // const handleSelect = (groupName: string, value: string | undefined) => {
+  //   const newValues = { ...selectedValues };
+  //   if (value) {
+  //     newValues[groupName] = value;
+  //   } else {
+  //     delete newValues[groupName];
+  //   }
+  //   console.log("[ParamFilterDropdown] Filter changed:", newValues);
+  //   onFilterChange?.(newValues);
+  // };
   const handleSelect = (groupName: string, value: string | undefined) => {
     const newValues = { ...selectedValues, [groupName]: value };
     console.log("newValues", newValues);
@@ -115,8 +126,8 @@ const ParamFilterDropdown: React.FC<ParamFilterDropdownProps> = ({
               ref={portalRef}
               // Use 'fixed' positioning so the coordinates work relative to viewport
               // z-[60] ensures it appears above Drawer (z-50) and Modal backdrops
-              className="fixed z-[60] min-w-64 max-w-sm max-h-[80vh]   overflow-hidden backdrop-blur-xs border rounded-lg border-primary/50 shadow-lg flex flex-col  bg-background/60"
-              style={{ top, left }} // Apply dynamic styles
+              className="fixed  min-w-64 max-w-sm max-h-[80vh]   overflow-hidden backdrop-blur-xs border rounded-lg border-primary/50 shadow-lg flex flex-col  bg-background/60"
+              style={{ zIndex, top, left }} // Apply dynamic styles
               onClick={(e) => e.stopPropagation()}
             >
               <div className="overflow-y-auto flex-1  flex flex-col gap-3 ">

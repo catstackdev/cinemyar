@@ -12,7 +12,7 @@ import { PublicRoutesConfig } from "@/modules/publicc/features/authenticated/Gen
 import { AppLayout, PublicLayout } from "@/modules/authenticated/layouts";
 import { Suspense } from "react";
 import { AuthRoutesConfig } from "@/modules/auth/routes";
-import { UserRole } from "@/shared/types/enums";
+import { UserRole } from "@/shared/enums";
 
 const router = createBrowserRouter([
   {

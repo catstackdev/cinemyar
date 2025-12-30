@@ -9,6 +9,7 @@ import { AdminRolesAPI } from "../api/admin-roles.api";
 import { Time } from "@/shared/constants";
 import type { AdminCreateRoleFormData } from "../schemas/roles.schemas";
 import { refreshQueryClient } from "@/modules/domain/media/hooks/useMedia";
+import type { AdminAssignRolePayload } from "../api/admin-roles.types";
 
 export const useAdminRoles = (params: AllAdminRoleParams) => {
   const queryKey = AdminAllRolesQueryKey(params);
@@ -69,6 +70,38 @@ export const useAdminDeleteRole = () => {
     },
     onError: (err: any) => {
       console.error("Failed to delete role:", err);
+    },
+  });
+};
+export const useAdminAssignRole = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({
+      userId,
+      payload,
+    }: {
+      userId: string;
+      payload: AdminAssignRolePayload;
+    }) => AdminRolesAPI.postAssignRoles(userId, payload),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["roles"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
+    },
+  });
+};
+
+export const useAdminRemoveRole = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: ({ id, roleId }: { id: string; roleId: string }) =>
+      AdminRolesAPI.deleteRemoveRoles(id, roleId),
+
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["roles"] });
+      queryClient.invalidateQueries({ queryKey: ["admin"] });
     },
   });
 };

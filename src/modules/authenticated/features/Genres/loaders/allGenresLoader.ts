@@ -2,8 +2,8 @@ import { queryClient } from "@/contexts/AppProviders";
 import { AdminGenresAPI } from "@/modules/authenticated/features/Genres/api/admin-genres.api";
 import { AdminAllGenreQueryKey } from "../hooks/admin-genere.query.key";
 import type { LoaderFunctionArgs } from "react-router-dom";
-import { Time } from "@/shared/types/constants/time.const";
-import type { GenrePaginationParams } from "@/shared/types/types";
+import { Time } from "@/shared/constants/time.const";
+import type { GenrePaginationParams } from "@/shared/types";
 
 export const allGenresLoader = async ({ request }: LoaderFunctionArgs) => {
   const url = new URL(request.url);

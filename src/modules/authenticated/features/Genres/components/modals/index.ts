@@ -6,6 +6,8 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
+import AssignAdminRoleModal from './AssignAdminRoleModal';
+
 import AddNewGenres from "./AddUpdateGenres";
 
 // Type exports
@@ -14,6 +16,8 @@ import AddNewGenres from "./AddUpdateGenres";
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
+	AssignAdminRoleModal,
+
   AddNewGenres,
 };
 

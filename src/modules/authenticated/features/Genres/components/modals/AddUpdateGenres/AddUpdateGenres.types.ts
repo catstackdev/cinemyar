@@ -1,4 +1,4 @@
-import type { AdminGenreSerialized } from "@/shared/types/types";
+import type { AdminGenreSerialized } from "@/shared/types";
 
 export interface AddNewGenresProps extends React.ComponentPropsWithoutRef<"div"> {
   children?: React.ReactNode;

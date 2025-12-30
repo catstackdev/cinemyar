@@ -3,7 +3,7 @@ import type {
   NavItem,
   NavChildItem,
 } from "@/modules/authenticated/layouts/AppSidebar/nav/nav.types";
-import type { UserRole } from "@/shared/types/types";
+import type { UserRole } from "@/shared/types/user.types";
 
 /**
  * Check if user has required permissions

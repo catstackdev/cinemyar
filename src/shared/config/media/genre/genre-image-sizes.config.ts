@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/config/media/genre/genre-image-sizes.config.ts
-// Generated: 2025-12-23T11:53:07.626Z
+// Generated: 2025-12-30T04:21:52.051Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**

@@ -8,6 +8,7 @@ import type {
   ApiResponse,
 } from "@/shared/types";
 import type { AdminCreateRoleFormData } from "../schemas/roles.schemas";
+import type { AdminAssignRolePayload } from "./admin-roles.types";
 
 // Centralized API handlers
 export const AdminRolesAPI = {
@@ -56,6 +57,27 @@ export const AdminRolesAPI = {
   DeleteRole: async (id: string): Promise<ApiResponse<any>> => {
     const { data } = await apiClient.delete<ApiResponse<any>>(
       `/admin/roles/${id}`,
+    );
+    return data;
+  },
+
+  postAssignRoles: async (
+    userId: string,
+    payload: AdminAssignRolePayload,
+  ): Promise<ApiResponse<any>> => {
+    const { data } = await apiClient.post<ApiResponse<any>>(
+      `/admin/roles/users/${userId}/roles/assign`,
+      payload,
+    );
+    return data;
+  },
+
+  deleteRemoveRoles: async (
+    userId: string,
+    roleId: string,
+  ): Promise<ApiResponse<any>> => {
+    const { data } = await apiClient.delete<ApiResponse<any>>(
+      `/admin/roles/users/${userId}/roles/${roleId}`,
     );
     return data;
   },

@@ -19,14 +19,11 @@ import {
 import { GenreMetaDataStep, useGenreMetaDataStep } from "./steps/stepOne";
 import { StepFive } from "./steps/StepFive";
 import { useAdminGenre } from "../../../hooks/useAdminGenres";
-import type {
-  GenreDetailData,
-  GenreMediaItem,
-} from "@/shared/types/types/genre";
-import type { GenreMediaStatus } from "@/shared/types/types/genre";
+import type { GenreDetailData, GenreMediaItem } from "@/shared/types/genre";
 import { useGenreImageUpload } from "./hooks/useGenreImageUpload";
 import { cn } from "@/utils/helpers";
 import { GenreImageUpload } from "./components";
+import { GenreImageType, MediaVersionStatus } from "@/shared/constants";
 
 const AddNewGenres: React.FC<AddNewGenresProps> = ({
   children,
@@ -72,17 +69,17 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   });
 
   // Upload status tracking
-  const [iconStatus, setIconStatus] = useState<GenreMediaStatus | null>(null);
-  const [bannerStatus, setBannerStatus] = useState<GenreMediaStatus | null>(
+  const [iconStatus, setIconStatus] = useState<MediaVersionStatus | null>(null);
+  const [bannerStatus, setBannerStatus] = useState<MediaVersionStatus | null>(
     null,
   );
   const [thumbnailStatus, setThumbnailStatus] =
-    useState<GenreMediaStatus | null>(null);
+    useState<MediaVersionStatus | null>(null);
 
   // Step 2: Icon Upload Hook
   const step2 = useGenreImageUpload({
     genreId: newGenre?.id ?? null,
-    imageType: "icon",
+    imageType: GenreImageType.ICON,
     onSuccess: (data) => {
       console.log("Step 2 icon success:", data);
       setIconStatus(data.status);
@@ -92,7 +89,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   // Step 3: Banner Upload Hook
   const step3 = useGenreImageUpload({
     genreId: newGenre?.id ?? null,
-    imageType: "banner",
+    imageType: GenreImageType.BANNER,
     onSuccess: (data) => {
       console.log("Step 3 banner success:", data);
       setBannerStatus(data.status);
@@ -102,7 +99,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
   // Step 4: Thumbnail Upload Hook
   const step4 = useGenreImageUpload({
     genreId: newGenre?.id ?? null,
-    imageType: "thumbnail",
+    imageType: GenreImageType.THUMBNAIL,
     onSuccess: (data) => {
       console.log("Step 4 thumbnail success:", data);
       setThumbnailStatus(data.status);
@@ -250,7 +247,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
                   )}
                   genreId={newGenre?.id ?? null}
                   items={icons}
-                  imageType="icon"
+                  imageType={GenreImageType.ICON}
                   title="Upload Genre Icon"
                   description="Upload an icon for this genre (optional). Recommended size: 256x256px"
                   icon={<ImageIcon className="w-12 h-12" />}
@@ -277,7 +274,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
                   )}
                   genreId={newGenre?.id ?? null}
                   items={banners}
-                  imageType="banner"
+                  imageType={GenreImageType.BANNER}
                   title="Upload Genre Banner"
                   description="Upload an banner for this genre (optional). Recommended size: 1920x480px"
                   icon={<ImageIcon className="w-12 h-12" />}
@@ -304,7 +301,7 @@ const AddNewGenres: React.FC<AddNewGenresProps> = ({
                   )}
                   genreId={newGenre?.id ?? null}
                   items={thumbnails}
-                  imageType="banner"
+                  imageType={GenreImageType.THUMBNAIL}
                   title="Upload Genre Thumbnail"
                   description="Upload a thumbnail for this genre (optional). Recommended size: 1920x480px"
                   icon={<ImageIcon className="w-12 h-12" />}

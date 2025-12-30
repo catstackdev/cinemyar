@@ -1,4 +1,5 @@
-import { useState, useLayoutEffect, RefObject } from "react";
+import { useState, useLayoutEffect } from "react";
+import type { RefObject } from "react";
 
 interface UseDynamicPositionProps {
   /** The reference to the button/trigger element */
@@ -28,29 +29,51 @@ export const useDynamicPosition = ({
       const triggerRect = triggerRef.current!.getBoundingClientRect();
       const contentRect = contentRef.current!.getBoundingClientRect();
 
+      const viewportHeight = window.innerHeight;
+      const viewportWidth = window.innerWidth;
+
+      // Calculate available space in vertical directions
+      const spaceAbove = triggerRect.top;
+      const spaceBelow = viewportHeight - triggerRect.bottom;
+
       // 1. Calculate default position (below trigger, aligned left)
       let top = triggerRect.bottom + offset;
       let left = triggerRect.left;
 
-      // 2. Vertical Collision: If it hits bottom of screen, flip up
-      const viewportHeight = window.innerHeight;
-      const spaceBelow = viewportHeight - top;
-
-      // If content is taller than space below, move it above the trigger
-      if (contentRect.height > spaceBelow) {
+      // 2. Vertical Positioning: Choose best position
+      // If content is taller than space below AND there's more space above
+      if (contentRect.height > spaceBelow && spaceAbove > spaceBelow) {
+        // Position above trigger
         top = triggerRect.top - contentRect.height - offset;
+        
+        // Ensure it doesn't go off top of screen
+        if (top < offset) {
+          top = offset;
+        }
+      } else {
+        // Position below trigger
+        top = triggerRect.bottom + offset;
+        
+        // Ensure it doesn't go off bottom of screen
+        const maxTop = viewportHeight - contentRect.height - offset;
+        if (top > maxTop) {
+          top = Math.max(offset, maxTop);
+        }
       }
 
-      // 3. Horizontal Collision: If it hits right of screen, shift left
-      const viewportWidth = window.innerWidth;
-
-      if (left + contentRect.width > viewportWidth) {
-        // Align right edge of content with right edge of trigger
+      // 3. Horizontal Positioning: Handle overflow
+      if (left + contentRect.width > viewportWidth - offset) {
+        // Try to align right edge of content with right edge of trigger
         left = triggerRect.right - contentRect.width;
+        
+        // If still overflowing, align with right viewport edge
+        if (left < offset) {
+          left = viewportWidth - contentRect.width - offset;
+        }
       }
 
       // Safety: Don't let it go off the left screen edge
-      if (left < 0) left = offset;
+      if (left < offset) left = offset;
 
       setCoords({ top, left });
     };

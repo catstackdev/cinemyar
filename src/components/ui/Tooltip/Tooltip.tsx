@@ -21,6 +21,7 @@ const Tooltip = ({
   className,
   contentClassName,
   maxWidth = 300,
+  zIndex = 50,
 }: TooltipProps) => {
   const [internalOpen, setInternalOpen] = useState(false);
   const [computedPosition, setComputedPosition] =
@@ -260,7 +261,7 @@ const Tooltip = ({
             id={tooltipIdRef.current}
             role="tooltip"
             className={cn(
-              "fixed z-50 rounded px-3 py-2 text-sm shadow-md",
+              "fixed rounded px-3 py-2 text-sm shadow-md",
               "animate-fade-in",
               TooltipVariantClasses[variant],
               contentClassName,
@@ -269,6 +270,7 @@ const Tooltip = ({
               top: `${coords.top}px`,
               left: `${coords.left}px`,
               maxWidth: maxWidthStyle,
+              zIndex,
             }}
           >
             {content}

@@ -28,7 +28,7 @@ import type {
   AdminGenresApiResponse,
   AdminGenreSerialized,
   GenrePaginationParams,
-} from "@/shared/types/types";
+} from "@/shared/types";
 import { AdminAllGenreQueryKey } from "../../hooks/admin-genere.query.key";
 import { AdminGenresAPI } from "../../api/admin-genres.api";
 import { AdminGenresParamFilter } from "../../components";
@@ -42,7 +42,7 @@ import {
 } from "@/components/common";
 import { useSolfDeleteGenre } from "../../hooks/useAdminGenres";
 import { useCrudPage, useModal } from "@/hooks";
-import { GenrePermissions } from "@/shared/types/constants";
+import { GenrePermissions } from "@/shared/constants";
 
 const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   const navigate = useNavigate();

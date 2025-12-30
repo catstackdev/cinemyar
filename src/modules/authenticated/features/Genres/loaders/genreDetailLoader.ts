@@ -1,7 +1,7 @@
 import { queryClient } from "@/contexts/AppProviders";
 import { AdminGenresAPI } from "../api/admin-genres.api";
 import { AdminGenreQueryKey } from "../hooks/admin-genere.query.key";
-import { Time } from "@/shared/types/constants/time.const";
+import { Time } from "@/shared/constants/time.const";
 import type { LoaderFunctionArgs } from "react-router-dom";
 
 export const genresDetailLoader = async ({ params }: LoaderFunctionArgs) => {

@@ -1,5 +1,5 @@
-import { type GenreImageType } from "@/shared/types/config/media/genre/genre-image-sizes.config";
-import type { MediaItem } from "@/shared/types/types/genre";
+import type { GenreImageType } from "@/shared/constants";
+import type { MediaItem } from "@/shared/types/genre";
 
 export interface MediaItemProps extends React.ComponentPropsWithoutRef<"div"> {
   children?: React.ReactNode;

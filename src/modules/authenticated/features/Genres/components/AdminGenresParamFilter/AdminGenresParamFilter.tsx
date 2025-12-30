@@ -31,6 +31,7 @@ const AdminGenresParamFilter: React.FC<AdminGenresParamFilterProps> = ({
         options:
           genreOptions?.data?.map((g) => ({ label: g.name, value: g.id })) ||
           [],
+        loading: isLoading,
       },
       {
         name: "orderBy",
@@ -50,8 +51,8 @@ const AdminGenresParamFilter: React.FC<AdminGenresParamFilterProps> = ({
     <QueryParamFilter
       filters={filters}
       className={cn("w-full", className)}
-      loading={isLoading}
       defaultParams={defaultParams}
+      loading={isLoading}
     >
       {children}
     </QueryParamFilter>

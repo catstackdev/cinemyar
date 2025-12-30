@@ -19,4 +19,5 @@ export interface TooltipProps {
   className?: string;
   contentClassName?: string;
   maxWidth?: number | string;
+  zIndex?: number;
 }

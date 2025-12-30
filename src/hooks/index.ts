@@ -12,6 +12,11 @@ export type {
   UseParamUpdateOptions,
   UseParamUpdateReturn,
 } from "./useParamUpdate";
+export { useAppQueryParams } from "./useAppQueryParams";
+export type {
+  UseAppQueryParamsOptions,
+  UseAppQueryParamsReturn,
+} from "./useAppQueryParams";
 export { useModal } from "./useModal";
 export type { UseModalOptions, UseModalReturn } from "./useModal";
 export { useCrudModals } from "./useCrudModals";
@@ -23,3 +28,15 @@ export { useCrudPage } from "./useCrudPage";
 export type { UseCrudPageOptions, UseCrudPageReturn } from "./useCrudPage";
 export { useCan } from "./useCan";
 export { useScrollTo } from "./useScrollTo";
+
+// Job progress tracking hooks
+export { useJobProgress } from "./useJobProgress";
+export type {
+  UseJobProgressOptions,
+  UseJobProgressReturn,
+} from "./useJobProgress";
+export { useProgressStream } from "./useProgressStream"; // Legacy SSE-only hook
+export type {
+  UseProgressStreamOptions,
+  UseProgressStreamReturn,
+} from "./useProgressStream";
