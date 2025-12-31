@@ -8,7 +8,11 @@ import type {
   ApiResponse,
 } from "@/shared/types";
 import type { AdminCreateRoleFormData } from "../schemas/roles.schemas";
-import type { AdminAssignRolePayload } from "./admin-roles.types";
+import type {
+  AdminAssignRolePayload,
+  AdminRoleDetailParams,
+  AdminRoleDetailResponseData,
+} from "./admin-roles.types";
 
 // Centralized API handlers
 export const AdminRolesAPI = {
@@ -28,10 +32,13 @@ export const AdminRolesAPI = {
       );
     return data;
   },
-  getRole: async (id: string): Promise<ApiResponse<AdminRoleDetail>> => {
-    const { data } = await apiClient.get<ApiResponse<AdminRoleDetail>>(
-      `admin/roles/${id}`,
-    );
+  getRole: async (
+    roleId: string,
+    params?: AdminRoleDetailParams,
+  ): Promise<ApiResponse<AdminRoleDetailResponseData>> => {
+    const { data } = await apiClient.get<
+      ApiResponse<AdminRoleDetailResponseData>
+    >(`admin/roles/${roleId}`, { params });
     return data;
   },
   addRole: async (

@@ -11,6 +11,9 @@ const DeletedGenresPage = lazy(
   () =>
     import("@/modules/authenticated/features/Genres/pages/DeletedGenresPage"),
 );
+const AuditPage = lazy(
+  () => import("@/modules/authenticated/features/Genres/pages/GenresAuditPage"),
+);
 
 export const AuthenticatedGenresRoutesConfig: RouteObject[] = [
   // {
@@ -44,6 +47,19 @@ export const AuthenticatedGenresRoutesConfig: RouteObject[] = [
     },
     handle: {
       breadcrumb: { label: "All Deleted Genres", icon: "📄" },
+    },
+  },
+
+  {
+    path: "audit",
+    Component: AuditPage,
+    loader: async (args: LoaderFunctionArgs) => {
+      const { genreAuditLoader } =
+        await import("@/modules/authenticated/features/Genres/loaders/genreAuditLoader");
+      return genreAuditLoader(args);
+    },
+    handle: {
+      breadcrumb: { label: "Genres Audit Log", icon: "📄" },
     },
   },
   {

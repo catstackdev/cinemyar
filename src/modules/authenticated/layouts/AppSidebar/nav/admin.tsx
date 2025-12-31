@@ -83,6 +83,12 @@ export const adminNav: NavItem[] = [
         path: "/authenticated/genres/deleted",
         requiredPermissions: ["genre.view.deleted"],
       },
+      {
+        id: "genres-audit",
+        name: "Genres Audit Log",
+        path: "/authenticated/genres/audit",
+        requiredPermissions: ["genre.audit"],
+      },
     ],
   },
   {

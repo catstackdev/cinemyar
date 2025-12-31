@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/permission/subtitle-permissions.const.ts
-// Generated: 2025-12-30T04:21:52.061Z
+// Generated: 2025-12-31T07:58:14.420Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**
@@ -20,6 +20,7 @@ export const SubtitlePermissions = {
   CREATE: 'subtitle.create',
   EDIT: 'subtitle.edit',
   DELETE: 'subtitle.delete',
+  AUDIT: 'subtitle.audit',
 } as const;
 
 // Type export for TypeScript

@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/genre/genre-admin-detail.type.ts
-// Generated: 2025-12-30T04:21:52.070Z
+// Generated: 2025-12-31T07:58:14.424Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import type { MediaVersionStatus } from '@/shared/constants';

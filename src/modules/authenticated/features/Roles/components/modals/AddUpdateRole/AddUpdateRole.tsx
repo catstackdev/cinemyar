@@ -38,18 +38,16 @@ import {
 } from "lucide-react";
 
 const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
+  open,
   onOpenChange,
   item,
-  children,
-  className,
-  ...rest
 }) => {
   const isEditMode = Boolean(item?.id);
 
   // Fetch permission structure
   const { data: permissionResData, isLoading: isPermissionLoading } =
     usePermissionApi({
-      enabled: Boolean(rest.open),
+      enabled: Boolean(open),
     });
 
   // Fetch role details if editing
@@ -105,7 +103,8 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
   // Initialize form with existing data in edit mode
   useEffect(() => {
     if (isEditMode && roleDetail?.data) {
-      const role = roleDetail.data;
+      const role = roleDetail.data?.role;
+      console.log("role", role);
       reset({
         name: role.name,
         displayName: role.displayName,
@@ -114,7 +113,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
       });
       setSelectedPermissions(role.permissions);
       setValue("permissions", role.permissions);
-    } else if (!isEditMode && rest.open) {
+    } else if (!isEditMode && open) {
       reset({
         name: "",
         displayName: "",
@@ -123,7 +122,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
       });
       setSelectedPermissions([]);
     }
-  }, [roleDetail?.data, isEditMode, reset, rest.open, setValue]);
+  }, [roleDetail?.data, isEditMode, reset, open, setValue]);
 
   // Set first entity as active when permissions load and expand first group
   useEffect(() => {
@@ -262,7 +261,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
 
       const entityPermissions = entity.actions.map((action) => `${action.key}`);
       const allSelected = entityPermissions.every((p) =>
-        selectedPermissions.includes(p),
+        selectedPermissions?.includes(p),
       );
 
       setSelectedPermissions((prev) => {
@@ -376,11 +375,11 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
   const allEntityPermissionsSelected =
     activeEntityData &&
     activeEntityData.actions.every((action) =>
-      selectedPermissions.includes(action.key),
+      selectedPermissions?.includes(action.key),
     );
 
   return (
-    <ModalRoot open={rest.open} onOpenChange={onOpenChange}>
+    <ModalRoot open={open} onOpenChange={onOpenChange}>
       <ModalContent className="border border-primary/50" size="4xl">
         <form onSubmit={handleSubmit(onSubmit)}>
           <ModalHeader className="pr-16">
@@ -517,11 +516,11 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                       )}
                     </FormField.Root>
 
-                    {selectedPermissions.length > 0 && (
+                    {selectedPermissions?.length > 0 && (
                       <div className="flex items-center gap-2 text-sm text-primary-600 bg-primary-50 p-3 rounded-lg">
                         <Info className="w-4 h-4" />
                         <span className="font-medium">
-                          {selectedPermissions.length} permission(s) selected
+                          {selectedPermissions?.length} permission(s) selected
                         </span>
                       </div>
                     )}
@@ -592,7 +591,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
 
                                       const total = entity.actions.length;
                                       const selected =
-                                        selectedPermissions.filter((p) =>
+                                        selectedPermissions?.filter((p) =>
                                           p.startsWith(`${entityKey}.`),
                                         ).length;
                                       const isActive =
@@ -651,7 +650,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                   {activeEntityData ? (
                     <div className="flex-1 overflow-y-auto  min-w-0">
                       {/* Real-time Validation Warning */}
-                      {selectedPermissions.length === 0 && (
+                      {selectedPermissions?.length === 0 && (
                         <div className="m-6 mb-0 flex items-center gap-2 text-sm text-danger-foreground bg-danger/10 p-3 rounded-lg border border-danger/30">
                           <AlertCircle className="w-4 h-4 shrink-0" />
                           <span className="font-medium">
@@ -696,7 +695,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                               (action: PermissionAction) => {
                                 const permissionKey = action.key;
                                 const isSelected =
-                                  selectedPermissions.includes(permissionKey);
+                                  selectedPermissions?.includes(permissionKey);
 
                                 // Check dependency status
                                 const unmetDeps = isSelected
@@ -774,7 +773,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                                                   {action.dependencies.map(
                                                     (dep: string) => {
                                                       const isDepMet =
-                                                        selectedPermissions.includes(
+                                                        selectedPermissions?.includes(
                                                           dep,
                                                         );
                                                       return (
@@ -906,7 +905,7 @@ const AddUpdateRole: React.FC<AddUpdateRoleProps> = ({
                   type="submit"
                   variant="glass"
                   color={isEditMode ? "success" : "primary"}
-                  disabled={isSaving || selectedPermissions.length === 0}
+                  disabled={isSaving || selectedPermissions?.length === 0}
                   isLoading={isSaving}
                 >
                   {isEditMode ? "Update Role" : "Create Role"}

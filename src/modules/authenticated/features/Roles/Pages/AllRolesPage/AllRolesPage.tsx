@@ -39,14 +39,7 @@ import {
 import { useModal, useCan, useCrudPage } from "@/hooks";
 import { AdminUserPermissions, RolePermissions } from "@/shared/constants";
 import { formatDate } from "@/utils/helpers";
-import {
-  PlusIcon,
-  Edit,
-  Trash2,
-  AtSignIcon,
-  UserPlus,
-  Users,
-} from "lucide-react";
+import { PlusIcon, Edit, Trash2, UserPlus, Users } from "lucide-react";
 import { useNavigate, useLoaderData } from "react-router-dom";
 import { AdminAllRolesQueryKey } from "../../api/roles-query-key";
 import { useAdminDeleteRole } from "../../hooks/useAdminRoles";

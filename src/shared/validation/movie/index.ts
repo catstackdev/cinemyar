@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/validation/movie/index.ts
-// Generated: 2025-12-30T04:21:52.078Z
+// Generated: 2025-12-31T07:58:14.429Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 // Re-export all movie validation schemas and types

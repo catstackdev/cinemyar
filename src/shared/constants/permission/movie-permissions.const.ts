@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/permission/movie-permissions.const.ts
-// Generated: 2025-12-30T04:21:52.060Z
+// Generated: 2025-12-31T07:58:14.419Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**
@@ -37,6 +37,7 @@ export const MoviePermissions = {
   VIEW_DELETED: 'movie.view.deleted',
   RESTORE: 'movie.restore',
   DELETE_PERMANENT: 'movie.delete.permanent',
+  AUDIT: 'movie.audit',
 } as const;
 
 // Type export for TypeScript

@@ -117,6 +117,7 @@ const GENRE_QUERY_KEYS = [
   ["genres"],
   ["public", "genres"],
   ["admin", "genres"],
+  ["admin", "audit", "genres"],
 ];
 
 const refreshQueryClient = (queryClient: QueryClient) => {

@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/permission/genre-permissions.const.ts
-// Generated: 2025-12-30T04:21:52.059Z
+// Generated: 2025-12-31T07:58:14.418Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**
@@ -36,6 +36,7 @@ export const GenrePermissions = {
   VIEW_DELETED: 'genre.view.deleted',
   RESTORE: 'genre.restore',
   DELETE_PERMANENT: 'genre.delete.permanent',
+  AUDIT: 'genre.audit',
 } as const;
 
 // Type export for TypeScript

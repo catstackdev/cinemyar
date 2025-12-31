@@ -23,7 +23,7 @@ export const AuthenticatedRolesRoutesConfig: RouteObject[] = [
   },
   {
     path: ":id",
-    Component: ListPage,
+    Component: DetailPage,
     loader: async (args: LoaderFunctionArgs) => {
       const { roleDetailLoader } =
         await import("@/modules/authenticated/features/Roles/loaders/roleDetail.loader");

@@ -6,6 +6,8 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
+import PermissionCard from './PermissionCard';
+
 import AdminRoleFilterState from './AdminRoleFilterState';
 
 
@@ -15,6 +17,8 @@ import AdminRoleFilterState from './AdminRoleFilterState';
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
+	PermissionCard,
+
 	AdminRoleFilterState,
 
 };

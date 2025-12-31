@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/role/role-admin.types.ts
-// Generated: 2025-12-30T04:21:52.074Z
+// Generated: 2025-12-31T07:58:14.426Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import type { PaginatedResponse } from '../api-response.types';
@@ -8,17 +8,31 @@ import type { PaginatedResponse } from '../api-response.types';
 /**
  * Admin Role Detail (with assigned users)
  */
-export interface AdminRoleDetail {
+export interface AdminRoleDetailResponseData
+  extends PaginatedResponse<AssignedUser> {
+  role: Role;
+}
+
+export interface Role {
   id: string;
   name: string;
   displayName: string;
   description: string | null;
   permissions: string[];
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
   createdBy: string | null;
-  users: AdminRoleUser[];
-  userCount: number;
+}
+
+export interface AssignedUser {
+  id: string;
+  email: string;
+  username: string;
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  assignedAt: string;
+  assignedBy: string | null;
 }
 
 /**

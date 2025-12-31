@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/index.ts
-// Generated: 2025-12-30T04:21:52.071Z
+// Generated: 2025-12-31T07:58:14.425Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 export * from './entity';
@@ -12,3 +12,4 @@ export * from './permission';
 export * from './role';
 export * from './user';
 export * from './api-response.types';
+export * from './audit';

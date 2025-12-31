@@ -298,6 +298,7 @@ export const refreshQueryClient = (
       [type, id],
       ["public", type, id],
       ["admin", type, id],
+      ["admin", "audit", type],
     ].forEach((key) => {
       tasks.push(invalidate(queryClient, key, true));
     });
