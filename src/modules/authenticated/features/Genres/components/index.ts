@@ -6,6 +6,8 @@
 
 // Internal/local imports
 /* PLOP_INJECT_IMPORT */
+import GenresAuditFilter from './GenresAuditFilter';
+
 import MediaListPreview from './MediaListPreview';
 
 import MediaItem from "./MediaItem";
@@ -20,6 +22,8 @@ import GenreImg from "./GenreImg";
 // Component/function exports
 export {
   /* PLOP_INJECT_EXPORT */
+	GenresAuditFilter,
+
 	MediaListPreview,
 
   MediaItem,

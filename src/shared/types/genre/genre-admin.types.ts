@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/genre/genre-admin.types.ts
-// Generated: 2025-12-31T07:58:14.424Z
+// Generated: 2025-12-31T15:40:29.224Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import type { ApiResponse, PaginatedResponse } from '../api-response.types';
@@ -66,6 +66,20 @@ export interface AdminGenre {
 }
 
 /**
+ * Genre relation type with image URLs
+ * Used for parent and children relationships
+ */
+export interface GenreRelation {
+  id: string;
+  name: string;
+  slug: string;
+  order?: number;
+  iconUrls: ImageUrls | null;
+  bannerUrls: ImageUrls | null;
+  thumbnailUrls: ImageUrls | null;
+}
+
+/**
  * Admin Genre (frontend type - after serialization)
  * Dates are converted to ISO strings by the HTTP interceptor
  */
@@ -73,44 +87,47 @@ export interface AdminGenreSerialized {
   id: string;
   name: string;
   slug: string;
-  parentId: string | null;
+  parentId?: string | null;
 
-  // Image URLs
+  // Image URLs (active/published images)
   iconUrls: ImageUrls | null;
   bannerUrls: ImageUrls | null;
   thumbnailUrls: ImageUrls | null;
 
-  // Legacy single URLs
-  iconUrl: string | null;
-  bannerUrl: string | null;
-  thumbnailUrl: string | null;
+  // Legacy single URLs (backward compatibility - deprecated)
+  iconUrl?: string | null;
+  bannerUrl?: string | null;
+  thumbnailUrl?: string | null;
 
   // Image version tracking
-  imageVersion: number | null;
-  activeIconVersion: number | null;
-  activeBannerVersion: number | null;
-  activeThumbnailVersion: number | null;
+  imageVersion?: number | null;
+  activeIconVersion?: number | null;
+  activeBannerVersion?: number | null;
+  activeThumbnailVersion?: number | null;
 
   // Content
   description: string | null;
-  order: number;
-  isActive: boolean;
-  isFeatured: boolean;
+  order?: number;
+  isActive?: boolean;
+  isFeatured?: boolean;
 
   // Soft delete
-  deletedAt: string | null; // ISO date string
-  deletedBy: string | null;
+  deletedAt?: string | null; // ISO date string
+  deletedBy?: string | null;
 
   // Timestamps
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
+  createdAt?: string; // ISO date string
+  updatedAt?: string; // ISO date string
 
-  // Relations
-  parent: {
-    id: string;
-    name: string;
-    slug: string;
-  } | null;
+  // Relations (with image URLs)
+  parent?: GenreRelation | null;
+  children?: GenreRelation[];
+
+  // Version history (optional - only in detail view)
+  icons?: any[];
+  banners?: any[];
+  thumbnails?: any[];
+  activeImages?: any[];
 }
 
 /**

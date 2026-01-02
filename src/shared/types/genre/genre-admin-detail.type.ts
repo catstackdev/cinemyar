@@ -1,50 +1,47 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/genre/genre-admin-detail.type.ts
-// Generated: 2025-12-31T07:58:14.424Z
+// Generated: 2025-12-31T15:40:29.224Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import type { MediaVersionStatus } from '@/shared/constants';
 import type { UserAudit } from '../user';
-import type { ImageUrls } from './genre-admin.types';
+import type { GenreRelation, ImageUrls } from './genre-admin.types';
 
 export interface GenreDetailData {
   id: string;
   name: string;
   slug: string;
-  parentId: string | null;
+  parentId?: string | null;
   description: string | null;
-  order: number;
-  isActive: boolean;
-  isFeatured: boolean;
-
-  // Current Active URLs (Convenience fields from your JSON)
-  iconUrl: string | null;
-  bannerUrl: string | null;
-  thumbnailUrl: string | null;
+  order?: number;
+  isActive?: boolean;
+  isFeatured?: boolean;
+  // Current Active URLs (active/published images)
   iconUrls: ImageUrls | null;
   bannerUrls: ImageUrls | null;
   thumbnailUrls: ImageUrls | null;
-
+  // Legacy single URLs (deprecated - backward compatibility)
+  iconUrl?: string | null;
+  bannerUrl?: string | null;
+  thumbnailUrl?: string | null;
   // Versioning info
-  imageVersion: number;
-  activeIconVersion: number | null;
-  activeBannerVersion: number | null;
-  activeThumbnailVersion: number | null;
-
+  imageVersion?: number;
+  activeIconVersion?: number | null;
+  activeBannerVersion?: number | null;
+  activeThumbnailVersion?: number | null;
   // Timestamps
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string | null;
-  deletedBy: string | null;
-
-  // Relations & Arrays
-  parent: any | null; // Update if you have a Parent interface
-  children: GenreChild[];
+  createdAt?: string;
+  updatedAt?: string;
+  deletedAt?: string | null;
+  deletedBy?: string | null;
+  parent: GenreRelation | null;
+  children: GenreRelation[];
   icons: MediaItem[];
   banners: MediaItem[];
   thumbnails: MediaItem[];
-
-  _count: {
+  activeImages?: any[];
+  // Movie count
+  _count?: {
     movies: number;
   };
 }

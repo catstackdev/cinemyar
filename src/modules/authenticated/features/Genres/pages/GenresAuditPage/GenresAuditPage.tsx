@@ -4,7 +4,7 @@ import type {
   GenreAuditPaginatedParams,
   GenreAuditResponseData,
 } from "@/shared/types/audit/genre-audit.types";
-import { useLoaderData, useSearchParams } from "react-router-dom";
+import { useLoaderData, useNavigate, useSearchParams } from "react-router-dom";
 import { AdminAuditApi, AdminAuditQueryKey } from "@/modules/domain/audit/api";
 import type { ApiResponse } from "@/shared/types";
 import {
@@ -26,12 +26,14 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/Card";
-import { formatDate } from "@/utils/helpers";
+import { cn, formatDate } from "@/utils/helpers";
 import { useQuery } from "@tanstack/react-query";
 import { useParamUpdate } from "@/hooks";
 import { UserChip } from "@/components/common";
+import { GenresAuditFilter } from "../../components";
 
 const GenresAuditPage: React.FC<GenresAuditPageProps> = ({ children }) => {
+  const navigate = useNavigate();
   const initialData = useLoaderData<ApiResponse<GenreAuditResponseData>>();
   const [searchParams] = useSearchParams();
   const { updateParams: updateUrlParams } = useParamUpdate();
@@ -114,6 +116,9 @@ const GenresAuditPage: React.FC<GenresAuditPageProps> = ({ children }) => {
         </CardHeader>
 
         <CardContent className="!p-0">
+          <div className="w-full p-4 space-y-4">
+            <GenresAuditFilter filters={response?.data?.filters} />
+          </div>
           <div className="w-full overflow-hidden rounded-b-xl h-full bg-card/30 backdrop-blur-sm">
             <Table>
               <TableHeader>
@@ -141,7 +146,21 @@ const GenresAuditPage: React.FC<GenresAuditPageProps> = ({ children }) => {
                       {/* Genre Info */}
                       <TableCell>
                         <div className="flex flex-col">
-                          <span className="font-medium">{entry.genre.name}</span>
+                          <span
+                            className={cn(
+                              "font-medium whitespace-nowrap",
+                              entry.genre?.id &&
+                                "hover:underline hover:text-primary",
+                            )}
+                            onClick={() =>
+                              entry.genre?.id &&
+                              navigate(
+                                `/authenticated/genres/${entry.genre.id}`,
+                              )
+                            }
+                          >
+                            {entry.genre.name}
+                          </span>
                           <span className="text-xs text-muted-foreground">
                             {entry.genre.slug}
                           </span>
@@ -170,7 +189,9 @@ const GenresAuditPage: React.FC<GenresAuditPageProps> = ({ children }) => {
                             {entry.reason}
                           </span>
                         ) : (
-                          <span className="text-muted-foreground text-sm">—</span>
+                          <span className="text-muted-foreground text-sm">
+                            —
+                          </span>
                         )}
                       </TableCell>
 

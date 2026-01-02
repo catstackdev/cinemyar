@@ -9,7 +9,6 @@ import type {
   ApiResponse,
   GenrePaginationParams,
 } from "@/shared/types";
-import type { GenreDetailData } from "@/shared/types/genre/genre-admin-detail.type";
 
 // Centralized API handlers
 export const AdminGenresAPI = {
@@ -34,8 +33,8 @@ export const AdminGenresAPI = {
     return data;
   },
 
-  getGenre: async (id: string): Promise<ApiResponse<GenreDetailData>> => {
-    const { data } = await apiClient.get<ApiResponse<GenreDetailData>>(
+  getGenre: async (id: string): Promise<ApiResponse<AdminGenreSerialized>> => {
+    const { data } = await apiClient.get<ApiResponse<AdminGenreSerialized>>(
       `admin/genres/${id}`,
     );
     return data;

@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/validation/movie/movie-query.schema.ts
-// Generated: 2025-12-31T07:58:14.429Z
+// Generated: 2025-12-31T15:40:29.232Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import { z } from 'zod';

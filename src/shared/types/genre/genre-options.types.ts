@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/genre/genre-options.types.ts
-// Generated: 2025-12-31T07:58:14.424Z
+// Generated: 2025-12-31T15:40:29.224Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import type { ApiResponse } from '../api-response.types';

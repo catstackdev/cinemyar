@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/types/entity/api-entity.types.ts
-// Generated: 2025-12-31T07:58:14.423Z
+// Generated: 2025-12-31T15:40:29.223Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 export type APIEntityType =

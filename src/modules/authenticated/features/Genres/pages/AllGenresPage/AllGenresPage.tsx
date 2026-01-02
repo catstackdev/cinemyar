@@ -150,7 +150,15 @@ const AllGenresPage: React.FC<AllGenresPageProps> = ({ children }) => {
   return (
     <Container size="full" className="relative p-4 min-h-full">
       {/* Modals with Permission Guards */}
-      <PermissionGuard permissions={GenrePermissions.CREATE} roles={["ADMIN"]}>
+
+      <PermissionGuard
+        permissions={
+          createUpdateModal.data?.id
+            ? GenrePermissions.EDIT
+            : GenrePermissions.CREATE
+        }
+        roles={["ADMIN"]}
+      >
         <AddNewGenres
           key={createUpdateModal.data?.id ?? "create"}
           open={createUpdateModal.isOpen}

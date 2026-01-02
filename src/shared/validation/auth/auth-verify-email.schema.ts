@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/validation/auth/auth-verify-email.schema.ts
-// Generated: 2025-12-31T07:58:14.428Z
+// Generated: 2025-12-31T15:40:29.231Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 import { z } from 'zod';

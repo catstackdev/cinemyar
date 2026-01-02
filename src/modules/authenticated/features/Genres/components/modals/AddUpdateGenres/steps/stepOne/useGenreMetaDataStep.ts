@@ -50,7 +50,7 @@ export const useGenreMetaDataStep = ({
     defaultValues: {
       name: dataSource?.name ?? "",
       slug: dataSource?.slug ?? "",
-      parentId: dataSource?.parentId ?? "",
+      parentId: dataSource?.parent?.id ?? "",
       description: dataSource?.description ?? "",
     },
   });
@@ -60,7 +60,7 @@ export const useGenreMetaDataStep = ({
       reset({
         name: dataSource?.name ?? "",
         slug: dataSource?.slug ?? "",
-        parentId: dataSource?.parentId ?? "",
+        parentId: dataSource?.parent?.id ?? "",
         description: dataSource?.description ?? "",
       });
     }

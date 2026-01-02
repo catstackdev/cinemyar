@@ -1,6 +1,6 @@
 // 🚨 AUTO-GENERATED FROM BACKEND - DO NOT EDIT MANUALLY
 // Source: backend/src/shared/constants/permission/activity-log-permissions.const.ts
-// Generated: 2025-12-31T07:58:14.417Z
+// Generated: 2025-12-31T15:40:29.215Z
 // To update: Run 'pnpm prisma:generate' or 'pnpm sync-types' in backend
 
 /**
